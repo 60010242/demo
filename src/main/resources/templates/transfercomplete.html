@@ -4,140 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style type="text/css">
-/* Color Variables */
-:root {
-  --brown: #cbaf87;
-  --x: #c7b198;
-  --brown2: #f4ebc1;
-}
 
-body{
-	font-family: 'Bai Jamjuree', sans-serif;
-	/*height: 100vh;*/
-	display: flex;
-	background-color: var(--brown2);
-	color: gray;
-}
-
-.center{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-
-.sellerheader{
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: var(--brown);
-	color: white;
-	font-size: 20pt;
-	height: 60px;
-	width: 100%;
-	box-shadow: 2px 2px 5px gray;
-}
 details {
 	margin-top: 120px;
-	width: 100%;
-	border: 2px gray solid;
-}
-summary{
-	background-color: #e7d39f;
-	height: 30pt;
-	display: flex;
-	align-items: center;
-	padding-left: 2%;
-}
-.tableheader{
-	background-color: #e4e4e4;
-}
-.maintable{
-	background-color: gray;
-	width: 100%;
-}
-.maintable tr, .maintable td {
-	background-color: var(--brown2);
 }
 
-.btncheck{
-	background-color: #79d70f;
-	color: white;
-	width: 60pt;
-	height: 22pt;
-	border: none;
-	border-radius: 22px;
-	box-shadow: 2px 2px 5px gray;
-	cursor: pointer;
-}
-
-.checked{
-	position: relative;
-	background-color: white;
-	width: 50%;
-	height: 80%;
-	cursor: default;
-	flex-flow: column;
-}
-.checked iframe{
-	width: 100%;
-	height: 100%;
-	border: none;
-}
-#overlay, #overlaydetail {
-  position: fixed;
-  visibility: hidden;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 2;
-  cursor: pointer;
-}
-.overlayheader{
-	position: absolute;
-	top: 0;
-	left: 0;
-	font-size: 16pt;
-	text-align: center;
-	padding: 2% 0 2% 0;
-	width: 100%;
-	background-color: var(--brown);
-	color: white;
-	box-shadow: 2px 2px 2px gray;
-}
-.overlayconfirm{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	font-size: 16pt;
-	text-align: center;
-	padding: 2% 0 2% 0;
-	width: 100%;
-	background-color:  #79d70f;
-	border: none;
-	color: white;
-	box-shadow: 2px -2px 2px gray;
-}
-#detaildata{
-	position: absolute;
-	font-size: 10pt;
-	right: 2%;
-	bottom: 2%;
-	text-decoration: underline;
-	cursor: pointer;
-}
-.back{
-	position: absolute;
-	top: 0;
-	left: 10pt;
-	text-decoration: none;
-	font-size: 30pt;
-	color: white;
-}
 </style>
 <script>
 function ondetail() {
@@ -168,75 +42,94 @@ function offdetail() {
 </script>
 </head>
 <body>
-
-	<details th:each="month : ${monthlist}">
-		<summary th:text="${month.getMonthname()}" th:value="${month.getMonthname()}"></summary>
-		<table class="maintable">
-		<tr class="tableheader">
-			<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
-			<th style="height:30pt; width: 20%" > ชื่อผู้ซื้อ </th>
-			<th style="height:30pt; width: 60%">  รายการ </th>
-			<th style="height:30pt; width: 10%" > ผู้ซื้อได้รับแล้ว </th>
-		</tr>
-		<tr th:each="userorder: ${userlist}" th:if=${userorder.getPayTime().getMonthValue()==month.getMonthnum()}>
-			<td th:text="${'#'+ userorder.getIdOrder()}" id="valueTD1"></td>
-			<td th:text="${userorder.getUserprofile().getName()}" id="valueTD2"></td>
-			<td style="position: relative;" >
-					<ul>
-						<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
-							<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
-							<span th:text="${' x'+ orderlist.getNumber()}"></span>
-			  			</li>
-					</ul>
-					<a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a>
-			</td>
-			<td th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">กำลังขนส่ง</td>
-			<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับแล้ว</td>
-			<input type="hidden" th:value="${userorder.getTotalOrder()}" id="valueTD5">
-			<input type="hidden" th:value="${userorder.getUserprofile().getAddress()}" id="valueTD6">
-			<input type="hidden" th:value="${userorder.getTrack()}" id="valueTD7">
-		</tr>
+<!-- overlay -->
+<div class="center" id="overlaydetail" onclick="offdetail()">
+	<div class="checked center">
+		<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
+		<table class="tabledetail" style="width: 80%;">
+			<tr>
+				<td>รหัส order</td>
+				<td id="overlaytableTD1"></td>
+			</tr>
+			<tr>
+				<td>ชื่อผู้ซื้อ </td>
+				<td id="overlaytableTD2"></td>
+			</tr>
+			<tr>
+				<td>รายการ </td>
+				<td>จำนวน</td>
+				<td>ราคา (ต่อชิ้น) </td>
+			</tr>
+			<tr id="overlaytableTD4">
+				<td>รายการ </td>
+				<td>จำนวน</td>
+				<td>ราคา </td>
+			</tr>
+			<tr>
+				<td>ยอดรวม </td>
+				<td id="overlaytableTD5"></td>
+			</tr>
+			<tr>
+				<td>ที่อยู่</td>
+				<td id="overlaytableTD6"></td>
+			</tr>
+			<tr>
+				<td>เลข track</td>
+				<td id="overlaytableTD7"></td>
+			</tr>
 		</table>
-	</details>
-	
-	<!-- List order from database -->
-	<div class="center" id="overlaydetail" onclick="offdetail()">
-		<div class="checked center">
-			<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
-			<table class="tabledetail" style="width: 80%;">
-				<tr>
-					<td>รหัส order</td>
-					<td id="overlaytableTD1"></td>
-				</tr>
-				<tr>
-					<td>ชื่อผู้ซื้อ </td>
-					<td id="overlaytableTD2"></td>
-				</tr>
-				<tr>
-					<td>รายการ </td>
-					<td>จำนวน</td>
-					<td>ราคา (ต่อชิ้น) </td>
-				</tr>
-				<tr id="overlaytableTD4">
-					<td>รายการ </td>
-					<td>จำนวน</td>
-					<td>ราคา </td>
-				</tr>
-				<tr>
-					<td>ยอดรวม </td>
-					<td id="overlaytableTD5"></td>
-				</tr>
-				<tr>
-					<td>ที่อยู่</td>
-					<td id="overlaytableTD6"></td>
-				</tr>
-				<tr>
-					<td>เลข track</td>
-					<td id="overlaytableTD7"></td>
-				</tr>
-			</table>
-		</div>
 	</div>
+</div>
+
+<!-- Main Page -->
+<ul>		
+	<li style="float: right;">
+		<a href="/myinfo">
+			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}">
+			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
+		</a>
+	</li>
+	<li style="float: right;"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
+	<a href="/logout" class="logout">logout</a>
+	<div class="white"></div>
+</ul>
+<div class="tab">
+  	<a href="/editproduct" class="tablinks" onclick="openTab(event, 'editproduct')">แก้ไขสินค้า </a>
+	<a href="/checking" class="tablinks" onclick="openTab(event, 'transfercheck')">ตรวจสอบ </a>
+	<a href="/tracking" class="tablinks" onclick="openTab(event, 'transfertrack')">ต้องจัดส่ง </a>
+	<a href="/complete" class="tablinks active" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
+ 	<a href="/transfercancel" class="tablinks" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
+</div>
+
+<details th:each="month : ${monthlist}">
+	<summary th:text="${month.getMonthname()}" th:value="${month.getMonthname()}"></summary>
+	<table class="maintable">
+	<tr class="tableheader">
+		<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
+		<th style="height:30pt; width: 20%" > ชื่อผู้ซื้อ </th>
+		<th style="height:30pt; width: 60%">  รายการ </th>
+		<th style="height:30pt; width: 10%" > ผู้ซื้อได้รับแล้ว </th>
+	</tr>
+	<tr th:each="userorder: ${userlist}" th:if=${userorder.getPayTime().getMonthValue()==month.getMonthnum()}>
+		<td th:text="${'#'+ userorder.getIdOrder()}" id="valueTD1"></td>
+		<td th:text="${userorder.getUserprofile().getName()}" id="valueTD2"></td>
+		<td style="position: relative;" >
+			<ul>
+				<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
+					<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
+					<span th:text="${' x'+ orderlist.getNumber()}"></span>
+	  			</li>
+			</ul>
+			<a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a>
+		</td>
+		<td th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">กำลังขนส่ง</td>
+		<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับแล้ว</td>
+		<input type="hidden" th:value="${userorder.getTotalOrder()}" id="valueTD5">
+		<input type="hidden" th:value="${userorder.getUserprofile().getAddress()}" id="valueTD6">
+		<input type="hidden" th:value="${userorder.getTrack()}" id="valueTD7">
+	</tr>
+	</table>
+</details>
 	
 </body>
 </html>

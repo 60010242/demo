@@ -78,57 +78,7 @@ li a {
 	cursor: pointer;
 	text-decoration: underline;
 }
-.btnfirstpage {
-	box-sizing: border-box;
-	appearance: none;
-	background-color: transparent;
-	border: 2px solid var(--brown);
-	border-radius: 50px;
-	color: var(--brown);
-	cursor: pointer;
-	align-self: center;
-	font-size: 1rem;
-	font-weight: 400;
-	line-height: 1;
-	margin: 20px;
-	padding: 1.2em 2.8em;
-	text-decoration: none;
-	text-align: center;
-	text-transform: uppercase;
-	font-family: 'Montserrat', sans-serif;
-	font-weight: 700;
-	height: 15%;
-	width: 40%;
-}
-.btnfirstpage:hover{
-	color: white;
-  	transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
-  	box-shadow: 0 0 40px 40px var(--brown) inset;
-}
-.whitebg{
-	flex-direction: column;
-	background-color: rgba(255,255,255,0.75);
-	border-radius: 10px;
-	width: 40%;
-	height: 70%;
-	box-shadow: 5px 5px 5px gray;
-	margin-top: 6%; 
-}
 
-.edited{
-	position: relative;
-	background-color: white;
-	width: 50%;
-	height: 80%;
-	cursor: default;
-	flex-flow: column;
-}
-.edited iframe{
-	width: 99%;
-	height: 100%;
-	margin: 60px 0 60px 0;
-	border: none;
-}
 #overlay {
   position: fixed;
   visibility: hidden;
@@ -208,7 +158,7 @@ li a {
 }
 
 /* Style the buttons inside the tab */
-.tab button {
+.tab a {
   background-color: inherit;
   float: left;
   border: none;
@@ -218,15 +168,16 @@ li a {
   width: 100pt;
   transition: 0.3s;
   font-size: 17px;
+  text-align: center;
 }
 
 /* Change background color of buttons on hover */
-.tab button:hover {
+.tab a:hover {
 	background-color: #bbb;
 }
 
 /* Create an active/current tablink class */
-.tab button.active {
+.tab a.active {
 	background-color: var(--grey);
 	color: white;
 }
@@ -276,14 +227,14 @@ function openTab(evt, buyerselect) {
 		</div>
 	</ul>
 	<div class="tab">
-  		<button class="tablinks active" onclick="openTab(event, 'editproduct')">แก้ไขสินค้า </button>
-  		<button class="tablinks" onclick="openTab(event, 'transfercheck')">ตรวจสอบ </button>
-  		<button class="tablinks" onclick="openTab(event, 'transfertrack')">ต้องจัดส่ง </button>
-  		<button class="tablinks" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </button>
-  		<button class="tablinks" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </button>
+  		<a href="/editproduct" class="tablinks active" onclick="openTab(event, 'editproduct')">แก้ไขสินค้า </a>
+  		<a href="/checking" class="tablinks" onclick="openTab(event, 'transfercheck')">ตรวจสอบ </a>
+  		<a href="/tracking" class="tablinks" onclick="openTab(event, 'transfertrack')">ต้องจัดส่ง </a>
+  		<a href="/complete" class="tablinks" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
+  		<a href="/transfercancel" class="tablinks" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
 	</div>
 	
-	<iframe id="editproduct" class="tabcontent" src="editproduct.html" th:src="@{/editproduct}" style="display: block;"></iframe>
+	<!-- <iframe id="editproduct" class="tabcontent" src="editproduct.html" th:src="@{/editproduct}" style="display: block;"></iframe>
 	
 	<iframe id="transfercheck" class="tabcontent" src="transfercheck.html" th:src="@{/checking}"></iframe>
 
@@ -291,6 +242,6 @@ function openTab(evt, buyerselect) {
 	
 	<iframe id="transfercomplete" class="tabcontent" src="transfercomplete.html" th:src="@{/complete}"></iframe>
 	
-	<iframe id="transfercancel" class="tabcontent" src="transfercancel.html" th:src="@{/transfercancel}"></iframe>
+	<iframe id="transfercancel" class="tabcontent" src="transfercancel.html" th:src="@{/transfercancel}"></iframe> -->
 </body>
 </html>

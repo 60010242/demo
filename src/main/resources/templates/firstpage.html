@@ -150,7 +150,7 @@ li a {
 /* Style the tab content */
 .tabcontent {
   display: none;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -161,21 +161,17 @@ li a {
   z-index: 1;
 }
 
-iframe{
-	position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
 </style>
 
 </head>
 
 <body>
+<iframe id="buyproduct" class="tabcontent" src="buyproduct.html" style="display: block;"></iframe>
+
+<iframe id="buytransfer" class="tabcontent" src="buytransfer.html"></iframe>
+
+<iframe id="buytrack" class="tabcontent" src="buytrack.html"></iframe>
+
 <ul>
 		<li><a href="/firstpage"><img class="profilepicture" th:src="@{/negotiating-a-lease_pet.jpg}"></a></li>
 		<li class="center"><a href="#contact">ร้านขายของน้องหมา </a></li>
@@ -202,12 +198,6 @@ iframe{
   <button class="tablinks" onclick="openTab(event, 'buytransfer')">แจ้งชำระเงิน</button>
   <button class="tablinks" onclick="openTab(event, 'buytrack')">ติดตามเลขพัสดุ</button>
 </div>
-
-<iframe id="buyproduct" class="tabcontent" src="buyproduct.html" style="display: block;"></iframe>
-
-<iframe id="buytransfer" class="tabcontent" src="buytransfer.html"></iframe>
-
-<iframe id="buytrack" class="tabcontent" src="buytrack.html"></iframe>
 
 
 <script>

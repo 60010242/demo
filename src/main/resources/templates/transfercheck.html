@@ -4,108 +4,13 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style type="text/css">
-/* Color Variables */
-:root {
-  --brown: #cbaf87;
-  --x: #c7b198;
-  --brown2: #f4ebc1;
-}
-
-body{
-	font-family: 'Bai Jamjuree', sans-serif;
-	margin-top: 120px;
-	display: flex;
-	background-color: var(--brown2);
-	color: gray;
-}
-
-.center{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-}
 
 /* transfercheck */
-.sellerheader{
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: var(--brown);
-	color: white;
-	font-size: 20pt;
-	height: 60px;
-	width: 100%;
-	box-shadow: 2px 2px 5px gray;
-}
-details {
-	width: 100%;
-	border: 2px gray solid;
-}
-summary{
-	background-color: #e7d39f;
-	height: 30pt;
-	display: flex;
-	align-items: center;
-	padding-left: 2%;
-}
-.tableheader{
-	background-color: #e4e4e4;
-}
-.maintable{
-	background-color: gray;
-	width: 100%;
-}
-.maintable tr, .maintable td {
-	background-color: var(--brown2);
-}
-
-.btncheck{
-	background-color: #79d70f;
-	color: white;
-	width: 60pt;
-	height: 22pt;
-	border: none;
-	border-radius: 22px;
-	box-shadow: 2px 2px 5px gray;
-	cursor: pointer;
-}
-.back{
-	position: absolute;
-	top: 0;
-	left: 10pt;
-	text-decoration: none;
-	font-size: 30pt;
-	color: white;
-}
 
 /* overlay */
-.centercol{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-flow: column;
-}
-.checked{
-	position: relative;
-	background-color: white;
-	width: 50%;
-	height: 80%;
-	cursor: default;
-	flex-flow: column;
-}
-#overlay, #overlaydetail {
-  position: fixed;
-  visibility: hidden;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 2;
-  cursor: pointer;
-}
 #detaildata{
 	position: absolute;
 	font-size: 10pt;
@@ -114,6 +19,7 @@ summary{
 	text-decoration: underline;
 	cursor: pointer;
 }
+
 .overlaytable{
 	width: 100%;
 	overflow-y: scroll;
@@ -130,31 +36,6 @@ summary{
 	background-color: gray;
 	width: 200px;
 	height: 200px;
-}
-.overlayheader{
-	position: absolute;
-	top: 0;
-	left: 0;
-	font-size: 16pt;
-	text-align: center;
-	height: 50pt;
-	width: 100%;
-	background-color: var(--brown);
-	color: white;
-	box-shadow: 2px 2px 2px gray;
-}
-.overlayconfirm{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	font-size: 16pt;
-	text-align: center;
-	height: 40pt;
-	width: 100%;
-	background-color:  #79d70f;
-	border: none;
-	color: white;
-	box-shadow: 2px -2px 2px gray;
 }
 </style>
 <script>
@@ -197,48 +78,7 @@ function offdetail() {
 </head>
 
 <body>
-	
-	<details th:each="day : ${daylist}">
-		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
-		<table class="maintable">
-			<tr class="tableheader">
-				<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
-				<th style="height:30pt; width: 40%">  รายการ </th>
-				<th style="height:30pt; width: 10%">ธนาคารผู้ขาย </th>
-				<th style="height:30pt; width: 10%">วันเ-วลาที่โอน </th>
-				<th style="height:30pt; width: 10%">ยอดรวมที่ต้องโอน</th>
-				<th style="height:30pt; width: 10%">จำนวนเงินที่โอนมา</th>
-				<th style="height:30pt; width: 10%">ตรวจสอบ </th>
-			</tr>
-			<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
-				<td th:text="${'#'+ userorder.getIdOrder()}" id="valueTD1"></td>
-				<td style="position: relative;" >
-					<ul>
-						<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
-							<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
-							<span th:text="${' x'+ orderlist.getNumber()}"></span>
-			  			</li>
-					</ul>
-					<!-- <a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a> -->
-				</td>
-				<td th:text="${userorder.getSellerBank()}" id="valueTD6"></td>
-				<td th:text="${userorder.getPayTime()}" id="valueTD7"></td>
-				<td th:text="${userorder.getTotalOrder()}" id="valueTD3"></td>
-				<td th:text="${userorder.getPayTotal()}" id="valueTD4"></td>
-				<td style="text-align: center;">
-					<button class="btncheck" onclick="on()">ตรวจสอบ </button>
-				</td>
-				<input type="hidden" th:value="${userorder.getUserprofile().getName()}" id="valueTD2">
-				<input type="hidden" th:value="${userorder.getUserBank()}" id="valueTD5">
-				<input type="hidden" th:value="${userorder.getLastNum()}" id="valueTD8">
-				<input type="hidden" th:value="${userorder.getPhotoPay()}" id="valueIMG">
-				<input type="hidden" th:value="${userorder.getIdOrder()}" id="valueLink">
-				
-			</tr>
-		</table>
-	</details>
-	
-	<!-- List order from database -->
+<!-- overlay -->
 	<div class="center" id="overlaydetail" onclick="offdetail()">
 		<div class="checked center">
 			<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
@@ -288,5 +128,65 @@ function offdetail() {
 			</div>
 		</div>
 	</div>
+
+<!-- Main Page -->
+<ul>		
+	<li style="float: right;">
+		<a href="/myinfo">
+			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}">
+			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
+		</a>
+	</li>
+	<li style="float: right;"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
+	<a href="/logout" class="logout">logout</a>
+	<div class="white"></div>
+</ul>
+<div class="tab">
+  	<a href="/editproduct" class="tablinks" onclick="openTab(event, 'editproduct')">แก้ไขสินค้า </a>
+	<a href="/checking" class="tablinks active" onclick="openTab(event, 'transfercheck')">ตรวจสอบ </a>
+	<a href="/tracking" class="tablinks" onclick="openTab(event, 'transfertrack')">ต้องจัดส่ง </a>
+	<a href="/complete" class="tablinks" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
+ 	<a href="/transfercancel" class="tablinks" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
+</div>
+
+	<details th:each="day : ${daylist}">
+		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
+		<table class="maintable">
+			<tr class="tableheader">
+				<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
+				<th style="height:30pt; width: 40%">  รายการ </th>
+				<th style="height:30pt; width: 10%">ธนาคารผู้ขาย </th>
+				<th style="height:30pt; width: 10%">วันเ-วลาที่โอน </th>
+				<th style="height:30pt; width: 10%">ยอดรวมที่ต้องโอน</th>
+				<th style="height:30pt; width: 10%">จำนวนเงินที่โอนมา</th>
+				<th style="height:30pt; width: 10%">ตรวจสอบ </th>
+			</tr>
+			<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
+				<td th:text="${'#'+ userorder.getIdOrder()}" id="valueTD1"></td>
+				<td style="position: relative;" >
+					<ul>
+						<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
+							<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
+							<span th:text="${' x'+ orderlist.getNumber()}"></span>
+			  			</li>
+					</ul>
+					<!-- <a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a> -->
+				</td>
+				<td th:text="${userorder.getSellerBank()}" id="valueTD6"></td>
+				<td th:text="${userorder.getPayTime()}" id="valueTD7"></td>
+				<td th:text="${userorder.getTotalOrder()}" id="valueTD3"></td>
+				<td th:text="${userorder.getPayTotal()}" id="valueTD4"></td>
+				<td style="text-align: center;">
+					<button class="btncheck" onclick="on()">ตรวจสอบ </button>
+				</td>
+				<input type="hidden" th:value="${userorder.getUserprofile().getName()}" id="valueTD2">
+				<input type="hidden" th:value="${userorder.getUserBank()}" id="valueTD5">
+				<input type="hidden" th:value="${userorder.getLastNum()}" id="valueTD8">
+				<input type="hidden" th:value="${userorder.getPhotoPay()}" id="valueIMG">
+				<input type="hidden" th:value="${userorder.getIdOrder()}" id="valueLink">
+				
+			</tr>
+		</table>
+	</details>
 </body>
 </html>

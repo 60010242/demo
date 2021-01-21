@@ -4,129 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
-<style type="text/css">
-/* Color Variables */
-:root {
-  --brown: #cbaf87;
-  --x: #c7b198;
-  --brown2: #f4ebc1;
-}
-
-body{
-	font-family: 'Bai Jamjuree', sans-serif;
-	/*height: 100vh;*/
-	margin-top: 120px;
-	display: flex;
-	background-color: var(--brown2);
-	color: gray;
-}
-
-.center{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-details {
-	width: 100%;
-	border: 2px gray solid;
-}
-summary{
-	background-color: #e7d39f;
-	height: 30pt;
-	display: flex;
-	align-items: center;
-	padding-left: 2%;
-}
-.tableheader{
-	background-color: #e4e4e4;
-}
-.maintable{
-	background-color: gray;
-	width: 100%;
-}
-.maintable tr, .maintable td {
-	background-color: var(--brown2);
-}
-
-.btncheck{
-	background-color: #79d70f;
-	color: white;
-	width: 60pt;
-	height: 22pt;
-	border: none;
-	border-radius: 22px;
-	box-shadow: 2px 2px 5px gray;
-	cursor: pointer;
-}
-
-.checked{
-	position: relative;
-	background-color: white;
-	width: 50%;
-	height: 80%;
-	cursor: default;
-	flex-flow: column;
-}
-.checked iframe{
-	width: 100%;
-	height: 100%;
-	border: none;
-}
-#overlay, #overlaydetail {
-  position: fixed;
-  visibility: hidden;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 2;
-  cursor: pointer;
-}
-.overlayheader{
-	position: absolute;
-	top: 0;
-	left: 0;
-	font-size: 16pt;
-	text-align: center;
-	padding: 2% 0 2% 0;
-	width: 100%;
-	background-color: var(--brown);
-	color: white;
-	box-shadow: 2px 2px 2px gray;
-}
-.overlayconfirm{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	font-size: 16pt;
-	text-align: center;
-	padding: 2% 0 2% 0;
-	width: 100%;
-	background-color:  #79d70f;
-	border: none;
-	color: white;
-	box-shadow: 2px -2px 2px gray;
-}
-#detaildata{
-	position: absolute;
-	font-size: 10pt;
-	right: 2%;
-	bottom: 2%;
-	text-decoration: underline;
-	cursor: pointer;
-}
-.back{
-	position: absolute;
-	top: 0;
-	left: 10pt;
-	text-decoration: none;
-	font-size: 30pt;
-	color: white;
-}
-</style>
 <script>
 function ondetail() {
   document.getElementById("overlaydetail").style.visibility = "visible";
@@ -138,39 +17,59 @@ function offdetail() {
 </script>
 </head>
 <body>
-	<details>
-		<summary>กันยายน 2563</summary>
-		<table class="maintable">
-		<tr class="tableheader">
-			<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
-			<th style="height:30pt; width: 20%" > ชื่อผู้ซื้อ </th>
-			<th style="height:30pt; width: 50%">  รายการ </th>
-			<th style="height:30pt; width: 10%" > ช่องทางติดต่อ </th>
-			<th style="height:30pt; width: 10%" > ติดต่อแล้ว </th>
-		</tr>
-		<tr th:each="userorder: ${userorders}">
-			<td th:text="${'#'+ userorder.getIdOrder()}"></td>
-			<td th:text="${userorder.getUserprofile().getName()}"></td>
-			<td style="position: relative;" >
-				<ul>
-					<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
-						<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
-						<span th:text="${' x'+ orderlist.getNumber()}"></span>
-			  		</li>
-				</ul>
-				<a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a>
-			<td>ช่องทางติดต่อผู้ซื้อ</td>
-			<td style="flex-flow: column;" class="center">
-				<input type="checkbox">
-			</td>
-		</tr>
-		</table>
-		
-		<!-- List order from database -->
-		<div class="center" id="overlaydetail" onclick="offdetail()">
-			<div class="checked center">
-				<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
-			</div>
+<!-- overlay -->
+	<div class="center" id="overlaydetail" onclick="offdetail()">
+		<div class="checked center">
+			<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
 		</div>
+	</div>
+
+<!-- Main Page -->
+<ul>		
+	<li style="float: right;">
+		<a href="/myinfo">
+			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}">
+			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
+		</a>
+	</li>
+	<li style="float: right;"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
+	<a href="/logout" class="logout">logout</a>
+	<div class="white"></div>
+</ul>
+<div class="tab">
+  	<a href="/editproduct" class="tablinks" onclick="openTab(event, 'editproduct')">แก้ไขสินค้า </a>
+	<a href="/checking" class="tablinks" onclick="openTab(event, 'transfercheck')">ตรวจสอบ </a>
+	<a href="/tracking" class="tablinks" onclick="openTab(event, 'transfertrack')">ต้องจัดส่ง </a>
+	<a href="/complete" class="tablinks" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
+ 	<a href="/transfercancel" class="tablinks active" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
+</div>
+<details>
+	<summary>กันยายน 2563</summary>
+	<table class="maintable">
+	<tr class="tableheader">
+		<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
+		<th style="height:30pt; width: 20%" > ชื่อผู้ซื้อ </th>
+		<th style="height:30pt; width: 50%">  รายการ </th>
+		<th style="height:30pt; width: 10%" > ช่องทางติดต่อ </th>
+		<th style="height:30pt; width: 10%" > ติดต่อแล้ว </th>
+	</tr>
+	<tr th:each="userorder: ${userorders}">
+		<td th:text="${'#'+ userorder.getIdOrder()}"></td>
+		<td th:text="${userorder.getUserprofile().getName()}"></td>
+		<td style="position: relative;" >
+			<ul>
+				<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
+					<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
+					<span th:text="${' x'+ orderlist.getNumber()}"></span>
+		  		</li>
+			</ul>
+			<a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a>
+		<td>ช่องทางติดต่อผู้ซื้อ</td>
+		<td style="flex-flow: column;" class="center">
+			<input type="checkbox">
+		</td>
+	</tr>
+	</table>
+	
 </body>
 </html>
