@@ -201,6 +201,10 @@ body{
 	background-color: var(--brownbg);
 }
 
+.maintable ul{
+	list-style-type: none;
+	padding: 5%;
+}
 
 .btncheck{
 	background-color: var(--green);

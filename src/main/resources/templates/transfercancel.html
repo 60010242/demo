@@ -20,7 +20,7 @@ function offdetail() {
 <!-- overlay -->
 	<div class="center" id="overlaydetail" onclick="offdetail()">
 		<div class="checked center">
-			<div class="overlayheader center">รายละเอียด </div>
+			<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
 		</div>
 	</div>
 
@@ -43,14 +43,15 @@ function offdetail() {
 	<a href="/complete" class="tablinks" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
  	<a href="/cancel" class="tablinks active" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
 </div>
+<div class="overdetail">
 <details th:each="day : ${daylist}">
 	<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
 	<table class="maintable">
 	<tr class="tableheader">
 		<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
-		<th style="height:30pt; width: 20%" > ชื่อผู้ซื้อ </th>
+		<th style="height:30pt; width: 15%" > ชื่อผู้ซื้อ </th>
 		<th style="height:30pt; width: 50%">  รายการ </th>
-		<th style="height:30pt; width: 10%" > ช่องทางติดต่อ </th>
+		<th style="height:30pt; width: 15%" > ช่องทางติดต่อ </th>
 		<th style="height:30pt; width: 10%" > ติดต่อแล้ว </th>
 	</tr>
 	<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
@@ -63,18 +64,20 @@ function offdetail() {
 					<span th:text="${' x'+ orderlist.getNumber()}"></span>
 		  		</li>
 			</ul>
-			<a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a>
+			<a id="tocancel">ส่งกลับหน้า "ต้องจัดส่ง" </a>
+			<a onclick="ondetail()" id="detaildata">รายละเอียด </a>
 		<td>
 			<ul>
 				<li><span th:text="${'Tel : '+ userorder.getUserprofile().getTel()}"></span></li>
 				<li><span th:text="${'E-mail : '+ userorder.getUserprofile().getEmail()}"></span></li>
 			</ul>
 		</td>
-		<td style="flex-flow: column;" class="center">
-			<input type="checkbox">
+		<td style="text-align: center;">
+			<button class="btncheck">ยืนยัน </button>
 		</td>
 	</tr>
 	</table>
-	
+</details>
+</div>
 </body>
 </html>
