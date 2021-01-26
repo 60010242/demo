@@ -41,10 +41,10 @@ function offdetail() {
 	<a href="/checking" class="tablinks" onclick="openTab(event, 'transfercheck')">ตรวจสอบ </a>
 	<a href="/tracking" class="tablinks" onclick="openTab(event, 'transfertrack')">ต้องจัดส่ง </a>
 	<a href="/complete" class="tablinks" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
- 	<a href="/transfercancel" class="tablinks active" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
+ 	<a href="/cancel" class="tablinks active" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
 </div>
-<details>
-	<summary>กันยายน 2563</summary>
+<details th:each="day : ${daylist}">
+	<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
 	<table class="maintable">
 	<tr class="tableheader">
 		<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
@@ -53,7 +53,7 @@ function offdetail() {
 		<th style="height:30pt; width: 10%" > ช่องทางติดต่อ </th>
 		<th style="height:30pt; width: 10%" > ติดต่อแล้ว </th>
 	</tr>
-	<tr th:each="userorder: ${userorders}">
+	<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
 		<td th:text="${'#'+ userorder.getIdOrder()}"></td>
 		<td th:text="${userorder.getUserprofile().getName()}"></td>
 		<td style="position: relative;" >

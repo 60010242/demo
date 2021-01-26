@@ -57,9 +57,10 @@ public class CreatePDF {
 			orderlists.addAll(orderdetails);
 		}
 		
-		while(userorders.size()<=i) {
+		for (int index = 0; index < userorders.size(); index++) {
+			System.out.println("create table");
 			userorder userorder1 = new userorder();
-			userorder1 = userorders.get(i);
+			userorder1 = userorders.get(index);
 			List<orderdetail> orderlist1 = new ArrayList<orderdetail>();
 			for(orderdetail order : orderlists) {
 				if(order.getIdOrder()==userorder1.getIdOrder()) {

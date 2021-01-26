@@ -198,6 +198,43 @@ public class OrderController {
 		return "transfercomplete";
 	}
 	
+	@GetMapping("/cancel")
+	public String findcansel(Model model) {
+		List<userorder> userorders = new ArrayList<userorder>();
+		List<orderdetail> orderlists = new ArrayList<orderdetail>();
+		userorders = userorderRepo.getByStatus("cancel");
+		LocalDateTime minDate = userorderRepo.findMinPaytime("cancel");
+		LocalDate localDate = LocalDate.now();
+		List<Daygroup> daylist = new ArrayList<Daygroup>();
+		localDate = localDate.plusDays(1);
+		if(minDate != null) {
+			for(LocalDate date = minDate.toLocalDate(); date.isBefore(localDate); date = date.plusDays(1)) {
+				Daygroup daygroup = new Daygroup();
+				DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+				String mixname = format.format(date);
+				daygroup.setDatenum(date.getDayOfMonth());
+				daygroup.setMonthnum(date.getMonthValue());
+				daygroup.setLocaldate(date);
+				daygroup.setMixname(mixname);
+				for(userorder userorder : userorders) {
+					if(userorder.getPayTime().toLocalDate().isEqual(date)) {
+						daylist.add(0, daygroup);
+					}
+				}
+			}
+		}
+		
+		for(userorder userorder : userorders) {
+			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
+			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
+			orderlists.addAll(orderdetails);
+		}
+		model.addAttribute("daylist", daylist);
+		model.addAttribute("orderlists", orderlists);
+		model.addAttribute("userorders", userorders);
+		return "transfercancel";
+	}
+	
 	@GetMapping("/createPDF")
 	public String createPDF(Model model) throws IOException {
 		List<String> deliverylist = new ArrayList<String>();
