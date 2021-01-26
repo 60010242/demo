@@ -6,13 +6,7 @@
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
-<style type="text/css">
 
-details {
-	margin-top: 120px;
-}
-
-</style>
 <script>
 function ondetail() {
 	document.getElementById("overlaydetail").style.visibility = "visible";
@@ -82,7 +76,7 @@ function offdetail() {
 </div>
 
 <!-- Main Page -->
-<ul>		
+<ul class="navhead">		
 	<li style="float: right;">
 		<a href="/myinfo">
 			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}">
@@ -100,7 +94,7 @@ function offdetail() {
 	<a href="/complete" class="tablinks active" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
  	<a href="/cancel" class="tablinks" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
 </div>
-
+<div class="overdetail">
 <details th:each="month : ${monthlist}">
 	<summary th:text="${month.getMonthname()}" th:value="${month.getMonthname()}"></summary>
 	<table class="maintable">
@@ -120,7 +114,7 @@ function offdetail() {
 					<span th:text="${' x'+ orderlist.getNumber()}"></span>
 	  			</li>
 			</ul>
-			<a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a>
+			<a onclick="ondetail()" id="detaildata">รายละเอียด </a>
 		</td>
 		<td th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">กำลังขนส่ง</td>
 		<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับแล้ว</td>
@@ -130,6 +124,6 @@ function offdetail() {
 	</tr>
 	</table>
 </details>
-	
+</div>
 </body>
 </html>

@@ -124,13 +124,14 @@ function offdetail() {
 					</tr>
 			</table>
 			<div class="img" id="overlayIMG"></div>
-		<a href="" class="overlayconfirm" id="overlayconfirm">ยืนยัน </a>
+		<a href="" class="overlayconfirm" id="overlayconfirm"
+	onclick="if (!confirm('ยืนยันการชำระเงินของรายการ ' +document.getElementById('valueTD1').innerText)) return false">ยืนยัน </a>
 			</div>
 		</div>
 	</div>
 
 <!-- Main Page -->
-<ul>		
+<ul class="navhead">		
 	<li style="float: right;">
 		<a href="/myinfo">
 			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}">
@@ -149,6 +150,7 @@ function offdetail() {
  	<a href="/cancel" class="tablinks" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
 </div>
 
+<div class="overdetail">
 	<details th:each="day : ${daylist}">
 		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
 		<table class="maintable">
@@ -156,7 +158,7 @@ function offdetail() {
 				<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
 				<th style="height:30pt; width: 40%">  รายการ </th>
 				<th style="height:30pt; width: 10%">ธนาคารผู้ขาย </th>
-				<th style="height:30pt; width: 10%">วันเ-วลาที่โอน </th>
+				<th style="height:30pt; width: 10%">วัน-เวลาที่โอน </th>
 				<th style="height:30pt; width: 10%">ยอดรวมที่ต้องโอน</th>
 				<th style="height:30pt; width: 10%">จำนวนเงินที่โอนมา</th>
 				<th style="height:30pt; width: 10%">ตรวจสอบ </th>
@@ -170,12 +172,12 @@ function offdetail() {
 							<span th:text="${' x'+ orderlist.getNumber()}"></span>
 			  			</li>
 					</ul>
-					<!-- <a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a> -->
+					<!-- <a onclick="ondetail()" id="detaildata">รายละเอียด </a> -->
 				</td>
-				<td th:text="${userorder.getSellerBank()}" id="valueTD6"></td>
-				<td th:text="${userorder.getPayTime()}" id="valueTD7"></td>
-				<td th:text="${userorder.getTotalOrder()}" id="valueTD3"></td>
-				<td th:text="${userorder.getPayTotal()}" id="valueTD4"></td>
+				<td th:text="${userorder.getSellerBank()}" id="valueTD6">a</td>
+				<td th:text="${userorder.getPayTime()}" id="valueTD7">a</td>
+				<td th:text="${userorder.getTotalOrder()}" id="valueTD3">a</td>
+				<td th:text="${userorder.getPayTotal()}" id="valueTD4">a</td>
 				<td style="text-align: center;">
 					<button class="btncheck" onclick="on()">ตรวจสอบ </button>
 				</td>
@@ -188,5 +190,6 @@ function offdetail() {
 			</tr>
 		</table>
 	</details>
+</div>
 </body>
 </html>

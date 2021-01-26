@@ -117,7 +117,7 @@ public class OrderController {
 		order.setStatus("shipping");
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
-		return "redirect:/checking";
+		return "redirect:/tracking";
 	}
 	
 	@GetMapping("/tracking")

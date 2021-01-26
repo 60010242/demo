@@ -15,9 +15,6 @@
 	left: 0;
 	width: 100%;
 }
-details {
-	margin-top: 120px;
-}
 
 .tabletrack{
 	width: 100%;
@@ -131,7 +128,7 @@ function offdetail() {
 	</div>
 
 <!-- Main Page -->
-<ul>		
+<ul class="navhead">		
 	<li style="float: right;">
 		<a href="/myinfo">
 			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}">
@@ -149,9 +146,10 @@ function offdetail() {
 	<a href="/complete" class="tablinks" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
  	<a href="/cancel" class="tablinks" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
 </div>
-	<div class="tabheadersecond">
-		<a href="/createPDF">ปริ๊นชื่อ-ที่อยู่ผู้ซื้อทั้งหมด</a>
-	</div>
+<div class="tabheadersecond">
+	<a href="/createPDF">ปริ๊นชื่อ-ที่อยู่ผู้ซื้อทั้งหมด</a>
+</div>
+<div class="overdetail">
 	<details th:each="day : ${daylist}">
 		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
 		<table class="maintable">
@@ -164,19 +162,20 @@ function offdetail() {
 		<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
 				<td th:text="${'#'+ userorder.getIdOrder()}" id="valueTD1"></td>
 				<td th:text="${userorder.getUserprofile().getName()}" id="valueTD2"></td>
-				<td style="position: relative;" >
+				<td style="position: relative;">
 					<ul>
 						<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
 							<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
 							<span th:text="${' x'+ orderlist.getNumber()}"></span>
 			  			</li>
 					</ul>
-					<a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a>
+					<a id="tocancel">ยกเลิกรายการ </a>
+					<a onclick="ondetail()" id="detaildata">รายละเอียด </a>
 				</td>
 			<td style="text-align: center;">
 				<form action="#" th:action="@{'/trantocomplete/' + ${userorder.getIdOrder()}}" method="post">
-					<input style="width: 100pt;" type="text" name="numtrack">
-					<input type="submit" value="ยืนยัน">
+					<input style="width: 100pt;" type="text" name="numtrack" id="numtrack">
+					<input type="submit" value="ยืนยัน" onclick="if (!confirm(document.getElementById('valueTD1').innerText + ' ยืนยันเลขพัสดุ ' +document.getElementById('numtrack').value)) return false">
 				</form>
 			</td>
 			<input type="hidden" th:value="${userorder.getTotalOrder()}" id="valueTD5">
@@ -184,6 +183,6 @@ function offdetail() {
 		</tr>
 		</table>
 	</details>
-	
+</div>
 </body>
 </html>
