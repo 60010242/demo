@@ -64,7 +64,12 @@ function offdetail() {
 		  		</li>
 			</ul>
 			<a onclick="ondetail()" id="detaildata">รายละเอียดเพิ่มเติม </a>
-		<td>ช่องทางติดต่อผู้ซื้อ</td>
+		<td>
+			<ul>
+				<li><span th:text="${'Tel : '+ userorder.getUserprofile().getTel()}"></span></li>
+				<li><span th:text="${'E-mail : '+ userorder.getUserprofile().getEmail()}"></span></li>
+			</ul>
+		</td>
 		<td style="flex-flow: column;" class="center">
 			<input type="checkbox">
 		</td>
