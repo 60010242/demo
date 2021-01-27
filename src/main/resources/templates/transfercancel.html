@@ -50,8 +50,8 @@ function offdetail() {
 	<tr class="tableheader">
 		<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
 		<th style="height:30pt; width: 15%" > ชื่อผู้ซื้อ </th>
-		<th style="height:30pt; width: 50%">  รายการ </th>
-		<th style="height:30pt; width: 15%" > ช่องทางติดต่อ </th>
+		<th style="height:30pt; width: 40%">  รายการ </th>
+		<th style="height:30pt; width: 25%" > ช่องทางติดต่อ </th>
 		<th style="height:30pt; width: 10%" > ติดต่อแล้ว </th>
 	</tr>
 	<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
@@ -64,7 +64,7 @@ function offdetail() {
 					<span th:text="${' x'+ orderlist.getNumber()}"></span>
 		  		</li>
 			</ul>
-			<a id="tocancel">ส่งกลับหน้า "ต้องจัดส่ง" </a>
+			<a th:href="@{'/trantotracking2/' + ${userorder.getIdOrder()}}" id="tocancel" th:if="${userorder.getStatus().equalsIgnoreCase('cancel')}">ส่งกลับหน้า "ต้องจัดส่ง" </a>
 			<a onclick="ondetail()" id="detaildata">รายละเอียด </a>
 		<td>
 			<ul>
@@ -73,7 +73,8 @@ function offdetail() {
 			</ul>
 		</td>
 		<td style="text-align: center;">
-			<button class="btncheck">ยืนยัน </button>
+			<a th:href="@{'/trantocontact/' + ${userorder.getIdOrder()}}" th:if="${userorder.getStatus().equalsIgnoreCase('cancel')}">ยืนยัน</a>
+			<span th:if="${userorder.getStatus().equalsIgnoreCase('contact')}">ดำเนินการแล้ว</span>
 		</td>
 	</tr>
 	</table>

@@ -57,6 +57,7 @@ public class OrderController {
 		localDate = localDate.plusDays(1);
 		if(minDate != null) {
 			for(LocalDate date = minDate.toLocalDate(); date.isBefore(localDate); date = date.plusDays(1)) {
+				boolean dayhave = false;
 				Daygroup daygroup = new Daygroup();
 				DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 				String mixname = format.format(date);
@@ -66,8 +67,11 @@ public class OrderController {
 				daygroup.setMixname(mixname);
 				for(userorder userorder : userorders) {
 					if(userorder.getPayTime().toLocalDate().isEqual(date)) {
-						daylist.add(0, daygroup);
+						dayhave = true;
 					}
+				}
+				if(dayhave) {
+					daylist.add(0, daygroup);
 				}
 			}
 		}
@@ -91,6 +95,16 @@ public class OrderController {
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
 		return "redirect:/checking";
+	}
+	
+	@GetMapping("/trantotracking2/{idorder}")
+	public String trantotracking2(@PathVariable("idorder") Integer idorder) {
+		userorder order = new userorder(); 
+		order = userorderRepo.findById(idorder).get();
+		order.setStatus("tracking");
+		order.setCratedOrder(LocalDateTime.now());
+		userorderRepo.save(order);
+		return "redirect:/cancel";
 	}
 	
 	@GetMapping("/packing")
@@ -131,6 +145,7 @@ public class OrderController {
 		localDate = localDate.plusDays(1);
 		if(minDate != null) {
 			for(LocalDate date = minDate.toLocalDate(); date.isBefore(localDate); date = date.plusDays(1)) {
+				boolean dayhave = false;
 				Daygroup daygroup = new Daygroup();
 				DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 				String mixname = format.format(date);
@@ -140,8 +155,11 @@ public class OrderController {
 				daygroup.setMixname(mixname);
 				for(userorder userorder : userorders) {
 					if(userorder.getPayTime().toLocalDate().isEqual(date)) {
-						daylist.add(0, daygroup);
+						dayhave = true;
 					}
+				}
+				if(dayhave) {
+					daylist.add(0, daygroup);
 				}
 			}
 		}
@@ -202,13 +220,14 @@ public class OrderController {
 	public String findcansel(Model model) {
 		List<userorder> userorders = new ArrayList<userorder>();
 		List<orderdetail> orderlists = new ArrayList<orderdetail>();
-		userorders = userorderRepo.getByStatus("cancel");
-		LocalDateTime minDate = userorderRepo.findMinPaytime("cancel");
+		userorders = userorderRepo.getByTwoStatus("cancel", "contact");
+		LocalDateTime minDate = userorderRepo.findMinPaytimeTwoStatus("cancel", "contact");
 		LocalDate localDate = LocalDate.now();
 		List<Daygroup> daylist = new ArrayList<Daygroup>();
 		localDate = localDate.plusDays(1);
 		if(minDate != null) {
 			for(LocalDate date = minDate.toLocalDate(); date.isBefore(localDate); date = date.plusDays(1)) {
+				boolean dayhave = false;
 				Daygroup daygroup = new Daygroup();
 				DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 				String mixname = format.format(date);
@@ -218,12 +237,14 @@ public class OrderController {
 				daygroup.setMixname(mixname);
 				for(userorder userorder : userorders) {
 					if(userorder.getPayTime().toLocalDate().isEqual(date)) {
-						daylist.add(0, daygroup);
+						dayhave = true;
 					}
+				}
+				if(dayhave) {
+					daylist.add(0, daygroup);
 				}
 			}
 		}
-		
 		for(userorder userorder : userorders) {
 			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
 			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
@@ -233,6 +254,26 @@ public class OrderController {
 		model.addAttribute("orderlists", orderlists);
 		model.addAttribute("userorders", userorders);
 		return "transfercancel";
+	}
+	
+	@GetMapping("/trantocancel/{idorder}")
+	public String trantocancel(@PathVariable("idorder") Integer idorder) {
+		userorder order = new userorder(); 
+		order = userorderRepo.findById(idorder).get();
+		order.setStatus("cancel");
+		order.setCratedOrder(LocalDateTime.now());
+		userorderRepo.save(order);
+		return "redirect:/tracking";
+	}
+	
+	@GetMapping("/trantocontact/{idorder}")
+	public String trantocontact(@PathVariable("idorder") Integer idorder) {
+		userorder order = new userorder(); 
+		order = userorderRepo.findById(idorder).get();
+		order.setStatus("contact");
+		order.setCratedOrder(LocalDateTime.now());
+		userorderRepo.save(order);
+		return "redirect:/cancel";
 	}
 	
 	@GetMapping("/createPDF")

@@ -169,7 +169,7 @@ function offdetail() {
 							<span th:text="${' x'+ orderlist.getNumber()}"></span>
 			  			</li>
 					</ul>
-					<a id="tocancel" onclick="if(!confirm('ต้องการยกเลิกรายการ ' + document.getElementById('valueTD1').innerText)) return false">ยกเลิกรายการ </a>
+					<a th:href="@{'/trantocancel/' + ${userorder.getIdOrder()}}" id="tocancel" onclick="if(!confirm('ต้องการยกเลิกรายการ ' + document.getElementById('valueTD1').innerText)) return false">ยกเลิกรายการ </a>
 					<a id="detaildata" onclick="ondetail()">รายละเอียด </a>
 				</td>
 			<td style="text-align: center;">
