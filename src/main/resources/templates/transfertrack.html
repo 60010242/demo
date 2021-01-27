@@ -9,9 +9,9 @@
 <style type="text/css">
 
 .tabheadersecond {
-	padding: 2%;
+	padding-left: 10%;
 	position: fixed;
-	top: 90px;
+	top: 105px;
 	left: 0;
 	width: 100%;
 }
@@ -169,8 +169,8 @@ function offdetail() {
 							<span th:text="${' x'+ orderlist.getNumber()}"></span>
 			  			</li>
 					</ul>
-					<a id="tocancel">ยกเลิกรายการ </a>
-					<a onclick="ondetail()" id="detaildata">รายละเอียด </a>
+					<a id="tocancel" onclick="if(!confirm('ต้องการยกเลิกรายการ ' + document.getElementById('valueTD1').innerText)) return false">ยกเลิกรายการ </a>
+					<a id="detaildata" onclick="ondetail()">รายละเอียด </a>
 				</td>
 			<td style="text-align: center;">
 				<form action="#" th:action="@{'/trantocomplete/' + ${userorder.getIdOrder()}}" method="post">

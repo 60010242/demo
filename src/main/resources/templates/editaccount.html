@@ -4,13 +4,16 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <style type="text/css">
-
+body {
+	margin: 70pt 2% 2% 2%;
+	background-color: white;
+}
 </style>
 </head>
 <body>
-	<a href="/myinfo" class="back"><</a>
-	<h3>เพิ่มบัญชีผู้ขาย </h3>
+	<div class="overlayheader center">เพิ่มบัญชีผู้ขาย </div>
 	<form action="#" th:action="@{/saveaccount}" th:object="${account}" method="post">
 		<table>
 			<tr>
@@ -20,7 +23,7 @@
 			</tr>
 			<tr>
 				<td>
-				<select th:field="*{nameBank}" required>
+				<select style="width: 90%; margin-left: 2%;" th:field="*{nameBank}" required>
 					<option value="ธนาคารกรุงศรีอยุธยา (BAY)">ธนาคารกรุงศรีอยุธยา (BAY)</option>
 					<option value="ธนาคารกรุงเทพ (BBL)">ธนาคารกรุงเทพ (BBL)</option>
 					<option value="ธนาคารกรุงไทย (KTB)">ธนาคารกรุงไทย (KTB)</option>
@@ -43,15 +46,19 @@
 					<option value="ธนาคารไอซีบีซี (ICBC)">ธนาคารไอซีบีซี (ICBC)</option>
 				</select>
 				</td>
-				<td><input type="text" th:field="*{numAccount}" placeholder="0000000000" required></td>
-				<td><input type="text" th:field="*{nameAccount}" placeholder="ชื่อ นามสกุล" required></td>
-				<td><input type="submit" value="ยืนยัน "></td>
+				<td><input id="numacc" style="width: 90%; margin-left: 2%;" type="number" th:field="*{numAccount}" placeholder="0000000000" required></td>
+				<td><input id="nameacc" style="width: 90%; margin-left: 2%;" type="text" th:field="*{nameAccount}" placeholder="ชื่อ นามสกุล" required></td>
+				<td><input type="submit" value="ยืนยัน "
+					onclick="if(!confirm('ยืนยันเพิ่มเลขบัญชี '+document.getElementById('numacc').value+
+							'\nชื่อบัญชี '+document.getElementById('nameacc').value)) return false"></td>
 			</tr>
 			<tr th:each="acc: ${accountList}">
 				<td><p th:text="${acc.getNameBank()}"></p></td>
 				<td><p th:text="${acc.getNumAccount()}"></p></td>
 				<td><p th:text="${acc.getNameAccount()}"></p></td>
-				<td><a th:href="@{'/deleteaccount/' + ${acc.getNumAccount()}}">ลบ</a></td>
+				<td><a th:href="@{'/deleteaccount/' + ${acc.getNumAccount()}}" style="color: blue;" 
+				th:data-confirm-delete="|ต้องการลบเลขบัญชี ${acc.getNumAccount()} ?|"
+				onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ลบ</a></td>
 			</tr>
 		</table>
 	</form>

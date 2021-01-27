@@ -27,7 +27,17 @@ body{
 	background-color: white;
 }
 
-/* Nav */
+close{
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	color: white;
+	font-size: 20px;
+	font-weight: bolder;
+	cursor: pointer;
+}
+
+/* Navigator */
 .navhead {
 	position: fixed;
 	top: 0;
@@ -103,7 +113,7 @@ body{
 
 
 /* Seller First page */
-#overlay, #overlaydetail {
+#overlay, #overlaydetail, #overlaydelivery , #overlayaccount{
   position: fixed;
   visibility: hidden;
   width: 100%;

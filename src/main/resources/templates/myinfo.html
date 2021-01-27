@@ -7,16 +7,8 @@
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style type="text/css">
-
-/* Change Information */
-.brownbg{
-	position: relative;
-	background: rgba(255,255,255,0.4);
-	height: 70%;
-	width: 70%;
-	box-shadow: 5px 5px 5px gray;
-	margin-top: 50px;
-	flex-flow: column;
+body{
+	margin: 70pt 0 0 0;
 }
 .back{
 	position: absolute;
@@ -26,11 +18,17 @@
 	font-size: 30pt;
 	color: var(--brown);
 }
-h3{
-	position: absolute;
-	top: 5%;
-	font-size: 18pt;
-	margin: 2%;
+
+/* Change Information */
+.brownbg{
+	position: relative;
+	background: rgba(255,255,255,0.4);
+	height: 70%;
+	width: 70%;
+	box-shadow: 5px 5px 5px gray;
+	margin-top: 50px;
+	padding: 2%;
+	flex-flow: column;
 }
 .editprofilepicture{
 	border-radius: 100px;
@@ -104,11 +102,39 @@ function togglePW() {
 	    x.type = "password";
 	  }
 }
+function onaccount() {
+	  document.getElementById("overlayaccount").style.visibility = "visible";
+}
+function ondelivery() {
+	  document.getElementById("overlaydelivery").style.visibility = "visible";
+}
+function off() {
+	  document.getElementById("overlayaccount").style.visibility = "hidden";
+	  document.getElementById("overlaydelivery").style.visibility = "hidden";
+}
 </script>
 </head>
 
 <body class="center">
-	<ul th:if="${session.user.getType() == 'Customer'}">
+
+<!-- Overlay -->
+<div class="center" id="overlayaccount" onclick="off()">
+	<div class="checked">
+		<iframe th:src="@{/editaccount}" src="editaccount.html"></iframe>
+		<close>X</close>
+	</div>
+</div>
+<div class="center" id="overlaydelivery" onclick="off()">
+	<div class="checked">
+		<iframe class="checked" th:src="@{/editdelivery}" src="adddeliveryprice.html"></iframe>
+		<close>X</close>
+	</div>
+</div>
+
+
+
+<!-- Main Page -->
+	<ul class="navhead" th:if="${session.user.getType() == 'Customer'}">
 		<li><a href="/firstpage"><img class="profilepicture" th:src="@{/Pembroke-Welsh-Corgi-Puppies-Lying-Down.jpg"></a></li>
 		<li class="center"><a href="#contact">ร้านขายของน้องหมา </a></li>
 		<li style="float:right"><a href="#profile">
@@ -118,7 +144,7 @@ function togglePW() {
 		<li style="float:right"><a href="#about" th:text="${session.user.getName()}"></a></li>
 		<a href="/logout" class="logout">logout</a>
 	</ul>
-	<ul th:if="${session.user.getType() == 'Seller'}">
+	<ul class="navhead" th:if="${session.user.getType() == 'Seller'}">
 		<li style="float:right"><a href="/myinfo">
 			<img class="profilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
 			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
@@ -127,8 +153,8 @@ function togglePW() {
 		<a href="/logout" class="logout">logout</a>
 	</ul>
 	<div th:if="${session.user.getType() == 'Seller'}">
-		<a href="/editaccount" class="editaccount">แก้ไขบัญชีผู้ขาย </a>
-		<a href="/editdelivery" class="editdelivery">แก้ไขราคาค่าจัดส่ง </a>
+		<a class="editaccount" onclick="onaccount()">แก้ไขบัญชีผู้ขาย </a>
+		<a class="editdelivery" onclick="ondelivery()">แก้ไขราคาค่าจัดส่ง </a>
 	</div>
 	<div class="brownbg center">
 	<a href="/firstpage" class="back"><</a>

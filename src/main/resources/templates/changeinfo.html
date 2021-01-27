@@ -4,64 +4,11 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style type="text/css">
-/* Color Variables */
-:root {
-  --brown: #cbaf87;
-  --x: #c7b198;
-  --brown2: #f4ebc1;
-}
-
 body{
-	font-family: 'Bai Jamjuree', sans-serif;
-	height: 100vh;
-	display: flex;
-	background-color: var(--brown2);
-	color: gray;
-}
-
-.center{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-
-/* Nav */
-ul {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-color: var(--brown);
-	box-shadow: 2px 2px 5px gray; 
-}
-li {
-	float: left;
-	height: 60px;
-}
-li a {
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 4px 16px;
-	text-decoration: none;
-}
-.profilepicture{
-	border-radius: 50px;
-	width: 50px;
-	height: 50px;
-}
-.logout{
-	position: fixed;
-	top: 35px;
-	right: 100px;
-	color: #30475e;
+	margin: 70pt 0 0 0;
 }
 
 /* Change Information */
@@ -71,7 +18,6 @@ li a {
 	height: 70%;
 	width: 70%;
 	box-shadow: 5px 5px 5px gray;
-	margin-top: 50px;
 	flex-flow: column;
 }
 .back{
@@ -83,8 +29,7 @@ li a {
 	color: var(--brown);
 }
 h3{
-	position: absolute;
-	top: 4%;
+	margin: 4% 0 0 0;
 	font-size: 18pt;
 }
 .editprofilepicture{
@@ -141,7 +86,7 @@ function togglePW() {
 </script>
 </head>
 <body class="center">
-	<ul th:if="${session.user.getType() == 'Customer'}">
+	<ul class="navhead" th:if="${session.user.getType() == 'Customer'}">
 		<li><a href="/firstpage"><img class="profilepicture" th:src="@{/Pembroke-Welsh-Corgi-Puppies-Lying-Down.jpg}"></a></li>
 		<li class="center"><a href="/firstpage">ร้านขายของน้องหมา </a></li>
 		<li style="float:right">
@@ -153,7 +98,7 @@ function togglePW() {
 		<li style="float:right"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
 		<a href="/logout" class="logout">logout</a>
 	</ul>
-	<ul th:if="${session.user.getType() == 'Seller'}">
+	<ul class="navhead" th:if="${session.user.getType() == 'Seller'}">
 		<li style="float:right">
 			<a href="/myinfo">
 				<img class="profilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
@@ -164,11 +109,11 @@ function togglePW() {
 		<a href="/logout" class="logout">logout</a>
 	</ul>
 	<div class="brownbg center">
-	<h3> ข้อมูลผู้ใช้งาน </h3>
 	<a href="/myinfo" class="back"><</a>
 	<div class="left">
 		<img class="editprofilepicture" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
 	</div>
+	<h3> ข้อมูลผู้ใช้งาน </h3>
 	<form action="#" th:action="@{/updatemem}" th:object="${mem}" method="post" enctype="multipart/form-data">
 		<table th:each="mem : ${mem}">
 			<tr>

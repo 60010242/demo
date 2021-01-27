@@ -4,14 +4,36 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <style type="text/css">
+body {
+	margin: 70pt 2% 2% 2%;
+	background-color: white;
+}
 
+.deliverychoice{
+	top:0; 
+	width: 58%; 
+	height: 20px; 
+	position: absolute;
+	border: 1px solid var(--grey);
+	padding: 0;
+	margin: 0; 
+}
+.deliverychoicebtn{
+	width: 38%;
+	position: absolute;
+	top:0;
+	right: 0;
+	cursor: pointer;
+	color: blue;
+	font-size: 14px;
+}
 </style>
 <script type="text/javascript">
 	function adddelivery(){
-		var check = document.getElementById("choosedelivery");
-		var adddeliverybtn = document.getElementById("adddeliver").value;
-		if(document.getElementById("choosedelivery1").style.visibility == "hidden"){
+		if(document.getElementById("adddeliver").innerText == "เพิ่มชื่อขนส่ง"){
+			document.getElementById("adddeliver").innerText = "เลือกขนส่งที่มี";
 			document.getElementById("choosedelivery1").style.visibility = "visible";
 			document.getElementById("choosedelivery2").style.visibility = "hidden";
 			var h = document.createElement("INPUT");
@@ -19,9 +41,9 @@
 			h.name="hidetext";
 			h.value="text";
 			document.getElementById("choosedelivery1").appendChild(h);
-			adddeliverybtn = "เลือกบริการขนส่ง";
 		}
 		else{
+			document.getElementById("adddeliver").innerText = "เพิ่มชื่อขนส่ง";
 			document.getElementById("choosedelivery1").style.visibility = "hidden";
 			document.getElementById("choosedelivery2").style.visibility = "visible";
 			var h = document.createElement("INPUT");
@@ -29,48 +51,40 @@
 			h.name="hidetext";
 			h.value="select";
 			document.getElementById("choosedelivery2").appendChild(h);
-			adddeliverybtn = "เพิ่มชื่อบริการขนส่ง";
 		}
-		console.log(document.getElementById("choosedelivery1").stlye.visibility)
+		
 	}
 </script>
 </head>
 <body>
-	<a href="/myinfo" class="back"><</a>
-	<h3>เพิ่มราคาบริการขนส่งสินค้า </h3>
-	<form action="#" th:action="@{/savedelivery}" th:object="${delivery}" method="post">
+	<div class="overlayheader center">เพิ่มราคาบริการขนส่งสินค้า </div>
+	<form style="width: 100%;" action="#" th:action="@{/savedelivery}" th:object="${delivery}" method="post">
 		<table>
 			<tr>
-				<td>ชื่อบริการขนส่ง </td>
-				<td>
-				<div id="choosedelivery1" style="visibility: hidden;">
-					<input type="text" name="textname">
-				</div>
-				<div id="choosedelivery2" style="visibility: visible;">
-					<select name="selectname">
+				<th style="width: 55%;">บริการขนส่ง</th>
+				<th style="width: 15%;">น้ำหนักสูงสุด (กรัม)</th>
+				<th style="width: 15%;">ราคาขนส่ง (บาท)</th>
+				<th style="width: 15%;"></th>
+			</tr>
+			<tr>
+				<td style="position: relative;;">
+				<div>
+					<input class="deliverychoice" style="visibility: hidden;" id="choosedelivery1" type="text" name="textname">
+					<select class="deliverychoice" style="visibility: visible;" id="choosedelivery2" name="selectname">
 						<option th:each="namedeli: ${namedeliList}" th:value="${namedeli}"><p th:text="${namedeli}"></p></option>
 					</select>
+					<a class="deliverychoicebtn" id="adddeliver" type="button" onclick="adddelivery()">เพิ่มชื่อขนส่ง</a>
 				</div>
 				</td>
-				<td><input id="adddeliver" type="button" onclick="adddelivery()" value="เพิ่มชื่อบริการขนส่ง "></td>
-			</tr>
-			<tr>
-				<td>น้ำหนักสูงสุด </td>
-				<td><input type="number" th:field="*{maxWeight}"><span> กรัม</span></td>
-			</tr>
-			<tr>
-				<td>ราคาขนส่ง </td>
-				<td><input type="number" th:field="*{priceDelivery}"><span> บาท</span></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input style="float: right;" type="submit" value="ยืนยัน "></td>
+				<td><input style="width: 90%;" type="number" th:field="*{maxWeight}"><span></span></td>
+				<td><input style="width: 90%;" type="number" th:field="*{priceDelivery}"><span></span></td>
+				<td><input style="width: 90%; float: right;" type="submit" value="ยืนยัน "></td>
 			</tr>
 			<tr th:each="deli: ${deliveryList}">
 				<td><p th:text="${deli.getNameDelivery()}">บริการขนส่ง </p></td>
 				<td><p th:text="${deli.getMaxWeight()}">น้ำหนักสูงสุด </p></td>
 				<td><p th:text="${deli.getPriceDelivery()}">ราคาขนส่ง </p></td>
-				<td><a th:href="@{'/deletedelivery/' + ${deli.getIdDelivery()}}">ลบ </a></td>
+				<td style="text-align: center;"><a th:href="@{'/deletedelivery/' + ${deli.getIdDelivery()}}">ลบ </a></td>
 			</tr>
 		</table>
 	</form>
