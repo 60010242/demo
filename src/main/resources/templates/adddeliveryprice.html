@@ -6,10 +6,6 @@
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <style type="text/css">
-body {
-	margin: 70pt 2% 2% 2%;
-	background-color: white;
-}
 
 .deliverychoice{
 	top:0; 
@@ -56,7 +52,7 @@ body {
 	}
 </script>
 </head>
-<body>
+<body class="overlaypage">
 	<div class="overlayheader center">เพิ่มราคาบริการขนส่งสินค้า </div>
 	<form style="width: 100%;" action="#" th:action="@{/savedelivery}" th:object="${delivery}" method="post">
 		<table>

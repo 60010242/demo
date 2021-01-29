@@ -6,13 +6,38 @@
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style>
-.tabcat{
-	color: blue;
+.tabcat-container {
+	position: fixed;
+	top: 100px;
+	left: 0;
+	width: 100%;
+	height: 25pt;
+    font-weight: bold;
+  	overflow: hidden;
+  	box-shadow: 2px 2px 5px gray;
+	background-color: var(--browntab);
+	z-index: 800;
 }
-.tabcat a:active{
-	color: red;
+.tabcat-container td{
+	padding: 0;
+}
+.tabcat-container a{
+	background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  line-height: 25pt;
+  width: 80pt;
+  transition: 0.3s;
+  font-size: 15px;
+  text-align: center;
+  color: blue;
 }
 
+.tabcat-container a.active {
+	color: red;
+}
 a.catheader{
 	text-decoration: none;
 	background-color: var(--brown);
@@ -27,9 +52,9 @@ a.cataddheader{
 	color: white;
 	text-decoration: none;
 	vertical-align: middle;
-	font-size: 30pt;
-	line-height: 40pt;
-	margin: 0 5pt 0 5pt;
+	font-size: 20pt;
+	line-height: 25pt;
+	cursor: pointer;
 }
 a.catdelete{
 	background-color: red;
@@ -51,8 +76,8 @@ a.catdelete:hover{
 	border: outset 1pt white;
 }
 .tablecat{
-	margin: 60px 10% 0 10%;
-	width: 100%;
+	margin: 0 10%;
+	width: 80%;
 	background-color: white;
 }
 .imgproduct{
@@ -86,44 +111,79 @@ font-family: 'Bai Jamjuree', sans-serif;
 	padding: 5%;
 }
 </style>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+
+$('.tabcat-container td:first-child a').addClass("active");
+
+function oncategory() {
+	document.getElementById("overlayaddcat").style.visibility = "visible";
+	console.log(window.getComputedStyle(document.getElementById('overlayaddcat')).visibility);
+}
+function off() {
+	document.getElementById("overlayaddcat").style.visibility = "hidden";
+	console.log(window.getComputedStyle(document.getElementById('overlayaddcat')).visibility);
+}
+function openTabCat(evt, buyerselectcat) {
+	  var i, tabcats, tc;
+	  
+	  tabcats = document.getElementsByClassName("tabcat");
+	  tc = document.getElementById(buyerselectcat);
+	  
+	  for (i = 0; i < tabcats.length; i++) {
+	    tabcats[i].className = tabcats[i].className.replace(" active", "");
+	  }
+	  
+	  tc.className = tc.className.replace(" active", "");
+	  evt.currentTarget.className += " active";
+	  console.log(tc);
+	  $.ajax({url: "/editproduct/" + buyerselectcat, success: function(result){
+	    	$("#div2").html(result);
+	}});
+}
+</script>
 
 </head>
 
 <body>
+<!-- overlay 
+<div id="overlayaddcat" class="overlayaddcat center" onclick="off()">
+	<div class="checked">
+		<iframe th:src="@{/addcategory}"></iframe>
+		<close>X</close>
+	</div>
+</div> -->
+	
 <!-- Main Page -->
-<ul class="navhead">		
-	<li style="float: right;">
-		<a href="/myinfo">
-			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}">
-			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
-		</a>
-	</li>
-	<li style="float: right;"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
-	<a href="/logout" class="logout">logout</a>
-	<div class="white"></div>
-</ul>
-<div class="tab">
-  	<a href="/editproduct" class="tablinks active" onclick="openTab(event, 'editproduct')">แก้ไขสินค้า </a>
-	<a href="/checking" class="tablinks" onclick="openTab(event, 'transfercheck')">ตรวจสอบ </a>
-	<a href="/tracking" class="tablinks" onclick="openTab(event, 'transfertrack')">ต้องจัดส่ง </a>
-	<a href="/complete" class="tablinks" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
- 	<a href="/cancel" class="tablinks" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
-</div>
-
 <table>
-	<tr>
-	<td class="tabcat" th:each="cat: ${catlist}" style="display: inline" th:if="${catlist != null}">
-		<a onclick="catselected(event)" th:href="@{'/editproduct/' + ${cat.getIdCategory()}}" th:value="${cat.getNameCat()}" th:text="${cat.getNameCat()}"></a>
+	<tr class="tabcat-container">
+	<td th:each="cat: ${catlist}"
+		th:if="${catlist != null}">
+		
+		<a class="tabcat"
+			th:id="|${cat.getIdCategory()}|"
+			th:value="${cat.getNameCat()}"
+			th:text="${cat.getNameCat()}"
+			th:attr="onclick=|openTabCat(event, '${cat.getIdCategory()}')|">
+		</a>
 	</td>
+	<td>
+		<a href="/addcategory" class="cataddheader">+</a>
+	</td>
+	<!-- th:href="@{'/editproduct/' + ${cat.getIdCategory()}}" -->
 	</tr>
 </table>
-<a class="cataddheader" href="/addcategory">+</a>
 
-<table class="tablecat">
+<table id="div2" class="tablecat">
 	<tr class="sep" th:if="${cat != null}">
 		<td>
 			<p>แก้ไขรายละเอียดเพิ่มเติม </p>
-			<form action="#" th:action="@{/updatecat}" th:object="${cat}" method="post" enctype="multipart/form-data">
+			
+			<form action="#" th:action="@{/updatecat}"
+				th:object="${cat}"
+				method="post"
+				enctype="multipart/form-data">
+				
 				<a th:href="@{'/deletecategory/' + ${cat.getIdCategory()}}"
 					th:data-confirm-delete="|ต้องการลบ Category ${cat.getNameCat()}?|"
   					onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
@@ -132,8 +192,12 @@ font-family: 'Bai Jamjuree', sans-serif;
 				<input type="hidden" th:value="${cat.getIdCategory()}" th:field="*{idCategory}">
 				<input type="hidden" th:value="${cat.getNameCat()}" th:field="*{nameCat}">
 				<textarea th:value="${cat.getDetailCat()}" rows="10" cols="20" th:field="*{detailCat}"></textarea><br>
-				<img style="width: 200px;" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${cat.getPhotoCat()}}">
-				<br><input type="file" name="imageFile"><br>
+				
+				<img style="width: 200px;" alt="can't download"
+					th:src="@{'data:image/jpeg;base64,'+${cat.getPhotoCat()}}"><br>
+					
+				<input type="file" accept="image/*" name="imageFile"><br>
+				
 				<input class="btnsubmit" type="submit" value="Submit" name="button"
 					th:data-confirm-submit="|ยืนยันแก้ไขรายละเอียด Category ${cat.getNameCat()}?|"
 					onclick="if (!confirm(this.getAttribute('data-confirm-submit'))) return false">
@@ -171,18 +235,5 @@ font-family: 'Bai Jamjuree', sans-serif;
 	</tr>
 
 </table>
-<script>
-var tabcat = document.getElementsByClassName("tabcat");
-tabcat[0].className += " active";
-
-function catselected(evt) {
-	var tabcat;
-	tabcat = document.getElementsByClassName("tabcat");
-  	for (i = 0; i < tabcat.length; i++) {
-    	tabcat[i].className = tabcat[i].className.replace(" active", "");
-  	}
-  evt.currentTarget.className += " active";
-}
-</script>
 </body>
 </html>

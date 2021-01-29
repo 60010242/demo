@@ -1,31 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา</title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 </head>
-<body>
-	<a href="/editproduct">back</a>
-	<form action="#" th:action="@{/savecat}" th:object="${category}" method="post" enctype="multipart/form-data">
-		<table>
+<script type="text/javascript">
+function reloadParentPage() {
+    var selfUrl = unescape(parent.window.location.pathname);
+    parent.location.reload(true);
+
+    parent.window.location.replace(selfUrl);
+
+    parent.window.location.href = selfUrl;
+}
+
+function RefreshPage(){
+
+	window.opener.parent.location.replace('/editproduct');
+
+	window.close();
+
+}
+
+function Re(){
+	window.setInterval(function(){ window.top.location.reload() }, 2000)
+}
+
+
+</script>
+<body class="overlaypage">
+<div th:replace="Sfirstpage :: navhead"></div>
+<div th:replace="Sfirstpage :: tabseller"></div>
+
+	<!-- <div th:fragment="addcat" class="overlayheader center">เพิ่ม Category </div> -->
+	<form style="width: 100%;" action="#"
+		th:action="@{/savecat}"
+		th:object="${category}"
+		method="post"
+		enctype="multipart/form-data">
+		<table style="width: 100%;" class="center">
 			<tr>
 				<td>ชื่อ Category</td>
-				<td><input type="text" th:field="*{nameCat}" required></td>
+			</tr>
+			<tr>
+				<td><input style="width: 100%; margin-bottom: 20px;" type="text" th:field="*{nameCat}" required></td>
 			</tr>
 			<!-- ต้อง input S/M/L/"(ไม่มี)" ลงใน Name สินค้าก่อน -->
 			<tr>
-				<td>รายละเอียดเพิ่มเติม</td>
-				<td>
-					<textarea th:field="*{detailCat}" rows="10" cols="20"></textarea><br> 
-					<input type="file" name="imageFile">
-				</td>
+				<td style="font-size: 14px;">รายละเอียดเพิ่มเติม</td>
 			</tr>
 			<tr>
-				<td></td>
-				<td><input style="float: right;" type="submit" value="Submit" name="button"></td>
+				<td>
+					<textarea style="width: 100%; resize: none;" th:field="*{detailCat}" rows="10" cols="20"></textarea><br> 
+					<input type="file" accept="image/*" name="imageFile">
+				</td>
+			<tr>
+				<td><input class="close btncheck" style="float: right;"
+						type="submit" value="Submit" name="button"></td>
 			</tr>
 		</table>
 	</form>
-
 </body>
 </html>

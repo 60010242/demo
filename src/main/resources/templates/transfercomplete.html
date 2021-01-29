@@ -76,24 +76,6 @@ function offdetail() {
 </div>
 
 <!-- Main Page -->
-<ul class="navhead">		
-	<li style="float: right;">
-		<a href="/myinfo">
-			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}">
-			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
-		</a>
-	</li>
-	<li style="float: right;"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
-	<a href="/logout" class="logout">logout</a>
-	<div class="white"></div>
-</ul>
-<div class="tab">
-  	<a href="/editproduct" class="tablinks" onclick="openTab(event, 'editproduct')">แก้ไขสินค้า </a>
-	<a href="/checking" class="tablinks" onclick="openTab(event, 'transfercheck')">ตรวจสอบ </a>
-	<a href="/tracking" class="tablinks" onclick="openTab(event, 'transfertrack')">ต้องจัดส่ง </a>
-	<a href="/complete" class="tablinks active" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
- 	<a href="/cancel" class="tablinks" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
-</div>
 <div class="overdetail">
 <details th:each="month : ${monthlist}">
 	<summary th:text="${month.getMonthname()}" th:value="${month.getMonthname()}"></summary>

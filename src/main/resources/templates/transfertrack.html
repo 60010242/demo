@@ -128,24 +128,6 @@ function offdetail() {
 	</div>
 
 <!-- Main Page -->
-<ul class="navhead">		
-	<li style="float: right;">
-		<a href="/myinfo">
-			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}">
-			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
-		</a>
-	</li>
-	<li style="float: right;"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
-	<a href="/logout" class="logout">logout</a>
-	<div class="white"></div>
-</ul>
-<div class="tab">
-  	<a href="/editproduct" class="tablinks" onclick="openTab(event, 'editproduct')">แก้ไขสินค้า </a>
-	<a href="/checking" class="tablinks" onclick="openTab(event, 'transfercheck')">ตรวจสอบ </a>
-	<a href="/tracking" class="tablinks active" onclick="openTab(event, 'transfertrack')">ต้องจัดส่ง </a>
-	<a href="/complete" class="tablinks" onclick="openTab(event, 'transfercomplete')">จัดส่งแล้ว </a>
- 	<a href="/cancel" class="tablinks" onclick="openTab(event, 'transfercancel')">สินค้าที่ถูกยกเลิก </a>
-</div>
 <div class="tabheadersecond">
 	<a href="/createPDF">ปริ๊นชื่อ-ที่อยู่ผู้ซื้อทั้งหมด</a>
 </div>
@@ -169,13 +151,17 @@ function offdetail() {
 							<span th:text="${' x'+ orderlist.getNumber()}"></span>
 			  			</li>
 					</ul>
-					<a th:href="@{'/trantocancel/' + ${userorder.getIdOrder()}}" id="tocancel" onclick="if(!confirm('ต้องการยกเลิกรายการ ' + document.getElementById('valueTD1').innerText)) return false">ยกเลิกรายการ </a>
+					<a th:href="@{'/trantocancel/' + ${userorder.getIdOrder()}}" id="tocancel"
+					th:data-confirm-delete="|ต้องการยกเลิกรายการ #${userorder.getIdOrder()}?|"
+					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ยกเลิกรายการ </a>
 					<a id="detaildata" onclick="ondetail()">รายละเอียด </a>
 				</td>
 			<td style="text-align: center;">
 				<form action="#" th:action="@{'/trantocomplete/' + ${userorder.getIdOrder()}}" method="post">
 					<input style="width: 100pt;" type="text" name="numtrack" id="numtrack">
-					<input type="submit" value="ยืนยัน" onclick="if (!confirm(document.getElementById('valueTD1').innerText + ' ยืนยันเลขพัสดุ ' +document.getElementById('numtrack').value)) return false">
+					<input type="submit" value="ยืนยัน"
+					th:data-confirm-submit="|ยืนยันเลข track ของออเดอร์ #${userorder.getIdOrder()}?|"
+					onclick="if (!confirm(this.getAttribute('data-confirm-submit'))) return false">
 				</form>
 			</td>
 			<input type="hidden" th:value="${userorder.getTotalOrder()}" id="valueTD5">
