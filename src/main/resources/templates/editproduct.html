@@ -50,6 +50,17 @@ a.catdelete img:hover{
 product div{
 	width: 100pt;
 	display: inline-table;
+	position: relative;
+}
+product .smlxl span{
+	width: 48pt;
+	display: inline-table;
+	position: relative;
+}
+.removeproduct{
+	position: absolute;
+	top: 2%;
+	right: 2%;
 }
 
 .tablecat{
@@ -175,16 +186,18 @@ function off() {
 					</a>
 					<a th:href="@{'/editshowproduct/' + ${product.getIdProduct()} +'/' + ${cat.getIdCategory()}}"
 						th:data-confirm-delete="|ต้องการลบสินค้า ${product.getNameProduct()}?|"
-  						onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
-  						Delete</a><br>
-					<div th:if="${product.getNumberStock() == null}">
-						S <span th:text="${product.getS()}"></span><br>
-						M <span th:text="${product.getM()}"></span><br>
-						L <span th:text="${product.getL()}"></span><br>
-						XL <span th:text="${product.getXl()}"></span><br>
+  						onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
+  						class="removeproduct">
+  						<img style="width: 30px; height: 30px;" th:src="@{/Icon/removeminus.png}">
+  						</a><br>
+					<div class="smlxl" th:if="${product.getNumberStock() == null}">
+						<span th:text="|S&nbsp;&nbsp;&nbsp;&nbsp;${product.getS()}|"></span>
+						<span th:text="|M&nbsp;&nbsp;&nbsp;&nbsp;${product.getM()}|"></span><br>
+						<span th:text="|L&nbsp;&nbsp;&nbsp;&nbsp;${product.getL()}|"></span>
+						<span th:text="|XL&nbsp;&nbsp;&nbsp;${product.getXl()}|"></span><br>
 					</div>
 					<div th:if="${product.getNumberStock() != null}">
-						Stock <span th:text="${product.getNumberStock()}"></span><br>
+						<span th:text="|จำนวน&nbsp;&nbsp;&nbsp;&nbsp;${product.getNumberStock()}|"></span><br>
 					</div>
 				</div>
 			</product>
