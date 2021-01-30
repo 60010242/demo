@@ -66,7 +66,7 @@
 </style>
 <script>
 $(document).ready(function(){
-	$.ajax({url: "/editproduct", success: function(result){
+	$.ajax({url: "/editproductpages", success: function(result){
     	$("#div1").html(result);
 	}});
 })
@@ -102,7 +102,7 @@ function openTab(evt, buyerselect) {
 	</ul>
 
 <div th:fragment="tabseller" class="tab">
-  	<a class="tablinks active" onclick="openTab(event, 'editproduct')">แก้ไขสินค้า </a>
+  	<a class="tablinks active" onclick="openTab(event, 'editproductpages')">แก้ไขสินค้า </a>
 	<a class="tablinks" onclick="openTab(event, 'checking')">ตรวจสอบ </a>
 	<a class="tablinks" onclick="openTab(event, 'tracking')">ต้องจัดส่ง </a>
 	<a class="tablinks" onclick="openTab(event, 'complete')">จัดส่งแล้ว </a>

@@ -6,85 +6,63 @@
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style>
-.tabcat-container {
-	position: fixed;
-	top: 100px;
-	left: 0;
+.cathead{
 	width: 100%;
-	height: 25pt;
-    font-weight: bold;
-  	overflow: hidden;
-  	box-shadow: 2px 2px 5px gray;
-	background-color: var(--browntab);
-	z-index: 800;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 20px;
 }
-.tabcat-container td{
-	padding: 0;
-}
-.tabcat-container a{
-	background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  line-height: 25pt;
-  width: 80pt;
-  transition: 0.3s;
-  font-size: 15px;
-  text-align: center;
-  color: blue;
+catname{
+	font-size: 20px;
+	font-weight: bold;
 }
 
-.tabcat-container a.active {
-	color: red;
+a.catdelete img{
+	margin-left: 10px;
+	width: 14px;
+	height: 14px;
 }
-a.catheader{
-	text-decoration: none;
-	background-color: var(--brown);
-	color: white;
-	display: inline-block;
-	width: 40pt;
-	height: 40pt;
-	text-align: center;
-	line-height: 40pt;
-}
-a.cataddheader{
-	color: white;
-	text-decoration: none;
-	vertical-align: middle;
-	font-size: 20pt;
-	line-height: 25pt;
-	cursor: pointer;
-}
-a.catdelete{
-	background-color: red;
-	text-align: center;
-	text-decoration: none;
-	border-radius: 5pt;
-	width: 100pt;
-	height: 20pt;
-	line-height: 20pt;
-	color: white;
-	float: right;
-}
-a.catdelete:hover{
-	background-color: darkred;
-	width: 98pt;
-	height: 18pt;
-	line-height: 18pt;
+a.catdelete img:hover{
 	font-weight: bolder;
-	border: outset 1pt white;
+	filter: grayscale(100%);
 }
+.detailcat{
+	width: 80%;
+	height: 50px;
+	margin: 0 10%;
+	color: var(--grey);
+	resize: none;
+}
+.img-cat-container{
+	margin-top: 20px;
+	flex-flow: column;
+}
+
+.product-container{
+	padding: 0 10%;
+	display: inline;
+}
+.product-container product{
+	margin: 0 5%;
+	width: 100pt;
+}
+product div{
+	width: 100pt;
+	display: inline-table;
+}
+
 .tablecat{
 	margin: 0 10%;
+	margin-top: 20px;
 	width: 80%;
-	background-color: white;
+	background-color: rgba(255,255,255,60%);
 }
 .imgproduct{
-	width: 60pt;
-	height: 60pt;
-	border-radius: 60pt;
-	background-color: black;
+	width: 100pt;
+	height: 100pt;
+	border-radius: 100pt;
+	background-color: white;
 }
 .btnsubmit{
 font-family: 'Bai Jamjuree', sans-serif;
@@ -95,6 +73,7 @@ font-family: 'Bai Jamjuree', sans-serif;
 	text-align: center;
 	color: white;
 	border: none;
+	margin-right: 10%;
 	float: right;
 	cursor: pointer;
 }
@@ -107,14 +86,17 @@ font-family: 'Bai Jamjuree', sans-serif;
 	border: outset 1pt white;
 }
 .sep>td{
-	border: 4pt solid var(--brown);
 	padding: 5%;
 }
 </style>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 
-$('.tabcat-container td:first-child a').addClass("active");
+$(document).ready(function(){
+	console.log(location.href);
+})
+
+//$('.tabcat-container td a').addClass("active");
 
 function oncategory() {
 	document.getElementById("overlayaddcat").style.visibility = "visible";
@@ -124,23 +106,7 @@ function off() {
 	document.getElementById("overlayaddcat").style.visibility = "hidden";
 	console.log(window.getComputedStyle(document.getElementById('overlayaddcat')).visibility);
 }
-function openTabCat(evt, buyerselectcat) {
-	  var i, tabcats, tc;
-	  
-	  tabcats = document.getElementsByClassName("tabcat");
-	  tc = document.getElementById(buyerselectcat);
-	  
-	  for (i = 0; i < tabcats.length; i++) {
-	    tabcats[i].className = tabcats[i].className.replace(" active", "");
-	  }
-	  
-	  tc.className = tc.className.replace(" active", "");
-	  evt.currentTarget.className += " active";
-	  console.log(tc);
-	  $.ajax({url: "/editproduct/" + buyerselectcat, success: function(result){
-	    	$("#div2").html(result);
-	}});
-}
+
 </script>
 
 </head>
@@ -155,61 +121,49 @@ function openTabCat(evt, buyerselectcat) {
 </div> -->
 	
 <!-- Main Page -->
-<table>
-	<tr class="tabcat-container">
-	<td th:each="cat: ${catlist}"
-		th:if="${catlist != null}">
-		
-		<a class="tabcat"
-			th:id="|${cat.getIdCategory()}|"
-			th:value="${cat.getNameCat()}"
-			th:text="${cat.getNameCat()}"
-			th:attr="onclick=|openTabCat(event, '${cat.getIdCategory()}')|">
-		</a>
-	</td>
-	<td>
-		<a href="/addcategory" class="cataddheader">+</a>
-	</td>
-	<!-- th:href="@{'/editproduct/' + ${cat.getIdCategory()}}" -->
-	</tr>
-</table>
 
-<table id="div2" class="tablecat">
+
+<table class="tablecat">
 	<tr class="sep" th:if="${cat != null}">
 		<td>
-			<p>แก้ไขรายละเอียดเพิ่มเติม </p>
+			<div class="cathead">
+				สินค้าประเภท <catname th:text="${cat.getNameCat()}"/>
+				<a th:href="@{'/deletecategory/' + ${cat.getIdCategory()}}"
+					th:data-confirm-delete="|ต้องการลบ Category ${cat.getNameCat()}?|"
+  					onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
+  					class="catdelete"><img th:src="@{/Icon/redtrash.png}"></a>
+			</div>
 			
 			<form action="#" th:action="@{/updatecat}"
 				th:object="${cat}"
 				method="post"
 				enctype="multipart/form-data">
 				
-				<a th:href="@{'/deletecategory/' + ${cat.getIdCategory()}}"
-					th:data-confirm-delete="|ต้องการลบ Category ${cat.getNameCat()}?|"
-  					onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
-  					class="catdelete">ลบ category</a>
-  				
+				<div sty>
 				<input type="hidden" th:value="${cat.getIdCategory()}" th:field="*{idCategory}">
 				<input type="hidden" th:value="${cat.getNameCat()}" th:field="*{nameCat}">
-				<textarea th:value="${cat.getDetailCat()}" rows="10" cols="20" th:field="*{detailCat}"></textarea><br>
+				<textarea class="detailcat" th:value="${cat.getDetailCat()}" rows="10" cols="20" th:field="*{detailCat}"></textarea>
 				
-				<img style="width: 200px;" alt="can't download"
+				<div class="img-cat-container center">
+					<img style="width: 80%;" alt="can't download"
 					th:src="@{'data:image/jpeg;base64,'+${cat.getPhotoCat()}}"><br>
-					
-				<input type="file" accept="image/*" name="imageFile"><br>
+					<input type="file" accept="image/*" name="imageFile">
+				</div>
+				</div>
 				
-				<input class="btnsubmit" type="submit" value="Submit" name="button"
+				<div>
+					<input class="btnsubmit" type="submit" value="Submit" name="button"
 					th:data-confirm-submit="|ยืนยันแก้ไขรายละเอียด Category ${cat.getNameCat()}?|"
-					onclick="if (!confirm(this.getAttribute('data-confirm-submit'))) return false">
+					onclick="if (!confirm(this.getAttribute('data-confirm-submit'))) return false"></div>
 			</form>
 		</td>
 	</tr>
 	<tr class="sep" th:if="${cat != null}">
-		<td>
-			<div class="center">
-				<a th:href="@{'/addoneproduct/' + ${cat.getIdCategory()}}">เพิ่มสินค้า </a>
-			</div>
-			<div th:each="product: ${products}">
+		<td class="product-container">
+			<product>
+				<a th:href="@{'/addoneproduct/' + ${cat.getIdCategory()}}"><img class="imgproduct" th:src="@{/Icon/addplus.png}"></a>
+			</product>
+			<product th:each="product: ${products}">
 				<div th:if="${product.getEnable()==1}">
 					<a th:href="@{'/editoneproduct/' + ${product.getIdProduct()}}">
 						<img class="imgproduct" src="">
@@ -219,7 +173,10 @@ function openTabCat(evt, buyerselectcat) {
 					<a th:href="@{'/editoneproduct/' + ${product.getIdProduct()}}">
 						<span th:text="${product.getNameProduct()}"></span>
 					</a>
-					<a th:href="@{'/editshowproduct/' + ${product.getIdProduct()} +'/' + ${cat.getIdCategory()}}">>Delete</a><br>
+					<a th:href="@{'/editshowproduct/' + ${product.getIdProduct()} +'/' + ${cat.getIdCategory()}}"
+						th:data-confirm-delete="|ต้องการลบสินค้า ${product.getNameProduct()}?|"
+  						onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+  						Delete</a><br>
 					<div th:if="${product.getNumberStock() == null}">
 						S <span th:text="${product.getS()}"></span><br>
 						M <span th:text="${product.getM()}"></span><br>
@@ -230,7 +187,7 @@ function openTabCat(evt, buyerselectcat) {
 						Stock <span th:text="${product.getNumberStock()}"></span><br>
 					</div>
 				</div>
-			</div>
+			</product>
 		</td>
 	</tr>
 

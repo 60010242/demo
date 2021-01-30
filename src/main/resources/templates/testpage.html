@@ -48,12 +48,6 @@ $(document).ready(function(){
 	$.ajax({url: "/editproduct", success: function(result){
 	      $("#div2").html(result);
 	  }});
-	
-	  $("button").click(function(){
-	    $.ajax({url: "/", success: function(result){
-	      $("#div1").html(result);
-	    }});
-	  });
 	});
 	
 function openTab(evt, buyerselect) {

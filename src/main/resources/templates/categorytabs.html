@@ -13,12 +13,16 @@
 	top: 100px;
 	left: 0;
 	width: 100%;
-	height: 30pt;
+	height: 25pt;
     font-weight: bold;
   	overflow: hidden;
   	box-shadow: 2px 2px 5px gray;
 	background-color: var(--browntab);
 	z-index: 800;
+}
+
+.tabcat-container td{
+	padding: 0;
 }
 
 .tabcat-container a{
@@ -27,16 +31,25 @@
   border: none;
   outline: none;
   cursor: pointer;
-  line-height: 30pt;
-  width: 100pt;
+  line-height: 25pt;
+  width: 80pt;
   transition: 0.3s;
-  font-size: 17px;
+  font-size: 15px;
   text-align: center;
   color: blue;
 }
 
 .tabcat-container a.active {
 	color: red;
+}
+
+a.cataddheader{
+	color: white;
+	text-decoration: none;
+	vertical-align: middle;
+	font-size: 18pt;
+	line-height: 25pt;
+	cursor: pointer;
 }
 </style>
 <script type="text/javascript">
@@ -48,47 +61,26 @@ $(document).ready(function(){
 	$('.tabcat-container td:first-child a').addClass("active");
 	$.ajax({url: "/editproduct", success: function(result){
 	      $("#div2").html(result);
-	  }});
-	
-	  $("button").click(function(){
-	    $.ajax({url: "/", success: function(result){
-	      $("#div1").html(result);
-	    }});
-	  });
-	});
+	}});
+});
 	
 	
-function openTab(evt, buyerselectcat) {
-	  var i, tabcats;
-	  var urls = "/editproduct/"+ buyerselectcat;
+function openTabCat(evt, buyerselectcat) {
+	  var i, tabcats, tc;
 	  
 	  tabcats = document.getElementsByClassName("tabcat");
+	  
+	  console.log(tabcats[0].className);
 	  for (i = 0; i < tabcats.length; i++) {
 	    tabcats[i].className = tabcats[i].className.replace(" active", "");
 	  }
 	  
 	  evt.currentTarget.className += " active";
 	  
-	  $.ajax({url: urls, success: function(result){
-	      $("#div2").html(result);
-
-	      console.log(urls);
-	  }});
+	  $.ajax({url: "/editproduct/" + buyerselectcat, success: function(result){
+	    	$("#div2").html(result);
+	}});
 }
-
-/*function openTab(evt, buyerselect) {
-	  var i, tablinks;
-	  
-	  tablinks = document.getElementsByClassName("tablinks");
-	  for (i = 0; i < tablinks.length; i++) {
-	    tablinks[i].className = tablinks[i].className.replace(" active", "");
-	  }
-
-	  evt.currentTarget.className += " active";
-	  $.ajax({url: "/"+ buyerselect, success: function(result){
-	      $("#div1").html(result);
-	  }});
-}*/
 
 </script>
 </head>
@@ -103,16 +95,14 @@ function openTab(evt, buyerselectcat) {
 		<a class="tabcat"
 			th:value="${cat.getNameCat()}"
 			th:text="${cat.getNameCat()}"
-			th:attr="onclick=|openTab(event, '${cat.getIdCategory()}')|">
+			th:attr="onclick=|openTabCat(event, '${cat.getIdCategory()}')|">
 		</a>
 	</td>
-	<!-- th:href="@{'/editproduct/' + ${cat.getIdCategory()}}" -->
 	
-	</tr>
-	<tr>
-		<td>
-			<a href="/addcategory" class="cataddheader">+</a>
-		</td>
+	<td>
+		<a href="/addcategory" class="cataddheader">+</a>
+	</td>
+	
 	</tr>
 </table>
 
