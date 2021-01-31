@@ -3,6 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
@@ -78,11 +79,32 @@ function ondetail() {
 	var valueTD2 = document.getElementById("valueTD2").innerText;
 	var valueTD5 = document.getElementById("valueTD5").value;
 	var valueTD6 = document.getElementById("valueTD6").value;
+	var idorder = document.getElementById("idorder").value;
+	var rowtotal = document.getElementById("rowtotal");
+	var table = document.getElementById("table");
 	document.getElementById("overlaydetail").style.visibility = "visible";
 	document.getElementById("overlaytableTD1").innerHTML = valueTD1;
   	document.getElementById("overlaytableTD2").innerHTML = valueTD2;
   	document.getElementById("overlaytableTD5").innerHTML = valueTD5;
   	document.getElementById("overlaytableTD6").innerHTML = valueTD6;
+  	 $.ajax({
+  	      url:"http://localhost:7070/testajax?id="+idorder,
+  	    })
+  	      .done(function( data ) {
+  	    	  $.each( data, function(key,val) {
+  	    		    var row = document.createElement("TR");
+  	    		  	var c1 = document.createElement("TD");
+  	    			var c2 = document.createElement("TD");
+  	    			var c3 = document.createElement("TD");
+  	    			c1.innerHTML = val.name;
+  	    			c2.innerHTML = val.num;
+  	    			c3.innerHTML = val.cost;
+  	    			row.appendChild(c1);
+  	    			row.appendChild(c2);
+  	    			row.appendChild(c3);
+  	    			table.insertBefore(row,rowtotal);
+  	    		  });
+  	      });
 }
 
 function offdetail() {
@@ -96,7 +118,7 @@ function offdetail() {
 	<div class="center" id="overlaydetail" onclick="offdetail()">
 		<div class="checked center">
 			<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
-			<table class="tabledetail" style="width: 80%;">
+			<table id="table" class="tabledetail" style="width: 80%;">
 				<tr>
 					<td>รหัส order</td>
 					<td id="overlaytableTD1"></td>
@@ -115,7 +137,7 @@ function offdetail() {
 					<td>จำนวน</td>
 					<td>ราคา </td>
 				</tr>
-				<tr>
+				<tr id="rowtotal">
 					<td>ยอดรวม </td>
 					<td id="overlaytableTD5"></td>
 				</tr>
@@ -166,6 +188,7 @@ function offdetail() {
 			</td>
 			<input type="hidden" th:value="${userorder.getTotalOrder()}" id="valueTD5">
 			<input type="hidden" th:value="${userorder.getUserprofile().getAddress()}" id="valueTD6">
+			<input type="hidden" th:value="${userorder.getIdOrder()}" id="idorder">
 		</tr>
 		</table>
 	</details>

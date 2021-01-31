@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $("p").hide();
+  });
+  $("#bts").click(function(){
+    $.ajax({
+      url:"http://localhost:7070/testajax?id=ok",
+    })
+      .done(function( data ) {
+    	  $.each( data, function(key,val) {
+    		    alert(val.test);
+    		    $("#one").val(val.test);
+    		  });
+      });
+  });
+});
+</script>
+</head>
+<body>
+
+<h2>This is a heading</h2>
+
+<p>This is a paragraph.</p>
+<p>This is another paragraph.</p>
+
+<button>Click me</button>
+<input type="button" id="bts" name="bts" value="TEST"/>
+<input type="text" id="one"/>
+
+</body>
+</html>

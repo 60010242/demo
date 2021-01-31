@@ -26,7 +26,7 @@ public class GeneralController {
 		if(user.getType().equalsIgnoreCase("Customer")) {
 			web = "firstpage";
 		}else if(user.getType().equalsIgnoreCase("Seller")) {
-			web = "Sfirstpage";//"redirect:/editproduct";
+			web = "redirect:/editproduct";//"redirect:/editproduct";
 		}
 		return web;
 	}

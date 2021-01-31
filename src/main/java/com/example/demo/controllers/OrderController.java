@@ -19,13 +19,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.Daygroup;
 import com.example.demo.Monthgroup;
+import com.example.demo.Samplejson;
 import com.example.demo.entities.orderdetail;
+import com.example.demo.entities.productdetail;
 import com.example.demo.entities.userorder;
 import com.example.demo.repositories.DeliveryRepository;
 import com.example.demo.repositories.OrderDetailRepository;
+import com.example.demo.repositories.ProductDetailRepository;
 import com.example.demo.repositories.UserOrderRepository;
 import com.example.demo.services.CreatePDF;
 import com.itextpdf.text.Document;
@@ -39,6 +43,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderDetailRepository orderdetailRepo;
+	
+	@Autowired
+	private ProductDetailRepository productRepo;
 	
 	@Autowired
 	private CreatePDF pdf;
@@ -329,4 +336,28 @@ public class OrderController {
 	public String getMonth(int month) {
 	    return new DateFormatSymbols().getMonths()[month-1];
 	}
+	
+	@GetMapping("/gotoajax")
+	public String gotoajax() {
+			return "testajax";
+	}
+	
+	@GetMapping("/testajax")
+	@ResponseBody
+	public List<Samplejson> getFoos(@RequestParam int id) {
+		Samplejson json = new Samplejson();
+		List<orderdetail> orderlist = new ArrayList<orderdetail>();
+		orderlist = orderdetailRepo.getByIdorder(id);
+	    List<Samplejson> jsList = new ArrayList<Samplejson>();
+	    for(orderdetail order : orderlist) {
+	    	json = new Samplejson();
+	    	productdetail product = productRepo.getByIdproduct(order.getIdProduct());
+	    	json.setName(product.getNameProduct());
+	    	json.setNum(order.getNumber());
+	    	json.setCost(order.getRealPrice());
+	    	jsList.add(json);
+	    }
+		return jsList;
+	}
+	
 }
