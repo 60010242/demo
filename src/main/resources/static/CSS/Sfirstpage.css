@@ -7,6 +7,7 @@
   --brownbg: #f4ebc1;
   --browntab: #e8cca3;
   --green: #79d70f;
+  --blue: #1592E6;
   --grey: #707070;
 }
 
@@ -114,8 +115,11 @@ close{
 
 
 /* Seller First page */
-#overlay, #overlaydetail, #overlayaccount , #overlaydelivery,
-#overlayaddcat, #overlayeditcat{
+#overlay, #overlaydetail, #overlayaccount,
+#overlaydelivery,
+#overlayaddproduct,
+#overlayaddcat,
+#overlayeditcat{
   position: fixed;
   visibility: hidden;
   width: 100%;
@@ -128,7 +132,7 @@ close{
 }
 .overlaypage{
 	background-color: white;
-	margin: 70pt 2% 2% 2%;
+	margin: 2%;
 }
 .overlaypage input[type=text],
  .overlaypage input[type=number],
@@ -143,6 +147,7 @@ close{
 	width: 50%;
 	height: 80%;
 	cursor: default;
+	padding-top: 80px;
 	flex-flow: column;
 }
 .checked iframe{

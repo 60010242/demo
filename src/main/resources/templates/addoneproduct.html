@@ -4,15 +4,33 @@
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
 <style type="text/css">
-td{
-	border: solid 2px gray;
+
+table{
+	border-collapse: collapse;
+}
+.overlaypage form{
+	width: 80%;
+	margin: 0 10%;
+}
+
+.overlaypage form table tr{
+	border: 20px solid transparent;
+}
+
+input[type="number"]{
+	width: 50px;
 }
 </style>
 <script>
 	function show(x){
 		//if product.getSize != Null
 		if(x == 'y'){
-			document.getElementById("num").innerHTML = 'S <input type="number" value="s" name="numS">M <input type="number" value="m" name="numM"><br>L <input type="number" value="l" name="numL">XL <input type="number" value="xl" name="numXL">'
+			document.getElementById("num").innerHTML = '<div id="num">			\
+				S&nbsp;&nbsp;<input type="number" value="s" name="numS">&nbsp;&nbsp;&nbsp;	\
+				M&nbsp;&nbsp;<input type="number" value="m" name="numM"><br>	\
+				L&nbsp;&nbsp;<input type="number" value="l" name="numL">&nbsp;&nbsp;&nbsp;	\
+				XL&nbsp;<input type="number" value="xl" name="numXL">			\
+			</div>'
 		}
 		//if product.getSize == Null
 		if(x == 'n'){
@@ -21,9 +39,14 @@ td{
 	}
 </script>
 </head>
+
 <body>
-	<a href="/editproduct">back</a>
-	<form action="#" th:action="@{/saveproduct}" th:object="${product}" method="post" enctype="multipart/form-data">
+<div class="overlaypage">
+	<form
+		action="#" th:action="@{/saveproduct}"
+		th:object="${product}"
+		method="post"
+		enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>ใส่รูป </td>
@@ -35,7 +58,7 @@ td{
 			</tr>
 			<tr>
 				<td>ราคา </td>
-				<td><input type="number" th:field="*{price}"></td>
+				<td><input type="number" th:field="*{price}"> บาท</td>
 			</tr>
 			<!-- ต้อง input S/M/L/"(ไม่มี)" ลงใน Name สินค้าก่อน -->
 			<tr>
@@ -44,22 +67,22 @@ td{
 					<input type="radio" name="have" value="y" onclick="show('y')" checked="checked"> มี size
 					<input type="radio" name="have" value="n" onclick="show('n')"> ไม่มี size
 					<div id="num">
-						S <input type="number" value="s" name="numS">
-						M <input type="number" value="m" name="numM"><br>
-						L <input type="number" value="l" name="numL">
-						XL <input type="number" value="xl" name="numXL">
+						S&nbsp;&nbsp;<input type="number" value="s" name="numS">&nbsp;&nbsp;&nbsp;
+						M&nbsp;&nbsp;<input type="number" value="m" name="numM"><br>
+						L&nbsp;&nbsp;<input type="number" value="l" name="numL">&nbsp;&nbsp;&nbsp;
+						XL&nbsp;<input type="number" value="xl" name="numXL">
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td>น้ำหนักสินค้า </td>
-				<td><input type="number" th:field="*{weight}">กรัม</td>
+				<td><input type="number" th:field="*{weight}"> กรัม</td>
 			</tr>
 		</table>
 		<input type="hidden" th:value="${product.getCategory()}" th:field="*{category}">
 		<input type="hidden" th:value="${idcat}" name="idcat">
-		<input type="submit" value="Submit" name="button">
+		<input class="overlayconfirm" type="submit" value="Submit" name="button">
 	</form>
-	
+</div>
 </body>
 </html>

@@ -30,12 +30,10 @@ function Re(){
 
 
 </script>
-<body class="overlaypage">
-<div th:replace="Sfirstpage :: navhead"></div>
-<div th:replace="Sfirstpage :: tabseller"></div>
-
+<body>
+<div class="overlaypage">
 	<!-- <div th:fragment="addcat" class="overlayheader center">เพิ่ม Category </div> -->
-	<form style="width: 100%;" action="#"
+	<form action="#"
 		th:action="@{/savecat}"
 		th:object="${category}"
 		method="post"
@@ -57,10 +55,11 @@ function Re(){
 					<input type="file" accept="image/*" name="imageFile">
 				</td>
 			<tr>
-				<td><input class="close btncheck" style="float: right;"
+				<td><input class="overlayconfirm" style="float: right;"
 						type="submit" value="Submit" name="button"></td>
 			</tr>
 		</table>
 	</form>
+</div>
 </body>
 </html>

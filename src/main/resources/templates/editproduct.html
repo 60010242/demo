@@ -51,30 +51,41 @@ product div{
 	width: 100pt;
 	display: inline-table;
 	position: relative;
+	color: var(--grey);
+}
+product a{
+	color: var(--brown);
+	text-decoration: none;
+	font-weight: bold;
+	font-style: italic;
 }
 product .smlxl span{
 	width: 48pt;
 	display: inline-table;
 	position: relative;
 }
+.addproduct{
+	cursor: pointer;
+	filter: invert(85%) sepia(3%) saturate(5021%) hue-rotate(342deg) brightness(89%) contrast(78%);
+}
 .removeproduct{
 	position: absolute;
 	top: 2%;
 	right: 2%;
+	filter: invert(18%) sepia(92%) saturate(7486%) hue-rotate(359deg) brightness(106%) contrast(109%);
 }
 
-.tablecat{
-	margin: 0 10%;
-	margin-top: 20px;
-	width: 80%;
+.tablecat-whitebg{
+	width: 100%;
+	border: 0;
 	background-color: rgba(255,255,255,60%);
 }
 .imgproduct{
 	width: 100pt;
 	height: 100pt;
 	border-radius: 100pt;
-	background-color: white;
 }
+
 .btnsubmit{
 font-family: 'Bai Jamjuree', sans-serif;
 	background-color: var(--green);
@@ -105,36 +116,34 @@ font-family: 'Bai Jamjuree', sans-serif;
 
 $(document).ready(function(){
 	console.log(location.href);
+	console.log(document.getElementById("idcat").value)
+	$.ajax({url: "/addoneproduct/"+document.getElementById("idcat").value, success: function(result){
+	      $("#addproductpage").html(result);
+	}});
 })
 
 //$('.tabcat-container td a').addClass("active");
 
-function oncategory() {
-	document.getElementById("overlayaddcat").style.visibility = "visible";
-	console.log(window.getComputedStyle(document.getElementById('overlayaddcat')).visibility);
+function onaddproduct() {
+	document.getElementById("overlayaddproduct").style.visibility = "visible";
 }
-function off() {
-	document.getElementById("overlayaddcat").style.visibility = "hidden";
-	console.log(window.getComputedStyle(document.getElementById('overlayaddcat')).visibility);
-}
-
 </script>
 
 </head>
 
 <body>
-<!-- overlay 
-<div id="overlayaddcat" class="overlayaddcat center" onclick="off()">
+
+<div id="overlayaddproduct" class="overlayaddcat center">
 	<div class="checked">
-		<iframe th:src="@{/addcategory}"></iframe>
-		<close>X</close>
+		<div class="overlayheader center">เพิ่มสินค้า</div>
+		<div id="addproductpage"></div>
+		<close onclick="off()">X</close>
 	</div>
-</div> -->
-	
+</div>
+
 <!-- Main Page -->
 
-
-<table class="tablecat">
+<table class="tablecat-whitebg">
 	<tr class="sep" th:if="${cat != null}">
 		<td>
 			<div class="cathead">
@@ -150,9 +159,9 @@ function off() {
 				method="post"
 				enctype="multipart/form-data">
 				
-				<div sty>
-				<input type="hidden" th:value="${cat.getIdCategory()}" th:field="*{idCategory}">
-				<input type="hidden" th:value="${cat.getNameCat()}" th:field="*{nameCat}">
+				<div>
+				<input id="idcat" type="hidden" th:value="${cat.getIdCategory()}" th:field="*{idCategory}">
+				<input id="namecat" type="hidden" th:value="${cat.getNameCat()}" th:field="*{nameCat}">
 				<textarea class="detailcat" th:value="${cat.getDetailCat()}" rows="10" cols="20" th:field="*{detailCat}"></textarea>
 				
 				<div class="img-cat-container center">
@@ -169,10 +178,17 @@ function off() {
 			</form>
 		</td>
 	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
 	<tr class="sep" th:if="${cat != null}">
 		<td class="product-container">
 			<product>
-				<a th:href="@{'/addoneproduct/' + ${cat.getIdCategory()}}"><img class="imgproduct" th:src="@{/Icon/addplus.png}"></a>
+				<a onclick="onaddproduct()"><img class="imgproduct addproduct" th:src="@{/Icon/addplus.png}"></a>
+				<!-- th:href="@{'/addoneproduct/' + ${cat.getIdCategory()}}" -->
 			</product>
 			<product th:each="product: ${products}">
 				<div th:if="${product.getEnable()==1}">

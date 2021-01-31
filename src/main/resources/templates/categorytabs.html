@@ -9,47 +9,45 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style type="text/css">
 .tabcat-container {
-	position: fixed;
-	top: 100px;
-	left: 0;
+	top: 100pt;
 	width: 100%;
 	height: 25pt;
-    font-weight: bold;
   	overflow: hidden;
-  	box-shadow: 2px 2px 5px gray;
-	background-color: var(--browntab);
 	z-index: 800;
 }
 
 .tabcat-container td{
 	padding: 0;
+	width: 100%;
 }
 
-.tabcat-container a{
+.tabcat{
 	background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  line-height: 25pt;
-  width: 80pt;
-  transition: 0.3s;
-  font-size: 15px;
-  text-align: center;
-  color: blue;
+  	float: left;
+  	border: none;
+  	outline: none;
+  	cursor: pointer;
+  	line-height: 25pt;
+  	width: 100%;
+  	transition: 0.3s;
+  	font-size: 15px;
+  	text-align: center;
+  	font-weight: normal;
+  	color: var(--grey);
 }
 
-.tabcat-container a.active {
-	color: red;
+.tabcat-container td a.active {
+	background-color: rgba(255,255,255,60%);
+	border-radius: 15px 0 0 15px;
+	border-top: 2px solid transparent;
+  	border-bottom: 2px solid transparent;
+  	border-left: 4px solid var(--blue);
+	font-weight: bold;
 }
 
-a.cataddheader{
-	color: white;
-	text-decoration: none;
-	vertical-align: middle;
-	font-size: 18pt;
-	line-height: 25pt;
-	cursor: pointer;
+.cataddheader{
+	color: var(--blue);
+	font-style: italic;
 }
 </style>
 <script type="text/javascript">
@@ -58,9 +56,12 @@ a.cataddheader{
 
 $(document).ready(function(){
 	
-	$('.tabcat-container td:first-child a').addClass("active");
+	$('.tabcat-container tr:first-child a').addClass("active");
 	$.ajax({url: "/editproduct", success: function(result){
-	      $("#div2").html(result);
+	      $("#editproductmain").html(result);
+	}});
+	$.ajax({url: "/addcategory", success: function(result){
+	      $("#addcatpage").html(result);
 	}});
 });
 	
@@ -78,35 +79,52 @@ function openTabCat(evt, buyerselectcat) {
 	  evt.currentTarget.className += " active";
 	  
 	  $.ajax({url: "/editproduct/" + buyerselectcat, success: function(result){
-	    	$("#div2").html(result);
+	    	$("#editproductmain").html(result);
 	}});
+}
+
+function oncategory() {
+	document.getElementById("overlayaddcat").style.visibility = "visible";
+}
+function off() {
+	document.getElementById("overlayaddcat").style.visibility = "hidden";
+	document.getElementById("overlayaddproduct").style.visibility = "hidden";
 }
 
 </script>
 </head>
 <body>
+<!-- overlay  -->
+<div id="overlayaddcat" class="overlayaddcat center">
+	<div class="checked">
+		<div class="overlayheader center">เพิ่ม Category</div>
+		<div id="addcatpage"></div>
+		<close onclick="off()">X</close>
+	</div>
+</div>
 
-
-<table>
-	<tr class="tabcat-container">
-	<td th:each="cat: ${catlist}"
+<div style="width: 100%;">
+<div style="width: 12%; float: left; border: 0; position: fixed;">
+<table class="tabcat-container">
+	<tr class="center"
+		th:each="cat: ${catlist}"
 		th:if="${catlist != null}">
-		
-		<a class="tabcat"
-			th:value="${cat.getNameCat()}"
-			th:text="${cat.getNameCat()}"
-			th:attr="onclick=|openTabCat(event, '${cat.getIdCategory()}')|">
-		</a>
-	</td>
-	
-	<td>
-		<a href="/addcategory" class="cataddheader">+</a>
-	</td>
-	
+		<td>
+			<a class="tabcat"
+				th:value="${cat.getNameCat()}"
+				th:text="${cat.getNameCat()}"
+				th:attr="onclick=|openTabCat(event, '${cat.getIdCategory()}')|">
+			</a>
+		</td>
+	</tr>
+	<tr class="center">
+		<td>
+			<a onclick="oncategory()" class="tabcat cataddheader">+addcategory</a>
+		</td>
 	</tr>
 </table>
-
-<div id="div2"></div>
-
+</div>
+<div style="width: 85%; float: right; border: 0;" id="editproductmain"></div>
+</div>
 </body>
 </html>
