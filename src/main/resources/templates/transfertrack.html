@@ -80,7 +80,6 @@ function ondetail() {
 	var valueTD5 = document.getElementById("valueTD5").value;
 	var valueTD6 = document.getElementById("valueTD6").value;
 	var idorder = document.getElementById("idorder").value;
-	var rowtotal = document.getElementById("rowtotal");
 	var table = document.getElementById("table");
 	document.getElementById("overlaydetail").style.visibility = "visible";
 	document.getElementById("overlaytableTD1").innerHTML = valueTD1;
@@ -93,16 +92,14 @@ function ondetail() {
   	      .done(function( data ) {
   	    	  $.each( data, function(key,val) {
   	    		    var row = document.createElement("TR");
-  	    		  	var c1 = document.createElement("TD");
-  	    			var c2 = document.createElement("TD");
-  	    			var c3 = document.createElement("TD");
+  	    		    var rowtotal = document.getElementById("rowtotal");
+	  	    		rowtotal.parentNode.insertBefore(row, rowtotal);
+	  	    		var c1 = row.insertCell(0);
+	  	    		var c2 = row.insertCell(1);
+	  	    		var c3 = row.insertCell(2);
   	    			c1.innerHTML = val.name;
   	    			c2.innerHTML = val.num;
   	    			c3.innerHTML = val.cost;
-  	    			row.appendChild(c1);
-  	    			row.appendChild(c2);
-  	    			row.appendChild(c3);
-  	    			table.insertBefore(row,rowtotal);
   	    		  });
   	      });
 }
@@ -121,29 +118,24 @@ function offdetail() {
 			<table id="table" class="tabledetail" style="width: 80%;">
 				<tr>
 					<td>รหัส order</td>
-					<td id="overlaytableTD1"></td>
+					<td id="overlaytableTD1" colspan="2"></td>
 				</tr>
 				<tr>
 					<td>ชื่อผู้ซื้อ </td>
-					<td id="overlaytableTD2"></td>
+					<td id="overlaytableTD2" colspan="2"></td>
 				</tr>
 				<tr>
 					<td>รายการ </td>
 					<td>จำนวน</td>
 					<td>ราคา (ต่อชิ้น)</td>
 				</tr>
-				<tr id="overlaytableTD4">
-					<td>รายการ </td>
-					<td>จำนวน</td>
-					<td>ราคา </td>
-				</tr>
 				<tr id="rowtotal">
 					<td>ยอดรวม </td>
-					<td id="overlaytableTD5"></td>
+					<td id="overlaytableTD5" colspan="2"></td>
 				</tr>
 				<tr>
 					<td>ที่อยู่</td>
-					<td id="overlaytableTD6"></td>
+					<td id="overlaytableTD6" colspan="2"></td>
 				</tr>
 			</table>
 		</div>

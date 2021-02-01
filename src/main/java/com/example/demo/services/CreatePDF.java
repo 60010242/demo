@@ -42,7 +42,7 @@ public class CreatePDF {
 		FontFactory.register("D:\\front\\THSarabunNew.ttf", "sarabun");
 		Font boldFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.BOLD);
 		Font textFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.NORMAL);
-		int i = 0;
+		Font headFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.BOLD);
 		List<userprofile> sellerlist = new ArrayList<userprofile>();
 		userprofile seller = new userprofile();
 		sellerlist = userprofileRepo.findOneByType("Seller");
@@ -69,14 +69,16 @@ public class CreatePDF {
 			}
 				
 			Paragraph hpara = new Paragraph();
-			boldFont.setSize(45);
-			hpara.add(new Paragraph(userorder1.getNameDelivery(),boldFont));
-			
+			headFont.setSize(30);
+			hpara.add(new Paragraph(userorder1.getNameDelivery(),headFont));
 			float [] userColumnWidths = {1f,4f};
 			PdfPTable table1 = new PdfPTable(userColumnWidths);
 			table1.setWidthPercentage(90f);
+			textFont.setSize(20);
+			boldFont.setSize(20);
+			hpara.add(new Paragraph("ORDER #"+Integer.toString(userorder1.getIdOrder()),boldFont));
+			addEmptyLine(hpara, 1);
 			
-			textFont.setSize(16);
 			insertCell(table1,"ผู้ส่ง (from)",Element.ALIGN_LEFT,1,textFont);
 			insertCell(table1,seller.getAddress(),Element.ALIGN_LEFT,1,textFont);
 			
@@ -88,38 +90,39 @@ public class CreatePDF {
 			float [] orderColumnWidths = {1f,3f,1f};
 			PdfPTable table2 = new PdfPTable(orderColumnWidths);
 			table2.setWidthPercentage(90f);
-			boldFont.setSize(16);
-			insertCell(table1,"#",Element.ALIGN_CENTER,1,boldFont);
-			insertCell(table1,"รายการ",Element.ALIGN_CENTER,1,boldFont);
-			insertCell(table1,"จำนวน",Element.ALIGN_CENTER,1,boldFont);
+			
+			insertCell(table2,"#",Element.ALIGN_CENTER,1,boldFont);
+			insertCell(table2,"รายการ",Element.ALIGN_CENTER,1,boldFont);
+			insertCell(table2,"จำนวน",Element.ALIGN_CENTER,1,boldFont);
 			
 			int Norder = 1;
 			int num = 0;
 			for(orderdetail order : orderlist1) {
 				productdetail product = new productdetail();
 				product = productRepo.getOne(order.getIdProduct());
-				insertCell(table1,Integer.toString(Norder),Element.ALIGN_CENTER,1,textFont);
-				insertCell(table1,product.getNameProduct(),Element.ALIGN_LEFT,1,textFont);
-				insertCell(table1,Integer.toString(order.getNumber()),Element.ALIGN_CENTER,1,textFont);
+				insertCell(table2,Integer.toString(Norder),Element.ALIGN_CENTER,1,textFont);
+				insertCell(table2,product.getNameProduct(),Element.ALIGN_LEFT,1,textFont);
+				insertCell(table2,Integer.toString(order.getNumber()),Element.ALIGN_CENTER,1,textFont);
 				Norder++;
 				num+=order.getNumber();
 			}
-			insertCell(table1,"รวม",Element.ALIGN_CENTER,2,textFont);
-			insertCell(table1,Integer.toString(num),Element.ALIGN_CENTER,1,textFont);
+			insertCell(table2,"รวม",Element.ALIGN_CENTER,2,textFont);
+			insertCell(table2,Integer.toString(num),Element.ALIGN_CENTER,1,textFont);
 			hpara.add(table2);
 			
-			i++;
-			
-			if(i%2 == 0 && i < userorders.size()) {		//first order in page
-				document.newPage();
-			}else if(i < userorders.size()){
+			if(index%2 == 0 && index+1 < userorders.size()){
+				System.out.println("samepage"+index);
 				addEmptyLine(hpara, 1);
-				Paragraph text = new Paragraph("----------------------------------------------------",boldFont);
+				Paragraph text = new Paragraph("-------------------------------------------------------------------------------------------------------------------",boldFont);
 				text.setAlignment(Element.ALIGN_CENTER);
 				hpara.add(text);
-				addEmptyLine(hpara, 1);
 			}
 			document.add(hpara);
+			
+			if(index%2 != 0 && index+1 < userorders.size()) {		//first order in page
+				System.out.println("newpage"+index);
+				document.newPage();
+			}
 		}
 		
 	}
