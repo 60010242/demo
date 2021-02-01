@@ -147,10 +147,61 @@ font-family: 'Bai Jamjuree', sans-serif;
 	box-shadow: 2px -2px 2px gray;
 }
 </style>
+<script>
+function catSelect(evt, catselected) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tablecat");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("catheader");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(catselected).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+function on() {
+	  document.getElementById("overlay").style.visibility = "visible";
+}
+
+function off() {
+	  document.getElementById("overlay").style.visibility = "hidden";
+}
+
+</script>
 </head>
 
 <body>
+<!-- overlay -->
+<div class="center" id="overlay" onclick="off()">
+		<div class="checked">
+			<div>รหัสสั่งซื้อ </div>
+			<div style="width: 80%; margin: 0 10%;">
+			<table class="overlaytable">
+				<tr>
+					<td style="text-align: center;" colspan="3">รายการสินค้า</td>
+				</tr>
+				<tr><td colspan="3"><hr><td></tr>
+				<tr>
+					<td style="width: 20%">รูป</td>
+					<td style="width: 80%">จำนวน</td>
+					<td style="width: 20%">ราคา</td>
+				</tr>
+				<tr><td colspan="3"><hr><td></tr>
+				<tr>
+					<td style="text-align: right;" colspan="3">ยอดรวม</td>
+				</tr>
+			</table>
+			<a href="" class="overlayconfirm" id="overlayconfirm">ยืนยัน </a>
+			</div>
+		</div>
+	</div>
 
+
+<!-- Main Page -->
+<!-- Tab เลิอก Cat -->
 <table>
 	<tr>
 		<td>
@@ -160,6 +211,7 @@ font-family: 'Bai Jamjuree', sans-serif;
 	</tr>
 </table>
 
+<!-- Loop สินค้าใน Cat -->
 <table id="shirt" class="whitebg" style="display: block;">
 	<tr class="sep" th:if="${cat != null}">
 		<td>
@@ -187,87 +239,8 @@ font-family: 'Bai Jamjuree', sans-serif;
 		</td>
 	</tr>
 </table>
-
-<!-- Loop all category & add id category -->
-<table id="cup" class="tablecat">
-	<tr class="sep" th:if="${cat != null}">
-		<td>
-			<p>รายละเอียดเพิ่มเติม </p>
-			<p>Category Cup Detail</p>
-			<div>image</div>
-		</td>
-	</tr>
-	
-	<!-- Loop all product in category -->
-	<tr class="sep" th:if="${cat != null}">
-		<td>
-			<div th:each="product: ${products}">
-				<div th:if="${product.getEnable()==1}">
-					<div th:if="${product.getNumberStock() == null}">
-						S <input th:if="${product.getS() > 0}" type="number"> <input th:if="${product.getS() == 0}" type="number" disabled> <br>
-						M <input th:if="${product.getM() > 0}" type="number"> <input th:if="${product.getM() == 0}" type="number" disabled> <br>
-						L <input th:if="${product.getL() > 0}" type="number"> <input th:if="${product.getL) == 0}" type="number" disabled> <br>
-						XL <input th:if="${product.getXL() > 0}" type="number"> <input th:if="${product.getXL() == 0}" type="number" disabled> <br>
-					</div>
-					<div th:if="${product.getNumberStock() != null}">
-						Stock <input th:if="${product.getNumberStock() > 0}" type="number"> <input th:if="${product.getNumberStock() == 0}" type="number" disabled> <br>
-					</div>
-				</div>
-			</div>
-		</td>
-	</tr>
-</table>
-
 <div>
 	<input style="float: right;" type="button" value="ยืนยันสั่งสินค้า" onclick="on()">
 </div>
-
-<div class="center" id="overlay" onclick="off()">
-		<div class="checked">
-			<div>รหัสสั่งซื้อ </div>
-			<div style="width: 80%; margin: 0 10%;">
-			<table class="overlaytable">
-				<tr>
-					<td style="text-align: center;" colspan="3">รายการสินค้า</td>
-				</tr>
-				<tr><td colspan="3"><hr><td></tr>
-				<tr>
-					<td style="width: 20%">รูป</td>
-					<td style="width: 80%">จำนวน</td>
-					<td style="width: 20%">ราคา</td>
-				</tr>
-				<tr><td colspan="3"><hr><td></tr>
-				<tr>
-					<td style="text-align: right;" colspan="3">ยอดรวม</td>
-				</tr>
-			</table>
-			<a href="" class="overlayconfirm" id="overlayconfirm">ยืนยัน </a>
-			</div>
-		</div>
-	</div>
-<script>
-function catSelect(evt, catselected) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tablecat");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("catheader");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(catselected).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-
-function on() {
-	  document.getElementById("overlay").style.visibility = "visible";
-}
-
-function off() {
-	  document.getElementById("overlay").style.visibility = "hidden";
-}
-
-</script>
 </body>
 </html>

@@ -115,38 +115,7 @@ function offdetail() {
 </head>
 
 <body>
-
-<details th:each="day : ${daylist}">
-		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
-		<table class="maintable">
-			<tr class="tableheader">
-				<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
-				<th style="height:30pt; width: 60%">  รายการ </th>
-				<th style="height:30pt; width: 10%">สถานะ </th>
-				<th style="height:30pt; width: 10%">เลขแทร็ก</th>
-				<th style="height:30pt; width: 10%">ยืนยันรับพัสดุ </th>
-			</tr>
-			<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
-				<td th:text="${'#'+ userorder.getIdOrder()}" id="valueTD1"></td>
-				<td style="position: relative;" >
-					<ul>
-						<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
-							<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
-							<span th:text="${' x'+ orderlist.getNumber()}"></span>
-			  			</li>
-					</ul>
-					<a onclick="ondetail()" id="detaildata">รายละเอียด </a>
-				</td>
-				<td>สถานะ</td>
-				<td>เลขแทร็ก</td>
-				<td style="text-align: center;">
-					<button class="btncheck" onclick="on()">ยืนยัน </button>
-				</td>
-				
-			</tr>
-		</table>
-	</details>
-
+<!-- overlay -->
 <div class="center" id="overlaydetail" onclick="offdetail()">
 		<div class="checked">
 			<div style="position: absolute; left: 0; top: 0;">รหัส order</div>
@@ -172,5 +141,37 @@ function offdetail() {
 			</table>
 		</div>
 </div>
+
+<!-- Main Page -->
+<details th:each="day : ${daylist}">
+		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
+		<table class="maintable">
+			<tr class="tableheader">
+				<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
+				<th style="height:30pt; width: 60%">  รายการ </th>
+				<th style="height:30pt; width: 10%">สถานะ </th>
+				<th style="height:30pt; width: 10%">เลขแทร็ก</th>
+				<th style="height:30pt; width: 10%">ยืนยันรับพัสดุ </th>
+			</tr>
+			<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
+				<td th:text="${'#'+ userorder.getIdOrder()}" id="valueTD1"></td>
+				<td style="position: relative;" >
+					<ul>
+						<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
+							<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
+							<span th:text="${' x'+ orderlist.getNumber()}"></span>
+			  			</li>
+					</ul>
+					<a onclick="ondetail()" id="detaildata">รายละเอียด </a>
+				</td>
+				<td>สถานะ</td>
+				<td>เลขแทร็ก</td>
+				<td style="text-align: center;">
+					<button class="btncheck" onclick="if(!confirm('ยืนยันรับพัสดุ?')) return false;">ยืนยัน </button>
+				</td>
+				
+			</tr>
+		</table>
+	</details>
 </body>
 </html>
