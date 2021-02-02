@@ -86,7 +86,12 @@ function ondetail() {
 	var valueTD5 = document.getElementById("valueTD5").value;
 	var valueTD6 = document.getElementById("valueTD6").value;
 	var idorder = document.getElementById("idorder").value;
-	var table = document.getElementById("table");
+	var roworder = document.getElementById("roworder")
+	var childrow = roworder.lastElementChild;
+	while (childrow) { 
+		roworder.removeChild(childrow); 
+		childrow = roworder.lastElementChild; 
+    }
 	document.getElementById("overlaydetail").style.visibility = "visible";
 	document.getElementById("overlaytableTD1").innerHTML = valueTD1;
   	document.getElementById("overlaytableTD2").innerHTML = valueTD2;
@@ -99,7 +104,8 @@ function ondetail() {
   	    	  $.each( data, function(key,val) {
   	    		    var row = document.createElement("TR");
   	    		    var rowtotal = document.getElementById("rowtotal");
-	  	    		rowtotal.parentNode.insertBefore(row, rowtotal);
+	  	    		//rowtotal.parentNode.insertBefore(row, rowtotal);
+	  	    		roworder.appendChild(row);
 	  	    		var c1 = row.insertCell(0);
 	  	    		var c2 = row.insertCell(1);
 	  	    		var c3 = row.insertCell(2);
@@ -135,6 +141,7 @@ function offdetail() {
 					<td>จำนวน</td>
 					<td>ราคา (ต่อชิ้น)</td>
 				</tr>
+				<tbody id="roworder"></tbody>
 				<tr id="rowtotal">
 					<td>ยอดรวม </td>
 					<td id="overlaytableTD5" colspan="2"></td>

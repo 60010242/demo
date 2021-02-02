@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.Daygroup;
 import com.example.demo.Monthgroup;
-import com.example.demo.Samplejson;
+import com.example.demo.Orderjson;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
 import com.example.demo.entities.userorder;
@@ -344,13 +344,13 @@ public class OrderController {
 	
 	@GetMapping("/testajax")
 	@ResponseBody
-	public List<Samplejson> getFoos(@RequestParam int id) {
-		Samplejson json = new Samplejson();
+	public List<Orderjson> getFoos(@RequestParam int id) {
+		Orderjson json = new Orderjson();
 		List<orderdetail> orderlist = new ArrayList<orderdetail>();
 		orderlist = orderdetailRepo.getByIdorder(id);
-	    List<Samplejson> jsList = new ArrayList<Samplejson>();
+	    List<Orderjson> jsList = new ArrayList<Orderjson>();
 	    for(orderdetail order : orderlist) {
-	    	json = new Samplejson();
+	    	json = new Orderjson();
 	    	productdetail product = productRepo.getByIdproduct(order.getIdProduct());
 	    	json.setName(product.getNameProduct());
 	    	json.setNum(order.getNumber());
@@ -360,4 +360,21 @@ public class OrderController {
 		return jsList;
 	}
 	
+	@GetMapping("/gettwoajax")
+	@ResponseBody
+	public List<Orderjson> gettwoajax(@RequestParam int id) {
+		Orderjson json = new Orderjson();
+		List<orderdetail> orderlist = new ArrayList<orderdetail>();
+		orderlist = orderdetailRepo.getByIdorder(id);
+	    List<Orderjson> jsList = new ArrayList<Orderjson>();
+	    for(orderdetail order : orderlist) {
+	    	json = new Orderjson();
+	    	productdetail product = productRepo.getByIdproduct(order.getIdProduct());
+	    	json.setName(product.getNameProduct());
+	    	json.setNum(order.getNumber());
+	    	json.setCost(order.getRealPrice());
+	    	jsList.add(json);
+	    }
+		return jsList;
+	}
 }
