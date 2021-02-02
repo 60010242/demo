@@ -52,7 +52,8 @@ $(document).ready(function(){
 
 <div class="pdf">
 	<p id="transport" th:text="${transport}" hidden="true"></p>
-	<object th:data="'data:application/pdf;base64,'+${pdf}" type="application/pdf">
+	<p th:text="${pdf}" th:if="${check==0}"></p>
+	<object th:data="'data:application/pdf;base64,'+${pdf}" type="application/pdf" th:if="${check==1}">
 			<embed th:src="'data:application/pdf;base64,'+${pdf}" type="application/pdf" />
 	</object>
 </div>
