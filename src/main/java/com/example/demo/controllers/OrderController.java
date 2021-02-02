@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.Daygroup;
 import com.example.demo.Monthgroup;
-import com.example.demo.Samplejson;
+import com.example.demo.Orderjson;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
 import com.example.demo.entities.userorder;
@@ -290,21 +290,31 @@ public class OrderController {
 		String transport = deliverylist.get(0);
 		String filepath = "D:/filefromspring/" + transport + ".pdf";
 		String encoded = "";
-
-		try {
-			Document document = new Document(PageSize.A4);
-			PdfWriter.getInstance(document, new FileOutputStream(filepath));
-			document.open();
-			pdf.printOrder(document, transport);
-			document.close();
-			byte[] inFileBytes = Files.readAllBytes(Paths.get(filepath)); 
-			encoded = Base64.getEncoder().encodeToString(inFileBytes);
-			
-		}catch(Exception e){
-			e.printStackTrace();
+		int check = 0;
+		List<userorder> userorders = new ArrayList<userorder>();
+		userorders = userorderRepo.getByTrackingNamedelivery(transport,"tracking");
+		if(userorders.size()>0) {
+			try {
+				Document document = new Document(PageSize.A4);
+				PdfWriter.getInstance(document, new FileOutputStream(filepath));
+				document.open();
+				pdf.printOrder(document, transport);
+				document.close();
+				byte[] inFileBytes = Files.readAllBytes(Paths.get(filepath)); 
+				encoded = Base64.getEncoder().encodeToString(inFileBytes);
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			check = 1;
+		}else {
+			check = 0;
+			encoded = "OUT OF ORDER";
 		}
+		
 		model.addAttribute("deliverylist", deliverylist);
 		model.addAttribute("pdf", encoded);
+		model.addAttribute("check", check);
 		return "printall";
 	}
 	
@@ -315,21 +325,31 @@ public class OrderController {
 		List<String> deliverylist = new ArrayList<String>();
 		deliverylist = deliRepo.getAllNamedelivery();
 		String encoded = "";
-		
-		try {
-			Document document = new Document(PageSize.A4);
-			PdfWriter.getInstance(document, new FileOutputStream(filepath));
-			document.open();
-			pdf.printOrder(document, transport);
-			document.close();
-			byte[] inFileBytes = Files.readAllBytes(Paths.get(filepath)); 
-			encoded = Base64.getEncoder().encodeToString(inFileBytes);
-			
-		}catch(Exception e){
-			e.printStackTrace();
+		int check = 0;
+		List<userorder> userorders = new ArrayList<userorder>();
+		userorders = userorderRepo.getByTrackingNamedelivery(transport,"tracking");
+		if(userorders.size()>0) {
+			try {
+				Document document = new Document(PageSize.A4);
+				PdfWriter.getInstance(document, new FileOutputStream(filepath));
+				document.open();
+				pdf.printOrder(document, transport);
+				document.close();
+				byte[] inFileBytes = Files.readAllBytes(Paths.get(filepath)); 
+				encoded = Base64.getEncoder().encodeToString(inFileBytes);
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			check = 1;
+		}else {
+			check = 0;
+			encoded = "OUT OF ORDER";
 		}
+		
 		model.addAttribute("deliverylist", deliverylist);
 		model.addAttribute("pdf", encoded);
+		model.addAttribute("check", check);
 		return "printall";
 	}
 	
@@ -344,13 +364,13 @@ public class OrderController {
 	
 	@GetMapping("/testajax")
 	@ResponseBody
-	public List<Samplejson> getFoos(@RequestParam int id) {
-		Samplejson json = new Samplejson();
+	public List<Orderjson> getFoos(@RequestParam int id) {
+		Orderjson json = new Orderjson();
 		List<orderdetail> orderlist = new ArrayList<orderdetail>();
 		orderlist = orderdetailRepo.getByIdorder(id);
-	    List<Samplejson> jsList = new ArrayList<Samplejson>();
+	    List<Orderjson> jsList = new ArrayList<Orderjson>();
 	    for(orderdetail order : orderlist) {
-	    	json = new Samplejson();
+	    	json = new Orderjson();
 	    	productdetail product = productRepo.getByIdproduct(order.getIdProduct());
 	    	json.setName(product.getNameProduct());
 	    	json.setNum(order.getNumber());
@@ -360,4 +380,21 @@ public class OrderController {
 		return jsList;
 	}
 	
+	@GetMapping("/gettwoajax")
+	@ResponseBody
+	public List<Orderjson> gettwoajax(@RequestParam int id) {
+		Orderjson json = new Orderjson();
+		List<orderdetail> orderlist = new ArrayList<orderdetail>();
+		orderlist = orderdetailRepo.getByIdorder(id);
+	    List<Orderjson> jsList = new ArrayList<Orderjson>();
+	    for(orderdetail order : orderlist) {
+	    	json = new Orderjson();
+	    	productdetail product = productRepo.getByIdproduct(order.getIdProduct());
+	    	json.setName(product.getNameProduct());
+	    	json.setNum(order.getNumber());
+	    	json.setCost(order.getRealPrice());
+	    	jsList.add(json);
+	    }
+		return jsList;
+	}
 }

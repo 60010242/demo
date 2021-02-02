@@ -1,6 +1,6 @@
 package com.example.demo;
 
-public class Samplejson {
+public class Orderjson {
 	private String name;
 	private int num;
 	private int cost;
