@@ -72,7 +72,6 @@ public class GeneralController {
 		model.addAttribute("products", products);
 		model.addAttribute("cat", cat);
 		model.addAttribute("catlist", catlist);
-		System.out.print("cattyyyyyyyyyy" + cat.getNameCat() + idcat);
 		return "categorytabs";
 	}
 	

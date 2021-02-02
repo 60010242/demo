@@ -7,49 +7,96 @@
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <style>
 
-.tab{
+.tabdeli-container {
+	position: fixed;
 	top: 0;
+	left: 0;
+	width: 15%;
+	float: left; 
+	border: 0; 
+	height: 100vh;
+  	background-color: var(--browntab);
+	z-index: 800;
+	box-shadow: 2px 2px 5px gray;
+}
+.tabdeli-container td{
+	padding: 0;
+	width: 100%;
+}
+.tabdelis{
+	background-color: inherit;
+  	float: left;
+  	border: none;
+  	outline: none;
+  	cursor: pointer;
+  	line-height: 25pt;
+  	width: 100%;
+  	transition: 0.3s;
+  	font-size: 15px;
+  	text-align: center;
+  	text-decoration: none;
+  	font-weight: bold;
+  	color: var(--grey);
+}
+.tabdeli-container td a.active {
+	color: white;
+	background-color: var(--grey);
+	font-weight: bold;
 }
 
 embed , object{
-		position: fixed; 
-		width: 80%;
-		height: 680px;
-		left: 10%;
-	}
+	position: absolute;
+	top: 0;
+	margin: 0 20%;
+	width: 60%;
+	height: 680px;
+	left: 10%;
+}
 .pdf{
-		padding: 20px;
-	}
+	padding: 20px;
+	width: 85%;
+}
 </style>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 $(document).ready(function(){
 
-	var tabdelis = document.getElementsByClassName("tablinks");
+	var tabdelis = document.getElementsByClassName("tabdelis");
 	var delischeck = document.getElementById("transport").innerText;	
 	
 	for (i = 0; i < tabdelis.length; i++) {
 		console.log(tabdelis[i].id);
 		console.log(delischeck);
+		if(delischeck == ""){
+    		$('.tabdeli-container tr:nth-child(2) a').addClass("active");
+    	}
     	if(tabdelis[i].id == delischeck){
-    		$('.tab div:nth-child('+(i+1)+') a').addClass("active");
-    }
+    		$('.tabdeli-container tr:nth-child('+(i+2)+') a').addClass("active");
+    	}
   }
 })
 </script>
 
 </head>
 <body>
-<div class="tab">
-  <div th:each="delivery: ${deliverylist}">
-  	<a class="tablinks"
-  		th:href="@{'/createPDF/'+ ${delivery}}"
-  		th:value="${delivery}"
-  		th:text="${delivery}"
-  		th:id="${delivery}"></a>
-  </div>
+<div class="tabdeli-container">
+<table style="width: 100%;">
+<tr>
+	<td style="color: white; font-weight: bold; text-align: center; font-size: 18pt; padding: 5%; text-shadow: 2px 2px gray;">
+		บริการขนส่ง
+	</td>
+</tr>
+  <tr th:each="delivery: ${deliverylist}">
+  	<td>
+  		<a class="tabdelis"
+  			th:href="@{'/createPDF/'+ ${delivery}}"
+  			th:value="${delivery}"
+  			th:text="${delivery}"
+  			th:id="${delivery}"></a>
+  	</td>
+  </tr>
+</table>
 </div>
-
 <div class="pdf">
 	<p id="transport" th:text="${transport}" hidden="true"></p>
 	<object th:data="'data:application/pdf;base64,'+${pdf}" type="application/pdf">
