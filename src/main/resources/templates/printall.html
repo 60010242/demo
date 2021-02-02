@@ -4,86 +4,13 @@
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <style>
-:root {
-  --brown: #cbaf87;
-  --x: #c7b198;
-  --brownbg: #f4ebc1;
-  --browntab: #e8cca3;
-  --green: #79d70f;
-  --grey: #707070;
-}
 
-body{
-	font-family: 'Bai Jamjuree', sans-serif;
-	height: 100vh;
-	margin: 0;
-	display: flex;
-	background-color: var(--brownbg);
-}
-
-.center{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.back{
-	position: fixed;
+.tab{
 	top: 0;
-	left: 10pt;
-	text-decoration: none;
-	font-size: 30pt;
-	color: white;
 }
 
-/* Style the tab */
-.tab {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 30pt;
-    font-weight: bold;
-  	overflow: hidden;
-  	box-shadow: 2px 2px 5px gray;
-	background-color: var(--browntab);
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  line-height: 30pt;
-  width: 100pt;
-  transition: 0.3s;
-  font-size: 17px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-	background-color: #bbb;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-	background-color: var(--grey);
-	color: white;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 5%;
-  margin: 40pt;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-top: none;
-  background-color: white;
-}
 embed , object{
 		position: fixed; 
 		width: 80%;
@@ -94,13 +21,37 @@ embed , object{
 		padding: 20px;
 	}
 </style>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+$(document).ready(function(){
+
+	var tabdelis = document.getElementsByClassName("tablinks");
+	var delischeck = document.getElementById("transport").innerText;	
+	
+	for (i = 0; i < tabdelis.length; i++) {
+		console.log(tabdelis[i].id);
+		console.log(delischeck);
+    	if(tabdelis[i].id == delischeck){
+    		$('.tab div:nth-child('+(i+1)+') a').addClass("active");
+    }
+  }
+})
+</script>
+
 </head>
 <body>
-<a class="back" href="/tracking"><</a>
-<div th:each="delivery: ${deliverylist}">
-  <a th:href="@{'/createPDF/'+ ${delivery}}" th:value="${delivery}" th:text="${delivery}"></a>
+<div class="tab">
+  <div th:each="delivery: ${deliverylist}">
+  	<a class="tablinks"
+  		th:href="@{'/createPDF/'+ ${delivery}}"
+  		th:value="${delivery}"
+  		th:text="${delivery}"
+  		th:id="${delivery}"></a>
+  </div>
 </div>
+
 <div class="pdf">
+	<p id="transport" th:text="${transport}" hidden="true"></p>
 	<object th:data="'data:application/pdf;base64,'+${pdf}" type="application/pdf">
 			<embed th:src="'data:application/pdf;base64,'+${pdf}" type="application/pdf" />
 	</object>

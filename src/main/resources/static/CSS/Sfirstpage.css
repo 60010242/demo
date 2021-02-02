@@ -158,7 +158,9 @@ close{
 
 
 /* Seller First page */
-#overlay, #overlaydetail, #overlayaccount,
+#overlay, #overlayprint,
+#overlaydetail,
+#overlayaccount,
 #overlaydelivery,
 #overlayaddproduct,
 #overlayeditproduct,

@@ -124,13 +124,10 @@ $(document).ready(function(){
 	var tabcats = document.getElementsByClassName("tabcat");
 	var tablinks = document.getElementsByClassName("tablinks");
 	
-	console.log($('.tabcat-container tr:nth-child(1) a').text());
-	
 	$('a.tablinks:nth-child(1)').addClass("active");
 	for (i = 0; i < tabcats.length; i++) {
 	    if(tabcats[i].id == idcat){
 	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
-	    	console.log($('.tabcat-container tr:nth-child('+(i+1)+') a').text());
 	    }
 	  }
 	
