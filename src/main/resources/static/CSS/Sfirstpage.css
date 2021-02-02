@@ -113,11 +113,55 @@ close{
 	color: white;
 }
 
+.tabcat-container {
+	top: 100pt;
+	width: 12%;
+	float: left; 
+	border: 0; 
+	position: fixed;
+	height: 25pt;
+  	overflow: hidden;
+	z-index: 800;
+}
+.tabcat-container td{
+	padding: 0;
+	width: 100%;
+}
+.tabcat{
+	background-color: inherit;
+  	float: left;
+  	border: none;
+  	outline: none;
+  	cursor: pointer;
+  	line-height: 25pt;
+  	width: 100%;
+  	transition: 0.3s;
+  	font-size: 15px;
+  	text-align: center;
+  	text-decoration: none;
+  	font-weight: normal;
+  	color: var(--grey);
+}
+.tabcat-container td a.active {
+	background-color: rgba(255,255,255,60%);
+	border-radius: 15px 0 0 15px;
+	border-top: 2px solid transparent;
+  	border-bottom: 2px solid transparent;
+  	border-left: 4px solid var(--blue);
+	font-weight: bold;
+}
+
+.cataddheader{
+	color: var(--blue);
+	font-style: italic;
+}
+
 
 /* Seller First page */
 #overlay, #overlaydetail, #overlayaccount,
 #overlaydelivery,
 #overlayaddproduct,
+#overlayeditproduct,
 #overlayaddcat,
 #overlayeditcat{
   position: fixed;

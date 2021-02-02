@@ -6,7 +6,12 @@
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
+$(document).ready(function(){
+	var tablinks = document.getElementsByClassName("tablinks");
+	$('a.tablinks:nth-child(5)').addClass("active");
+})
 function ondetail() {
   document.getElementById("overlaydetail").style.visibility = "visible";
 }
@@ -25,6 +30,9 @@ function offdetail() {
 	</div>
 
 <!-- Main Page -->
+<div th:replace="Sfirstpage :: navhead"></div>
+<div th:replace="Sfirstpage :: tabseller"></div>
+
 <div class="overdetail">
 <details th:each="day : ${daylist}">
 	<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>

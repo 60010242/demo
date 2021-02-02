@@ -65,7 +65,13 @@ hr {
 	width: 20px;
 }
 </style>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
+$(document).ready(function(){
+	var tablinks = document.getElementsByClassName("tablinks");
+	$('a.tablinks:nth-child(3)').addClass("active");
+})
+
 function on() {
 	  document.getElementById("overlay").style.visibility = "visible";
 }
@@ -145,6 +151,8 @@ function offdetail() {
 <div class="tabheadersecond">
 	<a href="/createPDF">ปริ๊นชื่อ-ที่อยู่ผู้ซื้อทั้งหมด</a>
 </div>
+<div th:replace="Sfirstpage :: navhead"></div>
+<div th:replace="Sfirstpage :: tabseller"></div>
 <div class="overdetail">
 	<details th:each="day : ${daylist}">
 		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>

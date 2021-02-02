@@ -4,13 +4,26 @@
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
 <style type="text/css">
-td{
-	border: solid 2px gray;
+
+table{
+	border-collapse: collapse;
+}
+.overlaypage form{
+	width: 80%;
+	margin: 0 10%;
+}
+
+.overlaypage form table tr{
+	border: 20px solid transparent;
+}
+
+input[type="number"]{
+	width: 50px;
 }
 </style>
 </head>
 <body>
-	<a href="/editproduct">back</a>
+<div class="overlaypage">
 	<form action="#" th:action="@{/updateproduct}" th:object="${product}" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
@@ -37,10 +50,10 @@ td{
 					
 					<!-- if product.getSize != Null -->
 					<div id="num" th:if="${product.getNumberStock() == null}">
-						S <input type="number" th:value="${product.getS()}" name="numS">
-						M <input type="number" th:value="${product.getM()}" name="numM"><br>
-						L <input type="number" th:value="${product.getL()}" name="numL">
-						XL <input type="number" th:value="${product.getXl()}" name="numXL">
+						S&nbsp;&nbsp;<input type="number" th:value="${product.getS()}" name="numS">&nbsp;&nbsp;&nbsp;
+						M&nbsp;&nbsp;<input type="number" th:value="${product.getM()}" name="numM"><br>
+						L&nbsp;&nbsp;<input type="number" th:value="${product.getL()}" name="numL">&nbsp;&nbsp;&nbsp;
+						XL&nbsp;<input type="number" th:value="${product.getXl()}" name="numXL">
 					</div>
 				</td>
 			</tr>
@@ -51,8 +64,8 @@ td{
 		</table>
 		<input type="hidden" th:value="${product.getIdProduct()}" name="idproduct">
 		<input type="hidden" th:value="${product.getCategory()}" th:field="*{category}">
-		<input type="submit" value="Submit" name="button">
+		<input class="overlayconfirm" type="submit" value="Submit" name="button">
 	</form>
-
+</div>
 </body>
 </html>

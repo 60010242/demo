@@ -38,7 +38,13 @@
 	height: 200px;
 }
 </style>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
+$(document).ready(function(){
+	var tablinks = document.getElementsByClassName("tablinks");
+	$('a.tablinks:nth-child(2)').addClass("active");
+})
+
 function on() {
 	var valueTD1 = document.getElementById( "valueTD1" ).innerText;
 	var valueTD2 = document.getElementById("valueTD2").value;
@@ -131,6 +137,9 @@ function offdetail() {
 	</div>
 
 <!-- Main Page -->
+<div th:replace="Sfirstpage :: navhead"></div>
+<div th:replace="Sfirstpage :: tabseller"></div>
+
 <div class="overdetail">
 	<details th:each="day : ${daylist}">
 		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>

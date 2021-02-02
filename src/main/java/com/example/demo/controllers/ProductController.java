@@ -103,8 +103,7 @@ public class ProductController {
 			product.setNumberStock(num);
 			productdetailRepo.save(product);
 		}
-		return "redirect:/firstpage";
-		//return "redirect:/editproduct/" + idcat;
+		return "redirect:/editproduct/" + idcat;
 	}
 	
 	@GetMapping("/editoneproduct/{idproduct}")
@@ -146,6 +145,7 @@ public class ProductController {
 			pro.setNumberStock(num);
 			productdetailRepo.save(pro);
 		}
+		System.out.println(product.getCategory());
 		return "redirect:/firstpage";
 	}
 	
@@ -177,7 +177,7 @@ public class ProductController {
 			category.setPhotoCat(image);
 		}
 		categoryRepo.save(category);
-		return "redirect:/firstpage";
+		return "redirect:/editproduct/" + category.getIdCategory();
 	}
 	
 	@PostMapping("/updatecat")
@@ -194,7 +194,7 @@ public class ProductController {
 		}
 		categoryRepo.save(cat);
 		System.out.println("Category Update!!");
-		return "redirect:/firstpage";
+		return "redirect:/editproduct/" + category.getIdCategory();
 	}
 	
 	@GetMapping("/deletecategory/{idcategory}")
