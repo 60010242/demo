@@ -80,7 +80,7 @@ function off() {
 	  document.getElementById("overlay").style.visibility = "hidden";
 }
 
-function ondetail() {
+function ondetail(orderId) {
 	var valueTD1 = document.getElementById( "valueTD1" ).innerText;
 	var valueTD2 = document.getElementById("valueTD2").innerText;
 	var valueTD5 = document.getElementById("valueTD5").value;
@@ -98,7 +98,7 @@ function ondetail() {
   	document.getElementById("overlaytableTD5").innerHTML = valueTD5;
   	document.getElementById("overlaytableTD6").innerHTML = valueTD6;
   	 $.ajax({
-  	      url:"http://localhost:7070/testajax?id="+idorder,
+  	      url:"http://localhost:7070/testajax?id="+orderId,
   	    })
   	      .done(function( data ) {
   	    	  $.each( data, function(key,val) {
@@ -183,7 +183,7 @@ function offdetail() {
 					<a th:href="@{'/trantocancel/' + ${userorder.getIdOrder()}}" id="tocancel"
 					th:data-confirm-delete="|ต้องการยกเลิกรายการ #${userorder.getIdOrder()}?|"
 					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ยกเลิกรายการ </a>
-					<a id="detaildata" onclick="ondetail()">รายละเอียด </a>
+					<a id="detaildata" th:attr="onclick=|ondetail('${userorder.getIdOrder()}')|">รายละเอียด </a>
 				</td>
 			<td style="text-align: center;">
 				<form action="#" th:action="@{'/trantocomplete/' + ${userorder.getIdOrder()}}" method="post">

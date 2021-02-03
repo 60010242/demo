@@ -175,11 +175,11 @@ li a {
 <ul>
 		<li><a href="/firstpage"><img class="profilepicture" th:src="@{/negotiating-a-lease_pet.jpg}"></a></li>
 		<li class="center"><a href="#contact">ร้านขายของน้องหมา </a></li>
-		<li style="float:right"><a href="#profile">
+		<li style="float:right"><a href="/myinfo">
 			<img class="profilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
 			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
 		</a></li>
-		<li style="float:right"><a href="#about" th:text="${session.user.getName()}"></a></li>
+		<li style="float:right"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
 		<a href="/logout" class="logout">logout</a>
 </ul>
 
