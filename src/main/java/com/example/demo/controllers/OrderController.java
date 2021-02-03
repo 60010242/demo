@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.Daygroup;
+import com.example.demo.Mixjson;
 import com.example.demo.Monthgroup;
 import com.example.demo.Orderjson;
+import com.example.demo.Userjson;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
 import com.example.demo.entities.userorder;
@@ -380,9 +382,32 @@ public class OrderController {
 		return jsList;
 	}
 	
+	@GetMapping("/userajax")
+	@ResponseBody
+	public Userjson userajax(@RequestParam int id) {
+		Userjson user = new Userjson();
+		userorder userorder = new userorder();
+		userorder = userorderRepo.getByIdOrder(id);
+		user.setId(userorder.getIdOrder());
+		user.setUsername(userorder.getUserprofile().getName());
+		user.setTotal(userorder.getTotalOrder());
+		user.setAddress(userorder.getUserprofile().getAddress());
+		user.setTrack(userorder.getTrack());
+		return user;
+	}
+	
 	@GetMapping("/gettwoajax")
 	@ResponseBody
-	public List<Orderjson> gettwoajax(@RequestParam int id) {
+	public Mixjson gettwoajax(@RequestParam int id) {
+		Mixjson mix = new Mixjson();
+		Userjson user = new Userjson();
+		userorder userorder = new userorder();
+		userorder = userorderRepo.getByIdOrder(id);
+		user.setId(userorder.getIdOrder());
+		user.setUsername(userorder.getUserprofile().getName());
+		user.setTotal(userorder.getTotalOrder());
+		user.setAddress(userorder.getUserprofile().getAddress());
+		user.setTrack(userorder.getTrack());
 		Orderjson json = new Orderjson();
 		List<orderdetail> orderlist = new ArrayList<orderdetail>();
 		orderlist = orderdetailRepo.getByIdorder(id);
@@ -395,6 +420,8 @@ public class OrderController {
 	    	json.setCost(order.getRealPrice());
 	    	jsList.add(json);
 	    }
-		return jsList;
+	    mix.setUser(user);
+	    mix.setOrderlist(jsList);
+		return mix;
 	}
 }

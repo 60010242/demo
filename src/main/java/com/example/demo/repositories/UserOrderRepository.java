@@ -28,4 +28,7 @@ public interface UserOrderRepository extends JpaRepository<userorder, Integer> {
 	
 	@Query("select MIN(o.payTime) from userorder o where o.status = :status or o.status = :status2")
 	LocalDateTime findMinPaytimeTwoStatus(@Param("status")String status,@Param("status2")String status2);
+
+	@Query("from userorder o where o.idOrder = :idOrder")
+	userorder getByIdOrder(@Param("idOrder")int idOrder);
 }
