@@ -81,37 +81,39 @@ function off() {
 }
 
 function ondetail(orderId) {
-	var valueTD1 = document.getElementById( "valueTD1" ).innerText;
-	var valueTD2 = document.getElementById("valueTD2").innerText;
-	var valueTD5 = document.getElementById("valueTD5").value;
-	var valueTD6 = document.getElementById("valueTD6").value;
-	var idorder = document.getElementById("idorder").value;
 	var roworder = document.getElementById("roworder")
 	var childrow = roworder.lastElementChild;
+	document.getElementById("overlaydetail").style.visibility = "visible";
 	while (childrow) { 
 		roworder.removeChild(childrow); 
 		childrow = roworder.lastElementChild; 
     }
-	document.getElementById("overlaydetail").style.visibility = "visible";
-	document.getElementById("overlaytableTD1").innerHTML = valueTD1;
-  	document.getElementById("overlaytableTD2").innerHTML = valueTD2;
-  	document.getElementById("overlaytableTD5").innerHTML = valueTD5;
-  	document.getElementById("overlaytableTD6").innerHTML = valueTD6;
-  	 $.ajax({
+	$.ajax({
+	      url:"http://localhost:7070/userajax?id="+orderId,
+	    })
+	      .done(function( data ) {
+	    	  $.each( data, function(key,val) {
+		    		document.getElementById("overlaytableTD1").innerHTML = '#' + val.id;
+		    		document.getElementById("overlaytableTD2").innerHTML = val.username;
+		    		document.getElementById("overlaytableTD5").innerHTML = val.total;
+		    		document.getElementById("overlaytableTD6").innerHTML = val.address;
+	    		  });
+	      });
+  	$.ajax({
   	      url:"http://localhost:7070/testajax?id="+orderId,
   	    })
   	      .done(function( data ) {
   	    	  $.each( data, function(key,val) {
-  	    		    var row = document.createElement("TR");
-  	    		    var rowtotal = document.getElementById("rowtotal");
-	  	    		//rowtotal.parentNode.insertBefore(row, rowtotal);
-	  	    		roworder.appendChild(row);
-	  	    		var c1 = row.insertCell(0);
-	  	    		var c2 = row.insertCell(1);
-	  	    		var c3 = row.insertCell(2);
-  	    			c1.innerHTML = val.name;
-  	    			c2.innerHTML = val.num;
-  	    			c3.innerHTML = val.cost;
+	  	    		  	var row = document.createElement("TR");
+	  	    		 	var rowtotal = document.getElementById("rowtotal");
+		  	    		//rowtotal.parentNode.insertBefore(row, rowtotal);
+		  	    		roworder.appendChild(row);
+		  	    		var c1 = row.insertCell(0);
+		  	    		var c2 = row.insertCell(1);
+		  	    		var c3 = row.insertCell(2);
+	  	    			c1.innerHTML = val.name;
+	  	    			c2.innerHTML = val.num;
+	  	    			c3.innerHTML = val.cost;
   	    		  });
   	      });
 }

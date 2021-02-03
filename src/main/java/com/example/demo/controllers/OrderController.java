@@ -384,7 +384,7 @@ public class OrderController {
 	
 	@GetMapping("/userajax")
 	@ResponseBody
-	public Userjson userajax(@RequestParam int id) {
+	public List<Userjson> userajax(@RequestParam int id) {
 		Userjson user = new Userjson();
 		userorder userorder = new userorder();
 		userorder = userorderRepo.getByIdOrder(id);
@@ -393,7 +393,9 @@ public class OrderController {
 		user.setTotal(userorder.getTotalOrder());
 		user.setAddress(userorder.getUserprofile().getAddress());
 		user.setTrack(userorder.getTrack());
-		return user;
+		List<Userjson> jsList = new ArrayList<Userjson>();
+		jsList.add(user);
+		return jsList;
 	}
 	
 	@GetMapping("/gettwoajax")
