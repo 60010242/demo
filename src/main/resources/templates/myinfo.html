@@ -117,13 +117,15 @@ function off() {
 <!-- Overlay -->
 <div class="center" id="overlayaccount" onclick="off()">
 	<div class="checked">
+		<div class="overlayheader center">เพิ่มบัญชีผู้ขาย </div>
 		<iframe th:src="@{/editaccount}" src="editaccount.html"></iframe>
 		<close>X</close>
 	</div>
 </div>
 <div class="center" id="overlaydelivery" onclick="off()">
 	<div class="checked">
-		<iframe class="checked" th:src="@{/editdelivery}" src="adddeliveryprice.html"></iframe>
+		<div class="overlayheader center">เพิ่มราคาบริการขนส่งสินค้า </div>
+		<iframe th:src="@{/editdelivery}" src="adddeliveryprice.html"></iframe>
 		<close>X</close>
 	</div>
 </div>
