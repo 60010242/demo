@@ -3,6 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
@@ -45,28 +46,25 @@ $(document).ready(function(){
 	$('a.tablinks:nth-child(2)').addClass("active");
 })
 
-function on() {
-	var valueTD1 = document.getElementById( "valueTD1" ).innerText;
-	var valueTD2 = document.getElementById("valueTD2").value;
-	var valueTD3 = document.getElementById( "valueTD3" ).innerText;
-	var valueTD4 = document.getElementById( "valueTD4" ).innerText;
-	var valueTD5 = document.getElementById("valueTD5").value;
-	var valueTD6 = document.getElementById( "valueTD6" ).innerText;
-	var valueTD7 = document.getElementById( "valueTD7" ).innerText;
-	var valueTD8 = document.getElementById("valueTD8").value;
-	var valueIMG = document.getElementById("valueIMG").value; 
-	var valueLink = document.getElementById("valueLink").value;
+function on(orderId) {
   	document.getElementById("overlay").style.visibility = "visible";
-  	document.getElementById("overlaytableTD1").innerHTML = valueTD1;
-  	document.getElementById("overlaytableTD2").innerHTML = valueTD2;
-  	document.getElementById("overlaytableTD3").innerHTML = valueTD3;
-  	document.getElementById("overlaytableTD4").innerHTML = valueTD4;
-  	document.getElementById("overlaytableTD5").innerHTML = valueTD5;
-  	document.getElementById("overlaytableTD6").innerHTML = valueTD6;
-  	document.getElementById("overlaytableTD7").innerHTML = valueTD7;
-  	document.getElementById("overlaytableTD8").innerHTML = valueTD8;
-  	document.getElementById("overlayIMG").innerHTML = "<img width='200' alt='can't download' src='data:image/jpeg;base64,"+ valueIMG +"'>";
-  	document.getElementById("overlayconfirm").href="/trantotracking/"+valueLink;
+  	$.ajax({
+	      url:"http://localhost:7070/checkajax?id="+orderId,
+	    })
+	      .done(function( data ) {
+	    	  $.each( data, function(key,val) {
+		    		document.getElementById("overlaytableTD1").innerHTML = '#' + val.id;
+		    	  	document.getElementById("overlaytableTD2").innerHTML = val.username;
+		    	  	document.getElementById("overlaytableTD3").innerHTML = val.total;
+		    	  	document.getElementById("overlaytableTD4").innerHTML = val.pay;
+		    	  	document.getElementById("overlaytableTD5").innerHTML = val.userbank;
+		    	  	document.getElementById("overlaytableTD6").innerHTML = val.sellerbank;
+		    	  	document.getElementById("overlaytableTD7").innerHTML = val.paytime;
+		    	  	document.getElementById("overlaytableTD8").innerHTML = val.lastnum;
+		    	  	document.getElementById("overlayIMG").innerHTML = "<img width='200' alt='can't download' src='data:image/jpeg;base64,"+ val.image +"'>";
+		    	  	document.getElementById("overlayconfirm").href="/trantotracking/"+ val.id;
+	    		  });
+	      });
 }
 
 function off() {
@@ -130,8 +128,7 @@ function offdetail() {
 					</tr>
 			</table>
 			<div class="img" id="overlayIMG"></div>
-		<a href="" class="overlayconfirm" id="overlayconfirm"
-	onclick="if (!confirm('ยืนยันการชำระเงินของรายการ ' +document.getElementById('valueTD1').innerText)) return false">ยืนยัน </a>
+		<a href="" class="overlayconfirm" id="overlayconfirm">ยืนยัน </a>
 			</div>
 		</div>
 	</div>
@@ -169,7 +166,7 @@ function offdetail() {
 				<td th:text="${userorder.getTotalOrder()}" id="valueTD3">a</td>
 				<td th:text="${userorder.getPayTotal()}" id="valueTD4">a</td>
 				<td style="text-align: center;">
-					<button class="btncheck" onclick="on()">ตรวจสอบ </button>
+					<button class="btncheck" th:attr="onclick=|on('${userorder.getIdOrder()}')|">ตรวจสอบ </button>
 				</td>
 				<input type="hidden" th:value="${userorder.getUserprofile().getName()}" id="valueTD2">
 				<input type="hidden" th:value="${userorder.getUserBank()}" id="valueTD5">

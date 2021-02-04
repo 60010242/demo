@@ -3,6 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
@@ -21,18 +22,42 @@ function offdetail() {
 	document.getElementById("overlaydetail").style.visibility = "hidden";
 }
 
-function ondetail() {
-	var valueTD1 = document.getElementById( "valueTD1" ).innerText;
-	var valueTD2 = document.getElementById("valueTD2").innerText;
-	var valueTD5 = document.getElementById("valueTD5").value;
-	var valueTD6 = document.getElementById("valueTD6").value;
-	var valueTD7 = document.getElementById("valueTD7").value;
+function ondetail(orderId) {
+	var roworder = document.getElementById("roworder")
+	var childrow = roworder.lastElementChild;
 	document.getElementById("overlaydetail").style.visibility = "visible";
-	document.getElementById("overlaytableTD1").innerHTML = valueTD1;
-  	document.getElementById("overlaytableTD2").innerHTML = valueTD2;
-  	document.getElementById("overlaytableTD5").innerHTML = valueTD5;
-  	document.getElementById("overlaytableTD6").innerHTML = valueTD6;
-  	document.getElementById("overlaytableTD7").innerHTML = valueTD7;
+	while (childrow) { 
+		roworder.removeChild(childrow); 
+		childrow = roworder.lastElementChild; 
+    }
+	$.ajax({
+	      url:"http://localhost:7070/userajax?id="+orderId,
+	    })
+	      .done(function( data ) {
+	    	  $.each( data, function(key,val) {
+		    		document.getElementById("overlaytableTD1").innerHTML = '#' + val.id;
+		    		document.getElementById("overlaytableTD2").innerHTML = val.username;
+		    		document.getElementById("overlaytableTD5").innerHTML = val.total;
+		    		document.getElementById("overlaytableTD6").innerHTML = val.address;
+		    		document.getElementById("overlaytableTD7").innerHTML = val.track;
+	    		  });
+	      });
+  	$.ajax({
+  	      url:"http://localhost:7070/testajax?id="+orderId,
+  	    })
+  	      .done(function( data ) {
+  	    	  $.each( data, function(key,val) {
+	  	    		  	var row = document.createElement("TR");
+		  	    		//rowtotal.parentNode.insertBefore(row, rowtotal);
+		  	    		roworder.appendChild(row);
+		  	    		var c1 = row.insertCell(0);
+		  	    		var c2 = row.insertCell(1);
+		  	    		var c3 = row.insertCell(2);
+	  	    			c1.innerHTML = val.name;
+	  	    			c2.innerHTML = val.num;
+	  	    			c3.innerHTML = val.cost;
+  	    		  });
+  	      });
 }
 
 function offdetail() {
@@ -59,14 +84,10 @@ function offdetail() {
 				<td>จำนวน</td>
 				<td>ราคา (ต่อชิ้น) </td>
 			</tr>
-			<tr id="overlaytableTD4">
-				<td>รายการ </td>
-				<td>จำนวน</td>
-				<td>ราคา </td>
-			</tr>
+			<tbody id="roworder"></tbody>
 			<tr>
-				<td>ยอดรวม </td>
-				<td id="overlaytableTD5" colspan="2"></td>
+				<td colspan="2">ยอดรวม </td>
+				<td id="overlaytableTD5"></td>
 			</tr>
 			<tr>
 				<td>ที่อยู่</td>
@@ -104,7 +125,7 @@ function offdetail() {
 					<span th:text="${' x'+ orderlist.getNumber()}"></span>
 	  			</li>
 			</ul>
-			<a onclick="ondetail()" id="detaildata">รายละเอียด </a>
+			<a id="detaildata" th:attr="onclick=|ondetail('${userorder.getIdOrder()}')|">รายละเอียด </a>
 		</td>
 		<td th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">กำลังขนส่ง</td>
 		<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับแล้ว</td>

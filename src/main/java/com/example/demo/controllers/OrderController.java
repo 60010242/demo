@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.Checkjason;
 import com.example.demo.Daygroup;
 import com.example.demo.Mixjson;
 import com.example.demo.Monthgroup;
@@ -394,6 +395,26 @@ public class OrderController {
 		user.setAddress(userorder.getUserprofile().getAddress());
 		user.setTrack(userorder.getTrack());
 		List<Userjson> jsList = new ArrayList<Userjson>();
+		jsList.add(user);
+		return jsList;
+	}
+	
+	@GetMapping("/checkajax")
+	@ResponseBody
+	public List<Checkjason> checkajax(@RequestParam int id) {
+		Checkjason user = new Checkjason();
+		userorder userorder = new userorder();
+		userorder = userorderRepo.getByIdOrder(id);
+		user.setId(userorder.getIdOrder());
+		user.setUsername(userorder.getUserprofile().getName());
+		user.setTotal(userorder.getTotalOrder());
+		user.setPay(userorder.getPayTotal());
+		user.setUserbank(userorder.getUserBank());
+		user.setSellerbank(userorder.getSellerBank());
+		user.setPaytime(userorder.getPayTime());
+		user.setLastnum(userorder.getLastNum());
+		user.setImage(userorder.getPhotoPay());
+		List<Checkjason> jsList = new ArrayList<Checkjason>();
 		jsList.add(user);
 		return jsList;
 	}

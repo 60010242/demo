@@ -5,12 +5,14 @@ import java.time.LocalDateTime;
 public class Checkjason {
 	private int id;
 	private String username;
-	private String total;
-	private String pay;
+	private int total;
+	private int pay;
 	private String userbank;
 	private String sellerbank;
 	private LocalDateTime paytime;
 	private int lastnum;
+	private String image;
+	
 	public int getId() {
 		return id;
 	}
@@ -23,16 +25,16 @@ public class Checkjason {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getTotal() {
+	public int getTotal() {
 		return total;
 	}
-	public void setTotal(String total) {
+	public void setTotal(int total) {
 		this.total = total;
 	}
-	public String getPay() {
+	public int getPay() {
 		return pay;
 	}
-	public void setPay(String pay) {
+	public void setPay(int pay) {
 		this.pay = pay;
 	}
 	public String getUserbank() {
@@ -58,6 +60,12 @@ public class Checkjason {
 	}
 	public void setLastnum(int lastnum) {
 		this.lastnum = lastnum;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	
