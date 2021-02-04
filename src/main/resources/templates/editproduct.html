@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/buysellproduct.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style>
 .cathead{
@@ -39,79 +40,6 @@ a.catdelete img:hover{
 	flex-flow: column;
 }
 
-.product-container{
-	padding: 0 10%;
-	flex-flow: wrap;
-	display: flex;
-}
-.product-container product{
-  	margin: 0;
-	width: 33.33333%;
-	height: 220px;
-}
-product div{
-	width: 100pt;
-	display: inline-table;
-	position: relative;
-	color: var(--grey);
-}
-product a{
-	color: var(--brown);
-	text-decoration: none;
-	font-weight: bold;
-	font-style: italic;
-	cursor: pointer;
-}
-product .smlxl span{
-	width: 48pt;
-	display: inline-table;
-	position: relative;
-}
-.addproduct{
-	cursor: pointer;
-	filter: invert(85%) sepia(3%) saturate(5021%) hue-rotate(342deg) brightness(89%) contrast(78%);
-}
-.removeproduct{
-	position: absolute;
-	top: 2%;
-	right: 2%;
-	filter: invert(18%) sepia(92%) saturate(7486%) hue-rotate(359deg) brightness(106%) contrast(109%);
-}
-
-.tablecat-whitebg{
-	padding: 5% 0;
-	width: 85%;
-	float: right;
-	border: 0;
-	background-color: rgba(255,255,255,60%);
-}
-.imgproduct{
-	width: 100pt;
-	height: 100pt;
-	border-radius: 100pt;
-}
-
-.btnsubmit{
-font-family: 'Bai Jamjuree', sans-serif;
-	background-color: var(--green);
-	height: 20pt;
-	width: 50pt;
-	border-radius: 5pt;
-	text-align: center;
-	color: white;
-	border: none;
-	margin-right: 10%;
-	float: right;
-	cursor: pointer;
-}
-.btnsubmit:hover{
-	background-color: darkgreen;
-	width: 50pt;
-	height: 20pt;
-	line-height: 20pt;
-	font-weight: bolder;
-	border: outset 1pt white;
-}
 .sep>td{
 	padding: 5%;
 }

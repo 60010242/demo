@@ -165,7 +165,8 @@ close{
 #overlayaddproduct,
 #overlayeditproduct,
 #overlayaddcat,
-#overlayeditcat{
+#overlayeditcat,
+#overlayaddslip{
   position: fixed;
   visibility: hidden;
   width: 100%;

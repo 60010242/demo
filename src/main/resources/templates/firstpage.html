@@ -3,202 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
-<style>
-:root {
-  --brown: #cbaf87;
-  --x: #c7b198;
-  --brownbg: #f4ebc1;
-  --browntab: #e8cca3;
-  --green: #79d70f;
-  --grey: #707070;
-}
-
-body{
-	font-family: 'Bai Jamjuree', sans-serif;
-	height: 100vh;
-	margin: 0;
-	display: flex;
-	background-color: var(--brownbg);
-	position: relative;
-}
-
-.center{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.back{
-	position: fixed;
-	top: 0;
-	left: 10pt;
-	text-decoration: none;
-	font-size: 30pt;
-	color: white;
-}
-
-.sellerheader{
-	position: fixed;
-	top: 0;
-	height: 60px;
-	width: 100%;
-	padding: 0 40pt;
-	left: 0;
-	background-color: var(--brown);
-	color: white;
-	font-size: 20pt;
-	box-shadow: 2px 2px 5px gray;
-	z-index: 999;
-}
-.tabheader{
-	position: fixed;
-	top: 60px;
-	left: 0;
-	height: 30pt;
-	width: 100%;
-	background-color: var(--browntab);
-	box-shadow: 2px 2px 5px gray;
-	display: flex;
-	z-index: 900;
-}
-.tabheader a{
-	display: block;
-    width: 100px;
-    height: 30pt;
-    text-decoration: none;
-    text-align: center;
-    color: var(--grey);
-    font-weight: bold;
-    line-height: 30pt;
-}
-/* Nav */
-ul {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-color: var(--brown);
-	box-shadow: 2px 2px 5px gray; 
-	z-index: 999;
-}
-li {
-	float: left;
-	height: 60px;
-}
-li a {
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 4px 16px;
-	text-decoration: none;
-}
-.profilepicture{
-	border-radius: 50px;
-	width: 50px;
-	height: 50px;
-}
-.logout{
-	position: fixed;
-	top: 35px;
-	right: 100px;
-	color: #30475e;
-}
-
-/* Style the tab */
-.tab {
-	position: fixed;
-	top: 60px;
-	left: 0;
-	width: 100%;
-	height: 30pt;
-    font-weight: bold;
-  	overflow: hidden;
-  	box-shadow: 2px 2px 5px gray;
-	background-color: var(--browntab);
-	z-index: 900;
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  line-height: 30pt;
-  width: 100pt;
-  transition: 0.3s;
-  font-size: 17px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-	background-color: #bbb;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-	background-color: var(--grey);
-	color: white;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-top: none;
-  background-color: white;
-  z-index: 1;
-}
-
-</style>
-
-</head>
-
-<body>
-<iframe id="buyproduct" class="tabcontent" src="buyproduct.html" style="display: block;"></iframe>
-
-<iframe id="buytransfer" class="tabcontent" src="buytransfer.html"></iframe>
-
-<iframe id="buytrack" class="tabcontent" src="buytrack.html"></iframe>
-
-<ul>
-		<li><a href="/firstpage"><img class="profilepicture" th:src="@{/negotiating-a-lease_pet.jpg}"></a></li>
-		<li class="center"><a href="#contact">ร้านขายของน้องหมา </a></li>
-		<li style="float:right"><a href="/myinfo">
-			<img class="profilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
-			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
-		</a></li>
-		<li style="float:right"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
-		<a href="/logout" class="logout">logout</a>
-</ul>
-
-<img class="editprofilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
-<img class="editprofilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
-	
-<!-- <div class="sellerheader">
-	<div th:each="cat: ${catlist}" style="display: inline" th:if="${catlist != null}">
-		<a th:href="@{'/editproduct/' + ${cat.getIdCategory()}}" th:value="${cat.getNameCat()}" th:text="${cat.getNameCat()}"></a>
-	</div>
-</div> -->
-<a class="back" href="/firstpage"><</a>
-
-<div class="tab">
-  <button class="tablinks active" onclick="openTab(event, 'buyproduct')">ซื้อสินค้า</button>
-  <button class="tablinks" onclick="openTab(event, 'buytransfer')">แจ้งชำระเงิน</button>
-  <button class="tablinks" onclick="openTab(event, 'buytrack')">ติดตามเลขพัสดุ</button>
-</div>
-
 
 <script>
 function openTab(evt, buyerselect) {
@@ -215,5 +21,36 @@ function openTab(evt, buyerselect) {
   evt.currentTarget.className += " active";
 }
 </script>
+</head>
+
+<body class="center">
+<ul th:fragment="navhead" class="navhead">
+		<li style="float: left;"><a href="/firstpage"><img class="profilepicture" th:src="@{/negotiating-a-lease_pet.jpg}"></a></li>
+		<li style="float: left; line-height: 52px;"><a href="/firstpage">ร้านขายของน้องหมา </a></li>
+		<li style="float: right"><a href="/myinfo">
+			<img class="profilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
+			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
+		</a></li>
+		<li style="float: right"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
+		<a href="/logout" class="logout">logout</a>
+</ul>
+
+<a class="back" href="/firstpage"><</a>
+
+<div th:fragment="tabbuyer" class="tab">
+  <a class="tablinks" href="/buyproduct">ซื้อสินค้า</a>
+  <a class="tablinks" href="/buytransfer">แจ้งชำระเงิน</a>
+  <a class="tablinks" href="/buytrack">ติดตามเลขพัสดุ</a>
+</div>
+
+<img class="editprofilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
+<img class="editprofilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
+	
+<!-- <div class="sellerheader">
+	<div th:each="cat: ${catlist}" style="display: inline" th:if="${catlist != null}">
+		<a th:href="@{'/editproduct/' + ${cat.getIdCategory()}}" th:value="${cat.getNameCat()}" th:text="${cat.getNameCat()}"></a>
+	</div>
+</div> -->
+
 </body>
 </html>

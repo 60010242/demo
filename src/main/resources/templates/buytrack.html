@@ -3,38 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --brown: #cbaf87;
-  --x: #c7b198;
-  --brownbg: #f4ebc1;
-  --browntab: #e8cca3;
-  --green: #79d70f;
-  --grey: #707070;
-}
-
-body{
-	font-family: 'Bai Jamjuree', sans-serif;
-	margin: 120px 10%;
-	display: flex;
-	background-color: var(--brownbg);
-}
-
-.center{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.back{
-	position: fixed;
-	top: 0;
-	left: 10pt;
-	text-decoration: none;
-	font-size: 30pt;
-	color: white;
-}
 
 details {
 	width: 100%;
@@ -46,14 +17,6 @@ summary{
 	display: flex;
 	align-items: center;
 	padding-left: 2%;
-}
-#detaildata{
-	position: absolute;
-	font-size: 10pt;
-	right: 2%;
-	bottom: 2%;
-	text-decoration: underline;
-	cursor: pointer;
 }
 /* overlay detail */
 .container{
@@ -71,17 +34,6 @@ summary{
 	width: 100%;
 	height: 100%;
 	border: none;
-}
-#overlayaddslip, #overlaydetail {
-  position: fixed;
-  visibility: hidden;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 2;
-  cursor: pointer;
 }
 
 #detaildata{
@@ -103,7 +55,14 @@ hr {
   height: 2px;
 }
 </style>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function(){
+	var tablinks = document.getElementsByClassName("tablinks");
+	
+	$('a.tablinks:nth-child(3)').addClass("active");
+})
+
 function ondetail() {
 	  document.getElementById("overlaydetail").style.visibility = "visible";
 }
@@ -143,8 +102,11 @@ function offdetail() {
 </div>
 
 <!-- Main Page -->
-<details th:each="day : ${daylist}">
-		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
+<div th:replace="firstpage :: navhead"></div>
+<div th:replace="firstpage :: tabbuyer"></div>
+
+<details>
+		<summary>มกราคม</summary>
 		<table class="maintable">
 			<tr class="tableheader">
 				<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
@@ -153,13 +115,13 @@ function offdetail() {
 				<th style="height:30pt; width: 10%">เลขแทร็ก</th>
 				<th style="height:30pt; width: 10%">ยืนยันรับพัสดุ </th>
 			</tr>
-			<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
-				<td th:text="${'#'+ userorder.getIdOrder()}" id="valueTD1"></td>
+			<tr>
+				<td>#000000</td>
 				<td style="position: relative;" >
 					<ul>
-						<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
-							<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
-							<span th:text="${' x'+ orderlist.getNumber()}"></span>
+						<li> 
+							<span>ชื่อสินค้า</span>
+							<span>x จำนวน</span>
 			  			</li>
 					</ul>
 					<a onclick="ondetail()" id="detaildata">รายละเอียด </a>

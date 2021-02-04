@@ -3,38 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --brown: #cbaf87;
-  --x: #c7b198;
-  --brownbg: #f4ebc1;
-  --browntab: #e8cca3;
-  --green: #79d70f;
-  --grey: #707070;
-}
-
-body{
-	font-family: 'Bai Jamjuree', sans-serif;
-	margin: 120px 0;
-	display: flex;
-	background-color: var(--brownbg);
-}
-
-.center{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.back{
-	position: fixed;
-	top: 0;
-	left: 10pt;
-	text-decoration: none;
-	font-size: 30pt;
-	color: white;
-}
 
 /* BuyTransfer */
 .whitebg{
@@ -81,8 +52,9 @@ body{
   cursor: pointer;
 }
 
-#detaildata{
+#detaildata, #slip{
 	font-size: 10pt;
+	font-style: italic;
 	text-decoration: underline;
 	cursor: pointer;
 }
@@ -100,7 +72,13 @@ hr {
   height: 2px;
 }
 </style>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function(){
+	var tablinks = document.getElementsByClassName("tablinks");
+	$('a.tablinks:nth-child(2)').addClass("active");
+})
+
 function ondetail() {
 	document.getElementById("overlaydetail").style.visibility = "visible";
 }
@@ -117,24 +95,7 @@ function offaddslip() {
 </head>
 
 <body class="center">
-	<div class="whitebg">
-		<table style="width: 100%;">
-			<tr>
-				<td style="width: 20%;">
-					<div class="imgproduct"></div>
-				</td>
-				<td style="width: 60%;">
-					ออร์เดอร์ <div></div>
-					<a onclick="ondetail()" id="detaildata">รายละเอียด</a><br><br>
-					สั่งเมื่อ <div></div>
-				</td>
-				<td style="width: 20%;">
-					<a onclick="onaddslip()" id="detaildata">เพิ่มรูปสลิป</a>
-				</td>
-			</tr>
-		</table>
-	</div>
-	
+<!-- overlay -->
 <div class="center" id="overlaydetail" onclick="offdetail()">
 		<div class="checked">
 			<div style="position: absolute; left: 0; top: 0;">รหัส order</div>
@@ -165,6 +126,30 @@ function offaddslip() {
 		<div class="checked">
 			<iframe src="addslip.html"></iframe>
 		</div>
+	</div>
+	
+	
+<!-- Main Page -->
+<div th:replace="firstpage :: navhead"></div>
+<div th:replace="firstpage :: tabbuyer"></div>
+
+<!-- Loop order -->
+	<div class="whitebg">
+		<table style="width: 100%;">
+			<tr>
+				<td style="width: 20%;">
+					<div class="imgproduct"></div>
+				</td>
+				<td style="width: 60%;">
+					ออร์เดอร์ <div></div>
+					<a onclick="ondetail()" id="slip">รายละเอียด</a><br><br>
+					สั่งเมื่อ <div></div>
+				</td>
+				<td style="width: 20%;">
+					<a onclick="onaddslip()" id="slip">เพิ่มรูปสลิป</a>
+				</td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>

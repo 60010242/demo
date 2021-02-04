@@ -23,7 +23,7 @@ public class GeneralController {
 	public String showuser(@SessionAttribute("user") userprofile user, Model model) {
 		String web = "";
 		if(user.getType().equalsIgnoreCase("Customer")) {
-			web = "firstpage";
+			web = "redirect:/buyproduct";
 		}else if(user.getType().equalsIgnoreCase("Seller")) {
 			web = "redirect:/editproduct";//"redirect:/editproduct";
 		}
@@ -55,28 +55,24 @@ public class GeneralController {
 		return "testpage";
 	}
 	
-	@GetMapping("/editproductpages")
-	public String categorytabs(Model model) {
-		List<category> catlist = new ArrayList<category>();
-		catlist = categoryRepo.findAll();
-		category cat = new category();
-		String idcat = categoryRepo.getMinIdcategory();
-		List<productdetail> products = new ArrayList<productdetail>();
-		if(idcat != null) {
-			cat = categoryRepo.getOne(idcat);
-			products = productdetailRepo.getByCategory(cat.getNameCat());
-		}else {
-			cat = null;
-		}
-		model.addAttribute("products", products);
-		model.addAttribute("cat", cat);
-		model.addAttribute("catlist", catlist);
-		return "categorytabs";
-	}
+	@GetMapping("/buytrack")
+	public ModelAndView buytrack() {
+
+        ModelAndView buytrack = new ModelAndView("buytrack");
+
+        return buytrack;
+    }
+	
+	@GetMapping("/buytransfer")
+	public ModelAndView buytransfer() {
+
+        ModelAndView buytransfer = new ModelAndView("buytransfer");
+
+        return buytransfer;
+    }
 	
 	@GetMapping("/editproductpage")
 	public ModelAndView editProductPage() {
-
 
         ModelAndView editproductpage = new ModelAndView("editproduct");
 

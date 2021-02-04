@@ -3,151 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/buysellproduct.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
-<style>
-:root {
-  --brown: #cbaf87;
-  --x: #c7b198;
-  --brownbg: #f4ebc1;
-  --browntab: #e8cca3;
-  --green: #79d70f;
-  --grey: #707070;
-}
 
-body{
-	font-family: 'Bai Jamjuree', sans-serif;
-	height: 100vh;
-	margin: 120px 10%;
-	display: flex;
-	flex-direction: column;
-	background-color: var(--brownbg);
-}
-
-.center{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.back{
-	position: fixed;
-	top: 0;
-	left: 10pt;
-	text-decoration: none;
-	font-size: 30pt;
-	color: white;
-}
-
-a.catheader{
-	text-decoration: none;
-	background-color: var(--brown);
-	color: white;
-	display: inline-block;
-	width: 40pt;
-	height: 40pt;
-	text-align: center;
-	line-height: 40pt;
-}
-td button.active {
-	background-color: var(--grey);
-	color: white;
-}
-
-.whitebg{
-	/* margin: 80pt 10% 0 10%; */
-	width: 100%;
-	background-color: white;
-	display: none;
-}
-.imgproduct{
-	width: 60pt;
-	height: 60pt;
-	border-radius: 60pt;
-	background-color: black;
-}
-.btnsubmit{
-font-family: 'Bai Jamjuree', sans-serif;
-	background-color: var(--green);
-	height: 20pt;
-	width: 50pt;
-	border-radius: 5pt;
-	text-align: center;
-	color: white;
-	border: none;
-	float: right;
-	cursor: pointer;
-}
-.btnsubmit:hover{
-	background-color: darkgreen;
-	width: 50pt;
-	height: 20pt;
-	line-height: 20pt;
-	font-weight: bolder;
-	border: outset 1pt white;
-}
-.sep>td{
-	border: 4pt solid var(--brown);
-	padding: 5%;
-}
-
-/* overlay */
-
-#overlay {
-  position: fixed;
-  visibility: hidden;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 2;
-  cursor: pointer;
-}
-.checked{
-	position: relative;
-	background-color: white;
-	margin-top: 5%;
-	padding: 10px;
-	width: 40%;
-	height: 70%;
-	cursor: default;
-	flex-flow: column;
-}
-.centercol{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-flow: column;
-}
-
-.overlaytable{
-	width: 100%;
-	overflow-y: scroll;
-	position: relative;
-}
-.overlaytable > th, .overlaytable > td{
-	text-align: left;
-	padding: 2% 0 2% 14%;
-}
-.overlaytable > td{
-	width: 60%;
-}
-
-.overlayconfirm{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	font-size: 16pt;
-	text-align: center;
-	height: 40pt;
-	width: 100%;
-	background-color:  #79d70f;
-	border: none;
-	color: white;
-	box-shadow: 2px -2px 2px gray;
-}
-</style>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
+$(document).ready(function(){
+	var idcat = document.getElementById("idcat").innerText;
+	var tabcats = document.getElementsByClassName("tabcat");
+	var tablinks = document.getElementsByClassName("tablinks");
+	
+	$('a.tablinks:nth-child(1)').addClass("active");
+	for (i = 0; i < tabcats.length; i++) {
+	    if(tabcats[i].id == idcat){
+	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
+	    }
+	}
+})
+
 function catSelect(evt, catselected) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tablecat");
@@ -173,7 +47,7 @@ function off() {
 </script>
 </head>
 
-<body>
+<body style="flex-flow: column;">
 <!-- overlay -->
 <div class="center" id="overlay" onclick="off()">
 		<div class="checked">
@@ -201,46 +75,57 @@ function off() {
 
 
 <!-- Main Page -->
+<div th:replace="firstpage :: navhead"></div>
+<div th:replace="firstpage :: tabbuyer"></div>
+
 <!-- Tab เลิอก Cat -->
-<table>
-	<tr>
+<div style="width: 100%;">
+<table class="tabcat-container">
+	<tr class="center"
+		th:each="cat: ${catlist}"
+		th:if="${catlist != null}">
 		<td>
-			<button class="catheader active" onclick="catSelect(event, 'shirt')">เสื้อ </button>
-			<button class="catheader" onclick="catSelect(event, 'cup')">แก้ว </button>
+			<a class="tabcat"
+				th:href="@{'/buyproduct/' + ${cat.getIdCategory()}}"
+				th:value="${cat.getNameCat()}"
+				th:text="${cat.getNameCat()}"
+				th:id="${cat.getIdCategory()}"
+				>
+			</a>
+			<!-- th:attr="onclick=|openTabCat(event, '${cat.getIdCategory()}')|" -->
 		</td>
 	</tr>
 </table>
 
 <!-- Loop สินค้าใน Cat -->
-<table id="shirt" class="whitebg" style="display: block;">
+<table class="tablecat-whitebg">
 	<tr class="sep" th:if="${cat != null}">
-		<td>
-			<p>รายละเอียดเพิ่มเติม </p>
-			<p>Category Shirt Detail</p>
-			<div>image</div>
-		</td>
-	</tr>
-	
-	<tr class="sep" th:if="${cat != null}">
-		<td>
-			<div th:each="product: ${products}">
+		<td class="product-container">
+			<p id="idcat" hidden="true" th:text="${cat.getIdCategory()}"></p>
+			<product class="center" th:each="product: ${products}">
 				<div th:if="${product.getEnable()==1}">
-					<div th:if="${product.getNumberStock() == null}">
-						S <input th:if="${product.getS() > 0}" type="number"> <input th:if="${product.getS() == 0}" type="number" disabled> <br>
-						M <input th:if="${product.getM() > 0}" type="number"> <input th:if="${product.getM() == 0}" type="number" disabled> <br>
-						L <input th:if="${product.getL() > 0}" type="number"> <input th:if="${product.getL) == 0}" type="number" disabled> <br>
-						XL <input th:if="${product.getXL() > 0}" type="number"> <input th:if="${product.getXL() == 0}" type="number" disabled> <br>
+					<img class="imgproduct" th:if="${product.getPhotoProduct() == null}" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
+					<img class="imgproduct" th:if="${product.getPhotoProduct() != null}" th:src="@{'data:image/jpeg;base64,'+${product.getPhotoProduct()}}">
+					<span th:text="${product.getNameProduct()}"></span>
+					<div class="smlxl" th:if="${product.getNumberStock() == null}">
+						S&nbsp;&nbsp;<input th:if="${product.getS() > 0}" type="number"><input th:if="${product.getS() == 0}" type="number" disabled>&nbsp;&nbsp;
+						M&nbsp;&nbsp;<input th:if="${product.getM() > 0}" type="number"><input th:if="${product.getM() == 0}" type="number" disabled> <br>
+						L&nbsp;&nbsp;<input th:if="${product.getL() > 0}" type="number"><input th:if="${product.getL() == 0}" type="number" disabled>&nbsp;&nbsp;
+						XL&nbsp;<input th:if="${product.getXl() > 0}" type="number"><input th:if="${product.getXl() == 0}" type="number" disabled> <br>
 					</div>
 					<div th:if="${product.getNumberStock() != null}">
-						Stock <input th:if="${product.getNumberStock() > 0}" type="number"> <input th:if="${product.getNumberStock() == 0}" type="number" disabled> <br>
+						จำนวน&nbsp;&nbsp;<input th:if="${product.getNumberStock() > 0}" type="number"><input th:if="${product.getNumberStock() == 0}" type="number" disabled> <br>
 					</div>
 				</div>
-			</div>
+			</product>
 		</td>
 	</tr>
 </table>
-<div>
-	<input style="float: right;" type="button" value="ยืนยันสั่งสินค้า" onclick="on()">
 </div>
+
+<div>
+	<input style="margin: 2% 0;" class="btnsubmit" type="button" value="สั่งสินค้า" onclick="on()">
+</div>
+
 </body>
 </html>

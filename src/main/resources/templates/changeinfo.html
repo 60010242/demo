@@ -7,9 +7,6 @@
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style type="text/css">
-body{
-	margin: 70pt 0 0 0;
-}
 
 /* Change Information */
 .brownbg{
@@ -40,8 +37,8 @@ h3{
 }
 table{
 	width: 80%;
-	padding-left: 20%;
-	margin-top: 10%;
+	padding-left: 15%;
+	margin: 10%;
 	cursor: default;
 }
 .inputinfo{
@@ -57,11 +54,10 @@ table{
 }
 .left{
 	position: absolute;
-	left: 10%;
+	left: 5%;
 	top: 20%;
 }
 .btnconfirm{
-	position: absolute;
 	background-color: #79d70f;
 	color: white;
 	width: 60pt;
@@ -86,28 +82,16 @@ function togglePW() {
 </script>
 </head>
 <body class="center">
-	<ul class="navhead" th:if="${session.user.getType() == 'Customer'}">
-		<li><a href="/firstpage"><img class="profilepicture" th:src="@{/Pembroke-Welsh-Corgi-Puppies-Lying-Down.jpg}"></a></li>
-		<li class="center"><a href="/firstpage">ร้านขายของน้องหมา </a></li>
-		<li style="float:right">
-			<a href="/myinfo">
-				<img class="profilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
-				<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
-			</a>
-		</li>
-		<li style="float:right"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
-		<a href="/logout" class="logout">logout</a>
-	</ul>
-	<ul class="navhead" th:if="${session.user.getType() == 'Seller'}">
-		<li style="float:right">
-			<a href="/myinfo">
-				<img class="profilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
-				<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
-			</a>
-		</li>
-		<li style="float:right"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
-		<a href="/logout" class="logout">logout</a>
-	</ul>
+ <!-- Main Page -->
+	<p hidden="true" th:text="${session.user.getType()}"></p>
+	<div th:if="${session.user.getType() == 'Customer'}">
+		<ul th:replace="firstpage :: navhead"></ul>
+	</div>
+	<div th:if="${session.user.getType() == 'Seller'}">
+		<ul th:replace="Sfirstpage :: navhead"></ul>
+	</div>
+	
+	
 	<div class="brownbg center">
 	<a href="/myinfo" class="back"><</a>
 	<div class="left">
@@ -149,7 +133,7 @@ function togglePW() {
 			</tr>
 			<tr><td colspan="2">&nbsp;</td></tr>
 			<tr>
-				<td></td>
+				<td colspan="2"></td>
 				<td><input type="submit" class="btnconfirm" value="Submit" name="button"></td>
 			</tr>
 		</table>
