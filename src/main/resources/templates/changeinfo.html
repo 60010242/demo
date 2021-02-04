@@ -5,76 +5,9 @@
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/infopage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
-<style type="text/css">
 
-/* Change Information */
-.brownbg{
-	position: relative;
-	background: rgba(255,255,255,0.4);
-	height: 70%;
-	width: 70%;
-	box-shadow: 5px 5px 5px gray;
-	flex-flow: column;
-}
-.back{
-	position: absolute;
-	top: 0;
-	left: 10pt;
-	text-decoration: none;
-	font-size: 30pt;
-	color: var(--brown);
-}
-h3{
-	margin: 4% 0 0 0;
-	font-size: 18pt;
-}
-.editprofilepicture{
-	border-radius: 100px;
-	width: 100px;
-	height: 100px;
-	left: 0;
-}
-table{
-	width: 80%;
-	padding-left: 15%;
-	margin: 10%;
-	cursor: default;
-}
-.inputinfo{
-	width: 90%;
-	height: 20pt;
-	cursor: text;
-}
-.inputaddress{
-	width: 90%;
-	height: 80pt;
-	cursor: text;
-	resize: none;
-}
-.left{
-	position: absolute;
-	left: 5%;
-	top: 20%;
-}
-.btnconfirm{
-	background-color: #79d70f;
-	color: white;
-	width: 60pt;
-	height: 22pt;
-	right: 14%;
-	bottom: 8%;
-	border: none;
-	box-shadow: 2px 2px 5px gray;
-	cursor: pointer;
-}
-#hidepsw{
-	cursor: pointer;
-	width: 20px;
-	height: 20px;
-}
-
-</style>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 function togglePW() {
@@ -108,8 +41,8 @@ function togglePW() {
 		<img class="editprofilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
 	</div>
 	<h3> ข้อมูลผู้ใช้งาน </h3>
-	<form action="#" th:action="@{/updatemem}" th:object="${mem}" method="post" enctype="multipart/form-data">
-		<table th:each="mem : ${mem}">
+	<form class="right" action="#" th:action="@{/updatemem}" th:object="${mem}" method="post" enctype="multipart/form-data">
+		<table class="changeinfo-table" th:each="mem : ${mem}">
 			<tr>
 				<td>ชื่อผู้ใช้งาน :*</td>
 				<td><input class="inputinfo" type="text" th:value="${session.user.getName()}" th:field="*{name}" required></td>
