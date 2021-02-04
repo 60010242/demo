@@ -145,7 +145,7 @@ function off() {
 	<div class="brownbg center">
 	<a href="/firstpage" class="back"><</a>
 	
-	<img class="editprofilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/83968655_1508266912688925_789788986167001088_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_eui2=AeEmS9a7V_5EfIh3isYQehQUdnXS_5a1mcd2ddL_lrWZxwCZekQyIsKnHov1EeLDg-A_dWPuo1Ea4PKB91i3xWso&_nc_ohc=O0b9t4pD7DEAX8oKyDd&_nc_ht=scontent.fbkk22-2.fna&oh=abb0c36270eb66c217b41b3c3c035c2d&oe=5F85E625">
+	<img class="editprofilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download" th:src="@{'/Icon/default-profile.png'}">
 	<img class="editprofilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
 	
 	<table>

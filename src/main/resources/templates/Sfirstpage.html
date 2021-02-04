@@ -93,7 +93,7 @@ function openTab(evt, buyerselect) {
 	<ul th:fragment="navhead" class="navhead">		
 	<li style="float: right;">
 		<a href="/myinfo">
-			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}">
+			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}" th:src="@{'/Icon/default-profile.png'}">
 			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
 		</a>
 	</li>
