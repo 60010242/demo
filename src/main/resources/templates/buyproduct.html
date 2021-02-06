@@ -20,6 +20,14 @@ $(document).ready(function(){
 	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
 	    }
 	}
+	$('.cart').hover(function() {
+        	$('.popup').fadeIn(200);
+   		},
+    	function(){
+    		$('.popup').fadeOut(200);
+    	}
+	);
+	$('.popup').hide();
 })
 
 function catSelect(evt, catselected) {
@@ -78,6 +86,13 @@ function off() {
 <div th:replace="firstpage :: navhead"></div>
 <div th:replace="firstpage :: tabbuyer"></div>
 
+
+<div class="popup popup-cart-position">
+	<span class="popuptext">ดูตะกร้า</span>
+</div>
+<a class="cart-container center" href="/cart">
+	<img class="cart" th:src="@{/Icon/cart.png}">
+</a>
 <!-- Tab เลิอก Cat -->
 <div style="width: 100%;">
 <table class="tabcat-container">
@@ -122,10 +137,5 @@ function off() {
 	</tr>
 </table>
 </div>
-
-<div>
-	<input style="margin: 2% 0;" class="btnsubmit" type="button" value="สั่งสินค้า" onclick="on()">
-</div>
-
 </body>
 </html>

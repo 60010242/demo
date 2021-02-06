@@ -11,5 +11,17 @@ spring:
   servlet:
     multipart:
       max-file-size: 2MB
+  mail:    host: smtp.gmail.com
+    port: 587
+    username: rixshiki@gmail.com
+    password: fmrftkyefqyonglu
+    properties:      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
+            enable: true
 server:
   port: 7070

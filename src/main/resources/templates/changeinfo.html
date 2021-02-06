@@ -34,11 +34,18 @@ function togglePW() {
 	</div>
 	
 	
-	<div class="brownbg center">
+<div class="brownbg">
 	<a href="/myinfo" class="back"><</a>
-	<div class="left">
+	<div class="left center">
 		<img class="editprofilepicture" th:if="${session.user.getPhotoUser() == null}" th:src="@{'/Icon/default-profile.png'}">
 		<img class="editprofilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
+		
+		<input style="position:absolute; bottom:0; display: inline-block; position: absolute; z-index: 1;
+				width: 100%; opacity: 0;
+    			cursor: pointer" type="file" placeholder="upload">
+    	<p style="position: absolute; bottom:0; z-index: 0; width: 100%; cursor: pointer; z-index: 0; display: inline-block;">
+			upload
+		</p>
 	</div>
 	<h3> ข้อมูลผู้ใช้งาน </h3>
 	<form class="right" action="#" th:action="@{/updatemem}" th:object="${mem}" method="post" enctype="multipart/form-data">

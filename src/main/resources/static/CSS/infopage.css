@@ -29,11 +29,7 @@
 .myinfo-table td p{
 	margin: 2pt;
 }
-.left{
-	position: absolute;
-	left: 10%;
-	top: 20%;
-}
+
 .btneditinfo{
 	position: absolute;
 	color: #1592E6;
@@ -76,6 +72,7 @@
 }
 h3{
 	margin: 4% 0 0 0;
+	text-align: center;
 	font-size: 18pt;
 }
 .editprofilepicture{
@@ -87,8 +84,7 @@ h3{
 }
 .changeinfo-table{
 	width: 90%;
-	padding-left: 15%;
-	margin: 4% 10%;
+	margin: 4%;
 	cursor: default;
 }
 .inputinfo{
@@ -103,14 +99,20 @@ h3{
 	resize: none;
 }
 .left{
-	width: 100px;
-	height: 100%;
+	position: relative;
+	width: 20%;
+	top: 80px;
+	margin: 0;
+	float: left;
 	/*position: absolute;
 	left: 5%;
 	top: 20%;*/
 }
 .right{
+	position: relative;
 	width: 80%;
+	margin: 0;
+	float: right;
 }
 .btnconfirm{
 	background-color: #79d70f;

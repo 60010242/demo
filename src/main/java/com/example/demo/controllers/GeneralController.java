@@ -1,20 +1,15 @@
 package com.example.demo.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.entities.category;
-import com.example.demo.entities.productdetail;
 import com.example.demo.entities.userprofile;
-import com.example.demo.repositories.CategoryRepository;
-import com.example.demo.repositories.ProductDetailRepository;
 
 @Controller
 public class GeneralController {
@@ -29,29 +24,9 @@ public class GeneralController {
 		}
 		return web;
 	}
-	
-	@Autowired
-	private CategoryRepository categoryRepo;
-	
-	@Autowired
-	private ProductDetailRepository productdetailRepo;
-	
+		
 	@GetMapping("/testpage")
 	public String testpage(Model model) {
-		List<category> catlist = new ArrayList<category>();
-		catlist = categoryRepo.findAll();
-		category cat = new category();
-		String idcat = categoryRepo.getMinIdcategory();
-		List<productdetail> products = new ArrayList<productdetail>();
-		if(idcat != null) {
-			cat = categoryRepo.getOne(idcat);
-			products = productdetailRepo.getByCategory(cat.getNameCat());
-		}else {
-			cat = null;
-		}
-		model.addAttribute("products", products);
-		model.addAttribute("cat", cat);
-		model.addAttribute("catlist", catlist);
 		return "testpage";
 	}
 	
@@ -77,5 +52,26 @@ public class GeneralController {
         ModelAndView editproductpage = new ModelAndView("editproduct");
 
         return editproductpage;
+    }
+	
+	@GetMapping("/cart")
+	public String cart(Model model) {
+		return "cart";
+	}
+	
+	@Autowired
+    private JavaMailSender javaMailSender;
+	
+	void sendEmail() {
+
+		SimpleMailMessage msg = new SimpleMailMessage();
+
+        msg.setTo("rixshiki@gmail.com"); //set customer mail
+        msg.setSubject("Testing from Spring Boot"); //subject mail
+        msg.setText("Hello World \nSpring Boot Email"); //text will send to customer
+
+		javaMailSender.send(msg);
+		
+		System.out.println("Done");
     }
 }

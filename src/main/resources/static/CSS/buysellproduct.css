@@ -47,6 +47,57 @@ product .smlxl input{
 	filter: invert(18%) sepia(92%) saturate(7486%) hue-rotate(359deg) brightness(106%) contrast(109%);
 }
 
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+/* The actual pop-up (appears on top) */
+.popup .popuptext {
+  width: 100px;
+  background-color: #555;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  margin-left: -80px;
+}
+/* Pop-up arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+.popup-cart-position{
+	position: fixed;
+	bottom: 140px;
+	right: 2%;
+}
+
+.cart-container{
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	width: 80px;
+	height: 80px;
+	border-radius: 80px;
+	background-color: var(--grey);
+	box-shadow: 2px 2px 5px var(--grey);
+	cursor: pointer;
+}
+.cart{
+	width: 50px;
+	height: 50px;
+	filter: invert(98%) sepia(0%) saturate(7500%) hue-rotate(320deg) brightness(110%) contrast(97%);
+}
+
 .tablecat-whitebg{
 	padding: 5% 0;
 	width: 85%;
