@@ -4,6 +4,7 @@ public class Orderjson {
 	private String name;
 	private int num;
 	private int cost;
+	private String image;
 	
 	public String getName() {
 		return name;
@@ -22,6 +23,12 @@ public class Orderjson {
 	}
 	public void setCost(int cost) {
 		this.cost = cost;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	

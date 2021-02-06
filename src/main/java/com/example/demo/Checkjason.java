@@ -10,7 +10,6 @@ public class Checkjason {
 	private String userbank;
 	private String sellerbank;
 	private LocalDateTime paytime;
-	private int lastnum;
 	private String image;
 	
 	public int getId() {
@@ -54,12 +53,6 @@ public class Checkjason {
 	}
 	public void setPaytime(LocalDateTime paytime) {
 		this.paytime = paytime;
-	}
-	public int getLastnum() {
-		return lastnum;
-	}
-	public void setLastnum(int lastnum) {
-		this.lastnum = lastnum;
 	}
 	public String getImage() {
 		return image;

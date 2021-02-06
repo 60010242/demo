@@ -60,7 +60,6 @@ function on(orderId) {
 		    	  	document.getElementById("overlaytableTD5").innerHTML = val.userbank;
 		    	  	document.getElementById("overlaytableTD6").innerHTML = val.sellerbank;
 		    	  	document.getElementById("overlaytableTD7").innerHTML = val.paytime;
-		    	  	document.getElementById("overlaytableTD8").innerHTML = val.lastnum;
 		    	  	document.getElementById("overlayIMG").innerHTML = "<img width='200' alt='can't download' src='data:image/jpeg;base64,"+ val.image +"'>";
 		    	  	document.getElementById("overlayconfirm").href="/trantotracking/"+ val.id;
 	    		  });
@@ -122,10 +121,6 @@ function offdetail() {
 						<th>วันเวลาที่โอน</th>
 						<td id="overlaytableTD7"></td>
 					</tr>
-					<tr>
-						<th>บัญชี 4 ตัวท้าย</th>
-						<td id="overlaytableTD8"></td>
-					</tr>
 			</table>
 			<div class="img" id="overlayIMG"></div>
 		<a href="" class="overlayconfirm" id="overlayconfirm">ยืนยัน </a>
@@ -156,7 +151,8 @@ function offdetail() {
 					<ul>
 						<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
 							<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
-							<span th:text="${' x'+ orderlist.getNumber()}"></span>
+							<span th:text="${' '+orderlist.getSize().toUpperCase()}" th:if="${orderlist.getSize()!=null}"></span>
+							<span th:text="${'  x'+ orderlist.getNumber()}"></span>
 			  			</li>
 					</ul>
 					<!-- <a onclick="ondetail()" id="detaildata">รายละเอียด </a> -->

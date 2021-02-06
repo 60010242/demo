@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.Checkjason;
 import com.example.demo.Daygroup;
-import com.example.demo.Mixjson;
 import com.example.demo.Monthgroup;
 import com.example.demo.Orderjson;
 import com.example.demo.Userjson;
@@ -286,6 +285,27 @@ public class OrderController {
 		return "redirect:/cancel";
 	}
 	
+	@GetMapping("/buytransfer")
+	public String buytransfer(Model model) {
+		List<userorder> userorders = new ArrayList<userorder>();
+		List<orderdetail> orderlists = new ArrayList<orderdetail>();
+		userorders = userorderRepo.getByStatus("paying");
+		for(userorder userorder : userorders) {
+			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
+			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
+			orderlists.addAll(orderdetails);
+		}
+		userorder user = new userorder();
+		user = userorders.get(0);
+		List<orderdetail> orderdetails = new ArrayList<orderdetail>();
+		orderdetails = orderdetailRepo.getByIdorder(user.getIdOrder());
+		String img = orderdetails.get(0).getProductdetail().getPhotoProduct();
+		model.addAttribute("image", img);
+		model.addAttribute("orderlists", orderlists);
+		model.addAttribute("userorders", userorders);
+		return "buytransfer";
+	}
+	
 	@GetMapping("/createPDF")
 	public String createPDF(Model model) throws IOException {
 		List<String> deliverylist = new ArrayList<String>();
@@ -375,9 +395,14 @@ public class OrderController {
 	    for(orderdetail order : orderlist) {
 	    	json = new Orderjson();
 	    	productdetail product = productRepo.getByIdproduct(order.getIdProduct());
-	    	json.setName(product.getNameProduct());
+	    	if(order.getSize()!=null) {
+	    		json.setName(product.getNameProduct()+" "+order.getSize().toUpperCase());
+	    	}else {
+	    		json.setName(product.getNameProduct());
+	    	}
 	    	json.setNum(order.getNumber());
 	    	json.setCost(order.getRealPrice());
+	    	json.setImage(order.getProductdetail().getPhotoProduct());
 	    	jsList.add(json);
 	    }
 		return jsList;
@@ -412,39 +437,9 @@ public class OrderController {
 		user.setUserbank(userorder.getUserBank());
 		user.setSellerbank(userorder.getSellerBank());
 		user.setPaytime(userorder.getPayTime());
-		user.setLastnum(userorder.getLastNum());
 		user.setImage(userorder.getPhotoPay());
 		List<Checkjason> jsList = new ArrayList<Checkjason>();
 		jsList.add(user);
 		return jsList;
-	}
-	
-	@GetMapping("/gettwoajax")
-	@ResponseBody
-	public Mixjson gettwoajax(@RequestParam int id) {
-		Mixjson mix = new Mixjson();
-		Userjson user = new Userjson();
-		userorder userorder = new userorder();
-		userorder = userorderRepo.getByIdOrder(id);
-		user.setId(userorder.getIdOrder());
-		user.setUsername(userorder.getUserprofile().getName());
-		user.setTotal(userorder.getTotalOrder());
-		user.setAddress(userorder.getUserprofile().getAddress());
-		user.setTrack(userorder.getTrack());
-		Orderjson json = new Orderjson();
-		List<orderdetail> orderlist = new ArrayList<orderdetail>();
-		orderlist = orderdetailRepo.getByIdorder(id);
-	    List<Orderjson> jsList = new ArrayList<Orderjson>();
-	    for(orderdetail order : orderlist) {
-	    	json = new Orderjson();
-	    	productdetail product = productRepo.getByIdproduct(order.getIdProduct());
-	    	json.setName(product.getNameProduct());
-	    	json.setNum(order.getNumber());
-	    	json.setCost(order.getRealPrice());
-	    	jsList.add(json);
-	    }
-	    mix.setUser(user);
-	    mix.setOrderlist(jsList);
-		return mix;
 	}
 }

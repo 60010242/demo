@@ -20,15 +20,15 @@ import javax.persistence.Table;
 public class userorder {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idOrder;
-	private int totalOrder;
+	private Integer totalOrder;
 	private String nameDelivery;
 	private String track;
 	private String status;
-	private int totalWeight;
+	private Integer totalWeight;
 	private String userBank;
 	private String sellerBank;
-	private int lastNum;
-	private int payTotal;
+	private Integer lastNum;
+	private Integer payTotal;
 	private LocalDateTime payTime;
 	private String photoPay;
 	private LocalDateTime cratedOrder;

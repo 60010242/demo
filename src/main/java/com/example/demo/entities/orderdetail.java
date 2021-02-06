@@ -20,6 +20,7 @@ public class orderdetail {
 	private int number;
 	private int idProduct;
 	private int realPrice;
+	private String size;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idProduct",referencedColumnName = "idProduct", insertable = false, updatable = false)
@@ -75,7 +76,12 @@ public class orderdetail {
 	public void setRealPrice(int realPrice) {
 		this.realPrice = realPrice;
 	}
-	
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -85,9 +91,9 @@ public class orderdetail {
 		result = prime * result + noOrder;
 		result = prime * result + number;
 		result = prime * result + realPrice;
+		result = prime * result + ((size == null) ? 0 : size.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -107,8 +113,12 @@ public class orderdetail {
 			return false;
 		if (realPrice != other.realPrice)
 			return false;
+		if (size == null) {
+			if (other.size != null)
+				return false;
+		} else if (!size.equals(other.size))
+			return false;
 		return true;
 	}
-	
 	
 }

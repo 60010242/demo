@@ -111,7 +111,8 @@ function offdetail() {
 			<ul>
 				<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
 					<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
-					<span th:text="${' x'+ orderlist.getNumber()}"></span>
+					<span th:text="${' '+orderlist.getSize().toUpperCase()}" th:if="${orderlist.getSize()!=null}"></span>
+					<span th:text="${'  x'+ orderlist.getNumber()}"></span>
 		  		</li>
 			</ul>
 			<a th:href="@{'/trantotracking2/' + ${userorder.getIdOrder()}}" id="tocancel" th:if="${userorder.getStatus().equalsIgnoreCase('cancel')}" 
