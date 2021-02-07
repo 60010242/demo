@@ -43,6 +43,12 @@ function openTab(evt, buyerselect) {
   <a class="tablinks" href="/buytrack">ติดตามเลขพัสดุ</a>
 </div>
 
+
+<div th:fragment="tabcart" class="tabsecond">
+	<a href="/firstpage" class="back"><</a>
+	ตะกร้า
+</div>
+
 <img class="editprofilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download"  th:src="@{'/Icon/default-profile.png'}">
 <img class="editprofilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
 
