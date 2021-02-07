@@ -68,8 +68,17 @@ hr {
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 $(document).ready(function(){
+	var idcat = document.getElementById("idcat").innerText;
+	var tabcats = document.getElementsByClassName("tabcat");
 	var tablinks = document.getElementsByClassName("tablinks");
+	
 	$('a.tablinks:nth-child(3)').addClass("active");
+	$('.tabcat-container tr:first-child a').addClass("active");
+	/*for (i = 0; i < tabcats.length; i++) {
+	    if(tabcats[i].id == idcat){
+	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
+	    }
+	}*/
 })
 
 function on() {
@@ -162,7 +171,18 @@ function offdetail() {
 </div>
 <div th:replace="Sfirstpage :: navhead"></div>
 <div th:replace="Sfirstpage :: tabseller"></div>
-<div class="overdetail">
+
+<div style="width: 100%;">
+<table class="tabcat-container">
+	<tr class="center">
+		<td>
+			<a class="tabcat" id="idcat">
+				ขนส่ง
+			</a>
+		</td>
+	</tr>
+</table>
+<div style="width: 85%; float: right;" class="overdetail">
 	<details th:each="day : ${daylist}">
 		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
 		<table class="maintable">
@@ -202,6 +222,7 @@ function offdetail() {
 		</tr>
 		</table>
 	</details>
+</div>
 </div>
 </body>
 </html>
