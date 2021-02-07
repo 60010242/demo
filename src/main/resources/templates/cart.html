@@ -5,17 +5,41 @@
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
-<link rel="stylesheet" th:href="@{/CSS/buysellproduct.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
-
+<style type="text/css">
+.button{
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	border-radius: 10px;
+	text-align: center;
+	color: white;
+	background-color: var(--grey);
+	cursor: pointer;
+}
+</style>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#tst').text($('#num').text());
+	})
+</script>
 </head>
 <body>
-	<table class="cart-container">
-		<tr>
-			<td style="width: 20%;"><img th:src=""></td>
-			<td style="width: 60%;">ชื่อสินค้า+size</td>
-			<td style="width: 10%;">จำนวน</td>
+<!-- Main Page -->
+<div th:replace="firstpage :: navhead"></div>
+<div th:replace="firstpage :: tabcart"></div>
+<div id="tst" style="position: fixed; top: 200px; right: 0;"></div>
+	<table class="cart-container whitebg" style="width: 80%; margin: 0 10%;">
+		<tr style="height: 100px;">
+			<td style="width: 20%; padding: 10px 0;">
+				<img style="width: 80px; height: 80px; background-color: black; border-radius: 50px;">
+			</td>
+			<td style="width: 50%;">ชื่อสินค้า size</td>
+			<td style="width: 20%;" class="editnum">
+				<input id="num" style="width: 20px; height: 20px;" type="number" value="1">
+				<a style="margin: 2px;" href="#delete"><img style="width: 20px; height: 20px;" th:src="@{/Icon/cart-remove.png}"></a>
+			</td>
 			<td style="width: 10%;">ราคา</td>
 		</tr>
 		<tr>
