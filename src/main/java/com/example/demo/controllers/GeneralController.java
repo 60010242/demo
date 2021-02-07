@@ -38,13 +38,11 @@ public class GeneralController {
         return buytrack;
     }
 	
-	@GetMapping("/buytransfer")
-	public ModelAndView buytransfer() {
+/*	@GetMapping("/buytransfer")
+	public String buytransfer() {
 
-        ModelAndView buytransfer = new ModelAndView("buytransfer");
-
-        return buytransfer;
-    }
+        return "buytransfer";
+    }*/
 	
 	@GetMapping("/editproductpage")
 	public ModelAndView editProductPage() {
