@@ -25,6 +25,7 @@ import com.example.demo.Checkjason;
 import com.example.demo.Daygroup;
 import com.example.demo.Monthgroup;
 import com.example.demo.Orderjson;
+import com.example.demo.Transgroup;
 import com.example.demo.Userjson;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
@@ -288,21 +289,20 @@ public class OrderController {
 	@GetMapping("/buytransfer")
 	public String buytransfer(Model model) {
 		List<userorder> userorders = new ArrayList<userorder>();
-		List<orderdetail> orderlists = new ArrayList<orderdetail>();
+		List<Transgroup> transgroup = new ArrayList<Transgroup>();
 		userorders = userorderRepo.getByStatus("paying");
 		for(userorder userorder : userorders) {
+			Transgroup tran = new Transgroup();
 			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
 			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
-			orderlists.addAll(orderdetails);
+			String img = orderdetails.get(0).getProductdetail().getPhotoProduct();
+			tran.setUserorder(userorder);
+			tran.setImage(img);
+			//tran.getUserorder().getIdUser()
+			//tran.getImage()
+			transgroup.add(tran);
 		}
-		userorder user = new userorder();
-		user = userorders.get(0);
-		List<orderdetail> orderdetails = new ArrayList<orderdetail>();
-		orderdetails = orderdetailRepo.getByIdorder(user.getIdOrder());
-		String img = orderdetails.get(0).getProductdetail().getPhotoProduct();
-		model.addAttribute("image", img);
-		model.addAttribute("orderlists", orderlists);
-		model.addAttribute("userorders", userorders);
+		model.addAttribute("transgroup", transgroup);
 		return "buytransfer";
 	}
 	

@@ -216,9 +216,6 @@ function offdetail() {
 					onclick="if (!confirm(this.getAttribute('data-confirm-submit'))) return false">
 				</form>
 			</td>
-			<input type="hidden" th:value="${userorder.getTotalOrder()}" id="valueTD5">
-			<input type="hidden" th:value="${userorder.getUserprofile().getAddress()}" id="valueTD6">
-			<input type="hidden" th:value="${userorder.getIdOrder()}" id="idorder">
 		</tr>
 		</table>
 	</details>

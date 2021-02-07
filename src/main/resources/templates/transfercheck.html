@@ -183,11 +183,6 @@ function offdetail() {
 				<td style="text-align: center;">
 					<button class="btncheck" th:attr="onclick=|on('${userorder.getIdOrder()}')|">ตรวจสอบ </button>
 				</td>
-				<input type="hidden" th:value="${userorder.getUserprofile().getName()}" id="valueTD2">
-				<input type="hidden" th:value="${userorder.getUserBank()}" id="valueTD5">
-				<input type="hidden" th:value="${userorder.getLastNum()}" id="valueTD8">
-				<input type="hidden" th:value="${userorder.getPhotoPay()}" id="valueIMG">
-				<input type="hidden" th:value="${userorder.getIdOrder()}" id="valueLink">
 				
 			</tr>
 		</table>

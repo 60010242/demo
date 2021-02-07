@@ -156,9 +156,6 @@ function offdetail() {
 		</td>
 		<td th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">กำลังขนส่ง</td>
 		<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับแล้ว</td>
-		<input type="hidden" th:value="${userorder.getTotalOrder()}" id="valueTD5">
-		<input type="hidden" th:value="${userorder.getUserprofile().getAddress()}" id="valueTD6">
-		<input type="hidden" th:value="${userorder.getTrack()}" id="valueTD7">
 	</tr>
 	</table>
 </details>
