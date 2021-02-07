@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.Checkjason;
 import com.example.demo.Daygroup;
@@ -30,6 +31,7 @@ import com.example.demo.Userjson;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
 import com.example.demo.entities.userorder;
+import com.example.demo.repositories.AccountRepository;
 import com.example.demo.repositories.DeliveryRepository;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.ProductDetailRepository;
@@ -55,6 +57,9 @@ public class OrderController {
 	
 	@Autowired
 	private DeliveryRepository deliRepo;
+	
+	@Autowired
+	private AccountRepository accountRepo;
 	
 	@GetMapping("/checking")
 	public String findchecking(Model model) {
@@ -306,6 +311,17 @@ public class OrderController {
 		return "buytransfer";
 	}
 	
+	@PostMapping("/savetransfer")
+	public String savetransfer(@RequestParam(name = "sendid") String sendid
+			,@RequestParam(name = "userbank") String userbank
+			,@RequestParam(name = "sellbank") String sellbank
+			,@RequestParam(name = "pay") Integer pay
+			,@RequestParam(name = "paydatetime") LocalDateTime paydatetime
+			,@RequestParam("imageFile") MultipartFile file) throws IOException {
+		
+		return "redirect:/buytransfer";
+	}
+	
 	@GetMapping("/createPDF")
 	public String createPDF(Model model) throws IOException {
 		List<String> deliverylist = new ArrayList<String>();
@@ -441,5 +457,13 @@ public class OrderController {
 		List<Checkjason> jsList = new ArrayList<Checkjason>();
 		jsList.add(user);
 		return jsList;
+	}
+	
+	@GetMapping("/accountajax")
+	@ResponseBody
+	public List<String> accountajax(){
+		List<String> nameaccount = new ArrayList<String>();
+		nameaccount = accountRepo.getAllNamesellaccount();
+		return nameaccount;
 	}
 }

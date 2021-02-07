@@ -112,8 +112,40 @@ function ondetail(orderId) {
 function offdetail() {
 	document.getElementById("overlaydetail").style.visibility = "hidden";
 }
-function onaddslip() {
+function onaddslip(orderId) {
 	document.getElementById("overlay").style.visibility = "visible";
+	
+	var tdbank = document.getElementById("selectbank")
+	var sel = document.createElement("SELECT");
+	var childrow = tdbank.lastElementChild;
+	while (childrow) { 
+		tdbank.removeChild(childrow); 
+		childrow = tdbank.lastElementChild; 
+    }
+	tdbank.appendChild(sel); 
+	sel.setAttribute("id", "MySelect");
+	sel.setAttribute("name", "sellbank"); 
+	$.ajax({
+	      url:"http://localhost:7070/userajax?id="+orderId,
+	    })
+	      .done(function( data ) {
+	    	  $.each( data, function(key,val) {
+		    		document.getElementById("headslip").innerHTML = 'ORDER #' + val.id;
+		    		document.getElementById("hiddenid").setAttribute("value", val.id);
+	    		  });
+	      });
+	$.ajax({
+	      url:"http://localhost:7070//accountajax",
+	    })
+	      .done(function( data ) {
+	    	  $.each( data, function(key,val) {
+	    		  var opt = document.createElement("OPTION"); 
+	    		  opt.setAttribute("value", val); 
+	    		  var nod = document.createTextNode(val); 
+	    		  opt.appendChild(nod); 
+	    		  document.getElementById("MySelect").appendChild(opt); 
+	    		  });
+	      });
 }
 function offaddslip() {
 	document.getElementById("overlay").style.visibility = "hidden";
@@ -148,9 +180,60 @@ function offaddslip() {
 	
 	<div class="center" id="overlay" onclick="offaddslip()">
 		<div class="checked">
-			<form action="">
-				<iframe src="addslip.html"></iframe>
+			<form action="#" th:action="@{/savetransfer}" method="post" enctype="multipart/form-data">
+				<h2 id="headslip"></h2>
+				<input style="visibility: hidden;" type="text" id="hiddenid" name="sendid">
+				<table>
+					<tr>
+						<td>ธนาคารผู้ซื้อ: <red>*</red></td>
+						<td>
+							<select name="userbank" required>
+								<option value="ธนาคารกรุงศรีอยุธยา (BAY)">ธนาคารกรุงศรีอยุธยา (BAY)</option>
+								<option value="ธนาคารกรุงเทพ (BBL)">ธนาคารกรุงเทพ (BBL)</option>
+								<option value="ธนาคารกรุงไทย (KTB)">ธนาคารกรุงไทย (KTB)</option>
+								<option value="ธนาคารกสิกร (KBANK)">ธนาคารกสิกร (KBANK)</option>
+								<option value="ธนาคารซิตี้แบงค์ (CITIBANK)">ธนาคารซิตี้แบงค์ (CITIBANK)</option>
+								<option value="ธนาคารซีไอเอ็มบี (CIMB)">ธนาคารซีไอเอ็มบี (CIMB)</option>
+								<option value="ธนาคารทหารไทย (TMB)">ธนาคารทหารไทย (TMB)</option>
+								<option value="ธนาคารทิสโก้ (TISCO)">ธนาคารทิสโก้ (TISCO)</option>
+								<option value="ธนาคารธนชาต (Thanachart)">ธนาคารธนชาต (Thanachart)</option>
+								<option value="ธนาคารออมสิน (GSB)">ธนาคารออมสิน (GSB)</option>
+								<option value="ธนาคารยูโอบี (UOB)">ธนาคารยูโอบี (UOB)</option>
+								<option value="ธนาคารเกียรตินาคินภัทร (Kiatnakin)">ธนาคารเกียรตินาคินภัทร (Kiatnakin)</option>
+								<option value="ธนาคารแห่งประเทศไทย (BOT)">ธนาคารแห่งประเทศไทย (BOT)</option>
+								<option value="ธนาคารสแตนดาร์ดชาร์เตอร์ด (Standard Chartered)">ธนาคารสแตนดาร์ดชาร์เตอร์ด (Standard Chartered)</option>
+								<option value="ธนาคารอาคารสงเคราะห์  (GHB)">ธนาคารอาคารสงเคราะห์ (GHB)</option>
+								<option value="ธนาคารอิสลามแห่งประเทศไทย (ISBT)">ธนาคารอิสลามแห่งประเทศไทย (ISBT)</option>
+								<option value="ธนาคารเพื่อการเกษตร (BAAC)">ธนาคารเพื่อการเกษตร (BAAC)</option>
+								<option value="ธนาคารไทยพาณิชย์ (SCB)">ธนาคารไทยพาณิชย์ (SCB)</option>
+								<option value="ธนาคารไทยเครดิตเพื่อรายย่อย (TCD)">ธนาคารไทยเครดิตเพื่อรายย่อย (TCD)</option>
+								<option value="ธนาคารไอซีบีซี (ICBC)">ธนาคารไอซีบีซี (ICBC)</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>ธนาคารผู้ขาย: <red>*</red></td>
+						<td id="selectbank"></td>				<!-- <select name=""><option> -->
+					</tr>
+					<tr>
+						<td>จำนวนเงินที่โอน: <red>*</red></td>
+						<td><input name="pay" type="number"></td>
+					</tr>
+					<tr>
+						<td>วัน-เวลาที่โอน: <red>*</red></td>
+						<td><input name="paydatetime" type="datetime-local"></td>
+					</tr>
+					<tr>
+						<td>รูปสลิป: <red>*</red></td>
+						<td><input type="file" name="imageFile"></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input style="float: right;" type="submit" value="Submit" name="button"></td>
+					</tr>
+				</table>
 			</form>
+			<!-- <iframe src="addslip.html"></iframe> -->
 		</div>
 	</div>
 	
