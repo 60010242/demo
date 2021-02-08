@@ -110,6 +110,7 @@ function onaddslip(orderId) {
 	    	  $.each( data, function(key,val) {
 		    		document.getElementById("headslip").innerHTML = 'ORDER #' + val.id;
 		    		document.getElementById("hiddenid").setAttribute("value", val.id);
+		    		document.getElementById("paytotal").setAttribute("value", val.total);
 	    		  });
 	      });
 	$.ajax({
@@ -199,7 +200,7 @@ function off() {
 					</tr>
 					<tr>
 						<td>จำนวนเงินที่โอน: <red>*</red></td>
-						<td><input name="pay" type="number"></td>
+						<td><input name="pay" type="number" id="paytotal"></td>
 					</tr>
 					<tr>
 						<td>วัน-เวลาที่โอน: <red>*</red></td>

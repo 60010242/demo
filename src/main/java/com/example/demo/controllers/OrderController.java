@@ -13,6 +13,7 @@ import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.Checkjason;
+import com.example.demo.CreateFile;
 import com.example.demo.Daygroup;
 import com.example.demo.Monthgroup;
 import com.example.demo.Orderjson;
@@ -312,13 +314,26 @@ public class OrderController {
 	}
 	
 	@PostMapping("/savetransfer")
-	public String savetransfer(@RequestParam(name = "sendid") String sendid
+	public String savetransfer(@RequestParam(name = "sendid") int sendid
 			,@RequestParam(name = "userbank") String userbank
 			,@RequestParam(name = "sellbank") String sellbank
-			,@RequestParam(name = "pay") Integer pay
-			,@RequestParam(name = "paydatetime") LocalDateTime paydatetime
+			,@RequestParam(name = "pay") int pay
+			,@RequestParam(name = "paydatetime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime paydatetime
 			,@RequestParam("imageFile") MultipartFile file) throws IOException {
-		
+		userorder userorder = new userorder();
+		userorder = userorderRepo.findById(sendid).get();
+		userorder.setCratedOrder(LocalDateTime.now());
+		userorder.setUserBank(userbank);
+		userorder.setSellerBank(sellbank);
+		userorder.setPayTotal(pay);
+		userorder.setPayTime(paydatetime);
+		userorder.setStatus("checking");
+		if(!file.isEmpty()) {
+			CreateFile bFile = new CreateFile();
+			String image = bFile.invertfile(file);
+			userorder.setPhotoPay(image);
+		}
+		userorderRepo.save(userorder);
 		return "redirect:/buytransfer";
 	}
 	
