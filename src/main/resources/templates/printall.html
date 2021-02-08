@@ -6,7 +6,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <style>
-
 .tabdeli-container {
 	position: fixed;
 	top: 0;
@@ -53,8 +52,20 @@ embed , object{
 	left: 10%;
 }
 .pdf{
+	position: fixed;
 	padding: 20px;
+	top: 0;
 	width: 85%;
+	float: right;
+}
+.outoforder{
+	text-align: center;
+	font-size: 40px;
+	font-weight: bold;
+	font-style: italic;
+	line-height: 80vh;
+	text-shadow: 2px 2px 2px gray;
+	color: var(--grey);
 }
 </style>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -99,7 +110,7 @@ $(document).ready(function(){
 </div>
 <div class="pdf">
 	<p id="transport" th:text="${transport}" hidden="true"></p>
-	<p th:text="${pdf}" th:if="${check==0}"></p>
+	<p class="outoforder" th:text="${pdf}" th:if="${check==0}"></p>
 	<object th:data="'data:application/pdf;base64,'+${pdf}" type="application/pdf" th:if="${check==1}">
 			<embed th:src="'data:application/pdf;base64,'+${pdf}" type="application/pdf" />
 	</object>
