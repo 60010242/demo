@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+.overlaypage form{
+	width: 80%;
+	height: 100%;
+	margin: 0 10%;
+}
+.overlaypage table{
+	height: 100%;
+}
+
+.addeditoneproduct tr{
+	height: 20%;
+	line-height: 20%;
+}
+.addeditoneproduct td input{
+	margin: 5px;
+}
+
+.addeditoneproduct input[type="number"]{
+	width: 50px;
+}

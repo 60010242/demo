@@ -204,11 +204,21 @@ close{
   height: 100%;
   top: 0;
   left: 0;
-  background-color: rgba(0,0,0,0.5);
   z-index: 9999;
+}
+.overlaybg{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  cursor: pointer;
+  z-index: 9997;
 }
 .overlaypage{
 	background-color: white;
+	height: 100%;
 	margin: 2%;
 }
 .overlaypage input[type=text],
@@ -218,14 +228,21 @@ close{
  	border: 1px solid var(--grey);
 	background-color: #eee;
 }
+#editproductpage,
+#addproductpage,
+#addcatpage
+{
+	height: 80%;
+}
 .checked{
 	position: relative;
 	background-color: white;
 	width: 50%;
 	height: 80%;
 	cursor: default;
-	padding-top: 80px;
+	padding-top: 50px;
 	flex-flow: column;
+	z-index: 9999;
 }
 .checked iframe{
 	width: 100%;
@@ -258,6 +275,7 @@ close{
 	border: none;
 	color: white;
 	box-shadow: 2px -2px 2px gray;
+	cursor: pointer;
 }
 #detaildata{
 	position: absolute;

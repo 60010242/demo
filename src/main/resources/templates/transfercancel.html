@@ -60,14 +60,14 @@ function ondetail(orderId) {
   	      });
 }
 
-function offdetail() {
+function off() {
   document.getElementById("overlaydetail").style.visibility = "hidden";
 }
 </script>
 </head>
 <body>
 <!-- overlay -->
-	<div class="center" id="overlaydetail" onclick="offdetail()">
+	<div class="center" id="overlaydetail">
 		<div class="checked center">
 			<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
 			<table id="table" class="tabledetail" style="width: 80%;">
@@ -95,6 +95,7 @@ function offdetail() {
 				</tr>
 			</table>
 		</div>
+		<div class="overlaybg" onclick="off()"></div>
 	</div>
 
 

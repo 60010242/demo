@@ -67,7 +67,7 @@ function ondetail() {
 	  document.getElementById("overlaydetail").style.visibility = "visible";
 }
 
-function offdetail() {
+function off() {
 	  document.getElementById("overlaydetail").style.visibility = "hidden";
 }
 </script>
@@ -75,7 +75,7 @@ function offdetail() {
 
 <body>
 <!-- overlay -->
-<div class="center" id="overlaydetail" onclick="offdetail()">
+<div class="center" id="overlaydetail">
 		<div class="checked">
 			<div style="position: absolute; left: 0; top: 0;">รหัส order</div>
 			<table class="tabledetail">
@@ -99,6 +99,7 @@ function offdetail() {
 				</tr>
 			</table>
 		</div>
+		<div class="overlaybg" onclick="off()"></div>
 </div>
 
 <!-- Main Page -->

@@ -3,32 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
-<style type="text/css">
-
-table{
-	border-collapse: collapse;
-}
-.overlaypage form{
-	width: 80%;
-	margin: 0 10%;
-}
-
-.overlaypage form table tr{
-	border: 20px solid transparent;
-}
-
-input[type="number"]{
-	width: 50px;
-}
-</style>
+<link rel="stylesheet" th:href="@{/CSS/addeditoneproduct.css}">
 </head>
 <body>
 <div class="overlaypage">
 	<form action="#" th:action="@{/updateproduct}" th:object="${product}" method="post" enctype="multipart/form-data">
-		<table>
+		<table class="addeditoneproduct">
 			<tr>
 				<td>ใส่รูป </td>
-				<td><input type="file"  name="imageFile"></td>
+				<td><input type="file" accept="image/*" name="imageFile"></td>
 			</tr>
 			<tr>
 				<td>ชื่อสินค้า </td>
