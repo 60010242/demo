@@ -8,7 +8,7 @@
 .product-container product{
   	margin: 0;
 	width: 33.33333%;
-	height: 220px;
+	height: 250px;
 }
 product div{
 	width: 100pt;
@@ -45,6 +45,16 @@ product .smlxl input{
 	top: 2%;
 	right: 2%;
 	filter: invert(18%) sepia(92%) saturate(7486%) hue-rotate(359deg) brightness(106%) contrast(109%);
+}
+.addcart{
+	font-size: 12px;
+	height: 20px;
+	padding: 5px;
+	float: right;
+}
+.addcart img{
+	width: 15px;
+	height: 15px;
 }
 
 .popup {
