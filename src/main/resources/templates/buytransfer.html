@@ -20,31 +20,11 @@
 .container{
 	width: 80%;
 }
-.checked{
-	position: relative;
-	background-color: white;
-	width: 50%;
-	height: 80%;
-	cursor: default;
-	flex-flow: column;
-}
 .checked iframe{
 	width: 100%;
 	height: 100%;
 	border: none;
 }
-#overlay, #overlaydetail {
-  position: absolute;
-  visibility: hidden;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 9999;
-  cursor: pointer;
-}
-
 #detaildata, #slip{
 	font-size: 10pt;
 	font-style: italic;
@@ -70,6 +50,7 @@ hr {
 $(document).ready(function(){
 	var tablinks = document.getElementsByClassName("tablinks");
 	$('a.tablinks:nth-child(2)').addClass("active");
+	$('.whitebg table:last-child hr').remove();
 })
 
 function ondetail(orderId) {
@@ -109,9 +90,6 @@ function ondetail(orderId) {
   	    		  });
   	      });
 }
-function offdetail() {
-	document.getElementById("overlaydetail").style.visibility = "hidden";
-}
 function onaddslip(orderId) {
 	document.getElementById("overlay").style.visibility = "visible";
 	
@@ -147,7 +125,8 @@ function onaddslip(orderId) {
 	    		  });
 	      });
 }
-function offaddslip() {
+function off() {
+	document.getElementById("overlaydetail").style.visibility = "hidden";
 	document.getElementById("overlay").style.visibility = "hidden";
 }
 </script>
@@ -155,8 +134,9 @@ function offaddslip() {
 
 <body class="center">
 <!-- overlay -->
-<div class="center" id="overlaydetail" onclick="offdetail()">
+<div class="center" id="overlaydetail">
 		<div class="checked">
+			<close style="color: red;" onclick="off()">X</close>
 			<div style="position: absolute; left: 0; top: 0;"><p id="idorder"></p></div>
 			<table class="tabledetail">
 				<tr>
@@ -178,8 +158,10 @@ function offaddslip() {
 		</div>
 	</div>
 	
-	<div class="center" id="overlay" onclick="offaddslip()">
+	<div class="center" id="overlay">
 		<div class="checked">
+			<close onclick="off()">X</close>
+			<div class="overlayheader center">ยืนยันแจ้งชำระเงิน</div>
 			<form action="#" th:action="@{/savetransfer}" method="post" enctype="multipart/form-data">
 				<h2 id="headslip"></h2>
 				<input style="visibility: hidden;" type="text" id="hiddenid" name="sendid">
@@ -261,6 +243,7 @@ function offaddslip() {
 					<a th:attr="onclick=|onaddslip('${tran.getUserorder().getIdOrder()}')|" id="slip">เพิ่มรูปสลิป</a>
 				</td>
 			</tr>
+			<tr><td colspan="3"><hr style="margin: 2% 10%;"/></td></tr>
 		</table>
 	</div>
 </body>
