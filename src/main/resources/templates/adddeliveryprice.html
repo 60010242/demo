@@ -78,7 +78,11 @@
 				<td><p th:text="${deli.getNameDelivery()}">บริการขนส่ง </p></td>
 				<td><p th:text="${deli.getMaxWeight()}">น้ำหนักสูงสุด </p></td>
 				<td><p th:text="${deli.getPriceDelivery()}">ราคาขนส่ง </p></td>
-				<td style="text-align: center;"><a th:href="@{'/deletedelivery/' + ${deli.getIdDelivery()}}">ลบ </a></td>
+				<td style="text-align: center;">
+					<a th:href="@{'/deletedelivery/' + ${deli.getIdDelivery()}}"
+						th:data-confirm-delete="|ต้องการลบ ${deli.getNameDelivery()} น้ำหนัก ${deli.getMaxWeight()} ราคา ${deli.getPriceDelivery()} ?|"
+						onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">
+					ลบ </a></td>
 			</tr>
 		</table>
 	</form>

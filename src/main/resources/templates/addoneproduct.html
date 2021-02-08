@@ -3,24 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
-<style type="text/css">
-
-table{
-	border-collapse: collapse;
-}
-.overlaypage form{
-	width: 80%;
-	margin: 0 10%;
-}
-
-.overlaypage form table tr{
-	border: 20px solid transparent;
-}
-
-input[type="number"]{
-	width: 50px;
-}
-</style>
+<link rel="stylesheet" th:href="@{/CSS/addeditoneproduct.css}">
 <script>
 	function show(x){
 		//if product.getSize != Null
@@ -47,9 +30,9 @@ input[type="number"]{
 		th:object="${product}"
 		method="post"
 		enctype="multipart/form-data">
-		<table>
+		<table class="addeditoneproduct">
 			<tr>
-				<td>ใส่รูป </td>
+				<td style="width: 200px;">ใส่รูป </td>
 				<td><input type="file" name="imageFile"></td>
 			</tr>
 			<tr>

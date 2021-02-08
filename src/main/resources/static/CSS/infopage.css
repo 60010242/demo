@@ -82,6 +82,16 @@ h3{
 	left: 0;
 	box-shadow: 2px 2px 5px gray;
 }
+.editprofilepicturebtn, label{
+	position: absolute;
+	cursor: pointer;
+	bottom: 0; 
+	font-style: italic;
+	text-align:center; 
+	width: 100%;
+	margin: 8px;
+	color: white;
+}
 .changeinfo-table{
 	width: 90%;
 	margin: 4%;
@@ -129,4 +139,8 @@ h3{
 	cursor: pointer;
 	width: 20px;
 	height: 20px;
+}
+
+input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
+    cursor: pointer; 
 }

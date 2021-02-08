@@ -6,6 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/addeditproduct.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style type="text/css">
 
@@ -77,64 +78,64 @@ function on(orderId) {
 
 function off() {
   document.getElementById("overlay").style.visibility = "hidden";
+  document.getElementById("overlaydetail").style.visibility = "hidden";
 }
 
-function ondetail() {
-	  document.getElementById("overlaydetail").style.visibility = "visible";
-}
 
-function offdetail() {
-	  document.getElementById("overlaydetail").style.visibility = "hidden";
-}
 </script>
 </head>
 
 <body>
 <!-- overlay -->
-	<div class="center" id="overlaydetail" onclick="offdetail()">
+	<div class="center" id="overlaydetail">
 		<div class="checked center">
 			<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
 		</div>
+		<div class="overlaybg" onclick="off()"></div>
 	</div>
 	
-	<div class="center" id="overlay" onclick="off()">
-		<div class="checked center" onclick="on()">
-			<div>
+	<div class="center" id="overlay">
+		<div class="checked">
+			<close onclick="off()">X</close>
 			<div class="overlayheader center">ตรวจสอบ </div>
-			<table class="overlaytable">
-				<tr>
+			<table style="width: 100%; height: 100%; padding: 10px 0 50px 0;">
+				<tr style="height: 6%;">
 						<th>รหัสสั่งซื้อ</th>
 						<td id="overlaytableTD1"></td>
 					</tr>
-					<tr>
+					<tr style="height: 6%;">
 						<th>ชื่อ-สกุล</th>
 						<td id="overlaytableTD2"></td>
 					</tr>
-					<tr>
+					<tr style="height: 6%;">
 						<th>จำนวนเงินที่ต้องโอน</th>
 						<td id="overlaytableTD3"></td>
 					</tr>
-					<tr>
+					<tr style="height: 6%;">
 						<th>จำนวนเงินที่โอนมา</th>
 						<td id="overlaytableTD4"></td>
 					</tr>
-					<tr>
+					<tr style="height: 6%;">
 						<th>จากธนาคาร</th>
 						<td id="overlaytableTD5"></td>
 					</tr>
-					<tr>
+					<tr style="height: 6%;">
 						<th>เข้าธนาคาร</th>
 						<td id="overlaytableTD6"></td>
 					</tr>
-					<tr>
+					<tr style="height: 6%;">
 						<th>วันเวลาที่โอน</th>
 						<td id="overlaytableTD7"></td>
 					</tr>
+					<tr style="height: 58%;">
+						<td colspan="2" class="center" style="height: 100%;">
+							<div class="img" id="overlayIMG"></div>
+						</td>
+					</tr>
 			</table>
-			<div class="img" id="overlayIMG"></div>
-		<a href="" class="overlayconfirm" id="overlayconfirm">ยืนยัน </a>
+				<a href="" class="overlayconfirm" id="overlayconfirm">ยืนยัน </a>
 			</div>
-		</div>
+		<div class="overlaybg" onclick="off()"></div>
 	</div>
 
 <!-- Main Page -->

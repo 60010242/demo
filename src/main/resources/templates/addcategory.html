@@ -39,24 +39,23 @@ function Re(){
 		method="post"
 		enctype="multipart/form-data">
 		<table style="width: 100%;" class="center">
-			<tr>
+			<tr style="height: 10%;">
 				<td>ชื่อ Category</td>
 			</tr>
-			<tr>
+			<tr style="height: 20%;">
 				<td><input style="width: 100%; margin-bottom: 20px;" type="text" th:field="*{nameCat}" required></td>
 			</tr>
 			<!-- ต้อง input S/M/L/"(ไม่มี)" ลงใน Name สินค้าก่อน -->
-			<tr>
+			<tr style="height: 10%;">
 				<td style="font-size: 14px;">รายละเอียดเพิ่มเติม</td>
 			</tr>
-			<tr>
+			<tr style="height: 60%;">
 				<td>
 					<textarea style="width: 100%; resize: none;" th:field="*{detailCat}" rows="10" cols="20"></textarea><br> 
 					<input type="file" accept="image/*" name="imageFile">
 				</td>
 			<tr>
-				<td><input class="overlayconfirm" style="float: right;"
-						type="submit" value="Submit" name="button"></td>
+				<td><input class="overlayconfirm" type="submit" value="Submit" name="button"></td>
 			</tr>
 		</table>
 	</form>
