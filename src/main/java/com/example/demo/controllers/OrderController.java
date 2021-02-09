@@ -139,7 +139,7 @@ public class OrderController {
 		return "packing";
 	}
 	
-	@PostMapping("/trantocomplete/{idorder}")
+	@PostMapping("/trantoshipping/{idorder}")
 	public String trantocomplete(@PathVariable("idorder") Integer idorder
 			,@RequestParam("numtrack") String numtrack) {
 		userorder order = new userorder(); 
@@ -203,17 +203,22 @@ public class OrderController {
 		List<Monthgroup> monthlist = new ArrayList<Monthgroup>();
 		List<userorder> ul = new ArrayList<userorder>();
 		for(int i=1;i<8;i++) {
+			boolean m = false;
 			Monthgroup monthgroup = new Monthgroup();
 			String monthname = getMonth(month)+ ' ' + year;
 			monthgroup.setMonthname(monthname);
 			monthgroup.setMonthnum(month);
-			monthlist.add(monthgroup);
+			
 			for(userorder uo : userorders) {
 				if(uo.getPayTime().getMonthValue()==month) {
 					if(uo.getPayTime().getYear()==year) {
 						ul.add(uo);
+						m = true;
 					}
 				}
+			}
+			if(m) {
+				monthlist.add(monthgroup);
 			}
 			month--;
 			if(month==0) {
@@ -335,6 +340,71 @@ public class OrderController {
 		}
 		userorderRepo.save(userorder);
 		return "redirect:/buytransfer";
+	}
+	
+	@GetMapping("/buytrack")
+	public String buytrack(Model model) {
+		List<userorder> userorders = new ArrayList<userorder>();
+		List<userorder> Alluserorders = new ArrayList<userorder>();
+		List<orderdetail> orderlists = new ArrayList<orderdetail>();
+		userorders = userorderRepo.getByStatus("checking");
+		Alluserorders.addAll(userorders);
+		userorders = userorderRepo.getByStatus("tracking");
+		Alluserorders.addAll(userorders);
+		userorders = userorderRepo.getByStatus("shipping");
+		Alluserorders.addAll(userorders);
+		userorders = userorderRepo.getByStatus("complete");
+		Alluserorders.addAll(userorders);
+		
+		LocalDate localDate = LocalDate.now();
+		int month = localDate.getMonthValue();
+		int year = localDate.getYear();
+		List<Monthgroup> monthlist = new ArrayList<Monthgroup>();
+		List<userorder> ul = new ArrayList<userorder>();
+		for(int i=1;i<8;i++) {
+			boolean m = false;
+			Monthgroup monthgroup = new Monthgroup();
+			String monthname = getMonth(month)+ ' ' + year;
+			monthgroup.setMonthname(monthname);
+			monthgroup.setMonthnum(month);
+			
+			for(userorder uo : Alluserorders) {
+				if(uo.getPayTime().getMonthValue()==month) {
+					if(uo.getPayTime().getYear()==year) {
+						ul.add(uo);
+						m = true;
+					}
+				}
+			}
+			if(m) {
+				monthlist.add(monthgroup);
+			}
+			month--;
+			if(month==0) {
+				month = 12;
+				year--;
+			}
+		}
+		for(userorder userorder : Alluserorders) {
+			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
+			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
+			orderlists.addAll(orderdetails);
+		}
+		model.addAttribute("userlist", ul);
+		model.addAttribute("monthlist", monthlist);
+		model.addAttribute("orderlists", orderlists);
+		model.addAttribute("userorders", Alluserorders);
+		return "buytrack";
+	}
+
+	@GetMapping("/trantocomplete/{idorder}")
+	public String trantocomplete(@PathVariable("idorder") Integer idorder) {
+		userorder order = new userorder(); 
+		order = userorderRepo.findById(idorder).get();
+		order.setStatus("complete");
+		order.setCratedOrder(LocalDateTime.now());
+		userorderRepo.save(order);
+		return "redirect:/buytrack";
 	}
 	
 	@GetMapping("/createPDF")

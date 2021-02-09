@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
@@ -63,8 +64,42 @@ $(document).ready(function(){
 	$('a.tablinks:nth-child(3)').addClass("active");
 })
 
-function ondetail() {
-	  document.getElementById("overlaydetail").style.visibility = "visible";
+function ondetail(orderId) {
+	var roworder = document.getElementById("roworder")
+	var childrow = roworder.lastElementChild;
+	document.getElementById("overlaydetail").style.visibility = "visible";
+	while (childrow) { 
+		roworder.removeChild(childrow); 
+		childrow = roworder.lastElementChild; 
+    }
+	$.ajax({
+	      url:"http://localhost:7070/userajax?id="+orderId,
+	    })
+	      .done(function( data ) {
+	    	  $.each( data, function(key,val) {
+		    		document.getElementById("idorder").innerHTML = 'ORDER #' + val.id;
+		    		document.getElementById("total").innerHTML = val.total;
+	    		  });
+	      });
+  	$.ajax({
+  	      url:"http://localhost:7070/testajax?id="+orderId,
+  	    })
+  	      .done(function( data ) {
+  	    	  $.each( data, function(key,val) {
+	  	    		  	var row = document.createElement("TR");
+	  	    		 	var rowtotal = document.getElementById("rowtotal");
+		  	    		//rowtotal.parentNode.insertBefore(row, rowtotal);
+		  	    		roworder.appendChild(row);
+		  	    		var c1 = row.insertCell(0);
+		  	    		var c2 = row.insertCell(1);
+		  	    		var c3 = row.insertCell(2);
+		  	    		var c4 = row.insertCell(3);
+		  	    		c1.innerHTML = "<img width='200' alt='can't download' src='data:image/jpeg;base64,"+ val.image +"'>";
+	  	    			c2.innerHTML = val.name;
+	  	    			c3.innerHTML = val.num;
+	  	    			c4.innerHTML = val.cost;
+  	    		  });
+  	      });
 }
 
 function off() {
@@ -77,37 +112,35 @@ function off() {
 <!-- overlay -->
 <div class="center" id="overlaydetail">
 		<div class="checked">
-			<div style="position: absolute; left: 0; top: 0;">รหัส order</div>
+			<close style="color: red;" onclick="off()">X</close>
+			<div style="position: absolute; left: 0; top: 0;"><p id="idorder"></p></div>
 			<table class="tabledetail">
 				<tr>
-					<td style="text-align: center;" colspan="3">รายการคำสั่งซื้อ </td>
+					<td style="text-align: center;" colspan="4">รายการคำสั่งซื้อ </td>
 				</tr>
 				<tr>
-					<td colspan="3"><hr></td>
+					<td colspan="4"><hr></td>
+				</tr>
+				<tbody id="roworder"></tbody>
+				<tr>
+					<td colspan="4"><hr></td>
 				</tr>
 				<tr>
-					<td>รูป </td>
-					<td>จำนวน</td>
-					<td>ราคา</td>
-				</tr>
-				<tr>
-					<td colspan="3"><hr></td>
-				</tr>
-				<tr>
+					<td colspan="2"><p></p></td>
 					<td>ยอดรวม </td>
-					<td></td>
+					<td id="total"></td>
 				</tr>
 			</table>
 		</div>
 		<div class="overlaybg" onclick="off()"></div>
-</div>
+	</div>
 
 <!-- Main Page -->
 <div th:replace="firstpage :: navhead"></div>
 <div th:replace="firstpage :: tabbuyer"></div>
-
-<details>
-		<summary>มกราคม</summary>
+<div style="width: 85%; float: right;" class="overdetail">
+<details th:each="month : ${monthlist}">
+		<summary th:text="${month.getMonthname()}" th:value="${month.getMonthname()}"></summary>
 		<table class="maintable">
 			<tr class="tableheader">
 				<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
@@ -116,25 +149,35 @@ function off() {
 				<th style="height:30pt; width: 10%">เลขแทร็ก</th>
 				<th style="height:30pt; width: 10%">ยืนยันรับพัสดุ </th>
 			</tr>
-			<tr>
-				<td>#000000</td>
+			<tr th:each="userorder: ${userlist}" th:if=${userorder.getPayTime().getMonthValue()==month.getMonthnum()}>
+				<td th:text="${'#'+ userorder.getIdOrder()}" id="valueTD1"></td>
 				<td style="position: relative;" >
 					<ul>
-						<li> 
-							<span>ชื่อสินค้า</span>
-							<span>x จำนวน</span>
+						<li th:each="orderlist: ${orderlists}" th:if="${orderlist.getIdOrder()==userorder.getIdOrder()}"> 
+							<span th:text="${orderlist.getProductdetail().getNameProduct()}"></span>
+							<span th:text="${' '+orderlist.getSize().toUpperCase()}" th:if="${orderlist.getSize()!=null}"></span>
+							<span th:text="${'  x'+ orderlist.getNumber()}"></span>
 			  			</li>
 					</ul>
-					<a onclick="ondetail()" id="detaildata">รายละเอียด </a>
+					<a th:attr="onclick=|ondetail('${userorder.getIdOrder()}')|" id="detaildata">รายละเอียด </a>
 				</td>
-				<td>สถานะ</td>
-				<td>เลขแทร็ก</td>
-				<td style="text-align: center;">
-					<button class="btncheck" onclick="if(!confirm('ยืนยันรับพัสดุ?')) return false;">ยืนยัน </button>
+				<td th:if="${userorder.getStatus().equalsIgnoreCase('checking')}">รอตรวจสอบ</td>
+				<td th:if="${userorder.getStatus().equalsIgnoreCase('tracking')}">รอจัดส่ง</td>
+				<td th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">จัดส่งแล้ว</td>
+				<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับของแล้ว</td>
+				
+				<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')||userorder.getStatus().equalsIgnoreCase('shipping')}" th:text="${userorder.getTrack()}"></td>
+				<td style="text-align: center;" th:if="${userorder.getStatus().equalsIgnoreCase('tracking')||userorder.getStatus().equalsIgnoreCase('checking')}">-</td>
+				
+				<td style="text-align: center;" th:if="${userorder.getStatus().equalsIgnoreCase('tracking')||userorder.getStatus().equalsIgnoreCase('checking')}">-</td>
+				<td style="text-align: center;" th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">
+					<a th:href="@{'/trantocomplete/'+ ${userorder.getIdOrder()}}" class="btncheck" onclick="if(!confirm('ยืนยันรับพัสดุ?')) return false;">ยืนยัน </a>
 				</td>
+				<td style="text-align: center;" th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับของแล้ว</td>
 				
 			</tr>
 		</table>
 	</details>
+</div>
 </body>
 </html>

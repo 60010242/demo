@@ -30,7 +30,7 @@ public class GeneralController {
 		return "testpage";
 	}
 	
-	@GetMapping("/buytrack")
+/*	@GetMapping("/buytrack")
 	public ModelAndView buytrack() {
 
         ModelAndView buytrack = new ModelAndView("buytrack");
@@ -38,7 +38,7 @@ public class GeneralController {
         return buytrack;
     }
 	
-/*	@GetMapping("/buytransfer")
+	@GetMapping("/buytransfer")
 	public String buytransfer() {
 
         return "buytransfer";

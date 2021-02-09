@@ -132,7 +132,8 @@ function ondetail(orderId) {
 	<tr class="tableheader">
 		<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
 		<th style="height:30pt; width: 20%" > ชื่อผู้ซื้อ </th>
-		<th style="height:30pt; width: 60%">  รายการ </th>
+		<th style="height:30pt; width: 40%">  รายการ </th>
+		<th style="height:30pt; width: 20%">  เลขแทร็ก </th>
 		<th style="height:30pt; width: 10%" > ผู้ซื้อได้รับแล้ว </th>
 	</tr>
 	<tr th:each="userorder: ${userlist}" th:if=${userorder.getPayTime().getMonthValue()==month.getMonthnum()}>
@@ -148,6 +149,7 @@ function ondetail(orderId) {
 			</ul>
 			<a id="detaildata" th:attr="onclick=|ondetail('${userorder.getIdOrder()}')|">รายละเอียด </a>
 		</td>
+		<td th:text="${userorder.getTrack()}"></td>
 		<td th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">กำลังขนส่ง</td>
 		<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับแล้ว</td>
 	</tr>
