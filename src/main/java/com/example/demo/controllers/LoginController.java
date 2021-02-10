@@ -68,4 +68,10 @@ public class LoginController {
 		sessionStatus.setComplete();
 		return "redirect:/";
 	}
+	
+	@GetMapping("/forgotpassword")
+	public String forgotpassword(Model model) {
+		
+		return "forgotpassword";
+	}
 }

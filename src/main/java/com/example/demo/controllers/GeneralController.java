@@ -30,6 +30,7 @@ public class GeneralController {
 		return "testpage";
 	}
 	
+	
 /*	@GetMapping("/buytrack")
 	public ModelAndView buytrack() {
 
