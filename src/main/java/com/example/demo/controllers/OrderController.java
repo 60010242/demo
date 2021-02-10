@@ -8,6 +8,7 @@ import java.text.DateFormatSymbols;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -347,6 +348,21 @@ public class OrderController {
 		List<userorder> userorders = new ArrayList<userorder>();
 		List<userorder> Alluserorders = new ArrayList<userorder>();
 		List<orderdetail> orderlists = new ArrayList<orderdetail>();
+		
+		userorders = userorderRepo.getByStatus("shipping");
+		for(userorder u : userorders) {
+			LocalDateTime to = LocalDateTime.now();
+			long days = ChronoUnit.DAYS.between(u.getCratedOrder(), to);
+			System.out.println(days);
+			if(days>10) {
+				userorder user = new userorder();
+				user = userorderRepo.findById(u.getIdOrder()).get();
+				user.setStatus("complete");
+				user.setCratedOrder(LocalDateTime.now());
+				userorderRepo.save(user);
+			}
+		}
+		
 		userorders = userorderRepo.getByStatus("checking");
 		Alluserorders.addAll(userorders);
 		userorders = userorderRepo.getByStatus("tracking");
