@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+body{
+	height: 100vh;
+	margin: 0;
+}
+
+h1 {
+	margin: -10% 0% 6% 0%;
+}
+
+.incorrect {
+	color: red;
+}
+
+table {
+	border: none;
+	border-radius: 6px;
+}
+
+input[type="text"], input[type="password"] {
+	height: 16pt;
+	border-radius: 16pt;
+	border: 1px solid gray;
+}
+
+input[type="submit"] {
+	font-family: 'Bai Jamjuree', sans-serif;
+	background-color: #1592E6;
+	border: none;
+	padding: 5px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 12pt;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 10px;
+	width: 100%;
+	color: white;
+}
+
+tr {
+	height: 16pt;
+}
+
+/* Nav */
+ul {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: var(--brown);
+	box-shadow: 2px 2px 5px gray;
+}
+
+li {
+	float: left;
+	height: 60px;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 4px 16px;
+	text-decoration: none;
+}
+
+
+/* Login */
+.loginwhitebg {
+	flex-direction: column;
+	background-color: rgba(255, 255, 255, 0.75);
+	border-radius: 0 100px;
+	width: 60%;
+	height: 80%;
+	box-shadow: 5px 5px 5px gray;
+	margin-top: 60px;
+}
+
+.col1 {
+	width: 49%;
+	height: 92%;
+	margin: 4% 0 4% 0;
+	float: left;
+	border-right: 1px gray solid;
+}
+
+.col2 {
+	width: 50%;
+	height: 100%;
+	float: right;
+	flex-direction: column;
+}
+.col2 form, .col2 table{
+	height: 50%;
+}
+
+.forgotpw {
+	font-size: 10pt;
+	float: right;
+}
+
+.newuser-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 50%;
+	font-size: 10pt;
+}
+.newuser-container p{
+	align-items: flex-end;
+	margin: 0;
+}
+
+.signup {
+	color: #1592E6;
+	text-decoration: none;
+	font-size: 14pt;
+}
