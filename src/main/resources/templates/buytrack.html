@@ -8,35 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style>
 
-details {
-	width: 100%;
-	border: 2px gray solid;
-}
-summary{
-	background-color: #e7d39f;
-	height: 30pt;
-	display: flex;
-	align-items: center;
-	padding-left: 2%;
-}
 /* overlay detail */
-.container{
-	width: 80%;
-}
-.checked{
-	position: relative;
-	background-color: white;
-	width: 50%;
-	height: 80%;
-	cursor: default;
-	flex-flow: column;
-}
-.checked iframe{
-	width: 100%;
-	height: 100%;
-	border: none;
-}
-
 #detaildata{
 	font-size: 10pt;
 	text-decoration: underline;
@@ -62,6 +34,12 @@ $(document).ready(function(){
 	var tablinks = document.getElementsByClassName("tablinks");
 	
 	$('a.tablinks:nth-child(3)').addClass("active");
+	$('.tabcat-container tr:first-child a').addClass("active");
+	/*for (i = 0; i < tabcats.length; i++) {
+	    if(tabcats[i].id == idcat){
+	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
+	    }
+	}*/
 })
 
 function ondetail(orderId) {
@@ -139,6 +117,25 @@ function off() {
 <div th:replace="navtab :: navheadbuyer"></div>
 <div th:replace="navtab :: tabbuyer"></div>
 
+<div style="width: 100%;">
+<table class="tabcat-container">
+	<tr class="center">
+		<td>
+			<a class="tabcat" id="idcat">กำลังดำเนินการ</a>
+		</td>
+	</tr>
+	<tr class="center">
+		<td>
+			<a class="tabcat" id="idcat">สำเร็จแล้ว</a>
+		</td>
+	</tr>
+	<tr class="center">
+		<td>
+			<a class="tabcat" id="idcat">ถูกยกเลิก</a>
+		</td>
+	</tr>
+</table>
+
 <div style="width: 85%; float: right;" class="overdetail">
 <details th:each="month : ${monthlist}">
 		<summary th:text="${month.getMonthname()}" th:value="${month.getMonthname()}"></summary>
@@ -179,6 +176,7 @@ function off() {
 			</tr>
 		</table>
 	</details>
+</div>
 </div>
 </body>
 </html>

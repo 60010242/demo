@@ -108,13 +108,12 @@ function off() {
 				th:id="${cat.getIdCategory()}"
 				>
 			</a>
-			<!-- th:attr="onclick=|openTabCat(event, '${cat.getIdCategory()}')|" -->
 		</td>
 	</tr>
 </table>
 
 <!-- Loop สินค้าใน Cat -->
-<table class="tablecat-whitebg">
+<table class="tablecat-whitebg edge">
 	<tr class="sep" th:if="${cat != null}">
 		<td class="product-container">
 			<p id="idcat" hidden="true" th:text="${cat.getIdCategory()}"></p>

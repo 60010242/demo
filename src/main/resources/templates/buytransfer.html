@@ -17,14 +17,6 @@
 }
 
 /* overlay detail */
-.container{
-	width: 80%;
-}
-.checked iframe{
-	width: 100%;
-	height: 100%;
-	border: none;
-}
 #detaildata, #slip{
 	font-size: 10pt;
 	font-style: italic;
@@ -38,12 +30,27 @@
 .tabledetail:first-child{
 	width: 20px;
 }
+.tablebuytransfer{
+	padding: 0 20%;
+	padding-bottom: 10%;
+}
+.tablebuytransfer tr:nth-child(odd) td{
+	vertical-align: bottom;
+}
+.tablebuytransfer tr:nth-child(even) td{
+	vertical-align: top;
+}
 hr {
   border: 0;
   display: block;
   background-color: gray;
   height: 2px;
 }
+
+form, table, tbody{
+	height: 100%;
+}
+
 </style>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
@@ -165,11 +172,12 @@ function off() {
 			<close onclick="off()">X</close>
 			<div class="overlayheader center">ยืนยันแจ้งชำระเงิน</div>
 			<form action="#" th:action="@{/savetransfer}" method="post" enctype="multipart/form-data">
-				<h2 id="headslip"></h2>
-				<input style="visibility: hidden;" type="text" id="hiddenid" name="sendid">
-				<table>
+				<input hidden="true" type="text" id="hiddenid" name="sendid">
+				<table class="tablebuytransfer">
 					<tr>
 						<td>ธนาคารผู้ซื้อ: <red>*</red></td>
+					</tr>
+					<tr>
 						<td>
 							<select name="userbank" required>
 								<option value="ธนาคารกรุงศรีอยุธยา (BAY)">ธนาคารกรุงศรีอยุธยา (BAY)</option>
@@ -197,23 +205,30 @@ function off() {
 					</tr>
 					<tr>
 						<td>ธนาคารผู้ขาย: <red>*</red></td>
+					</tr>
+					<tr>
 						<td id="selectbank"></td>				<!-- <select name=""><option> -->
 					</tr>
 					<tr>
 						<td>จำนวนเงินที่โอน: <red>*</red></td>
+					</tr>
+					<tr>
 						<td><input name="pay" type="number" id="paytotal"></td>
 					</tr>
 					<tr>
 						<td>วัน-เวลาที่โอน: <red>*</red></td>
+					</tr>
+					<tr>
 						<td><input name="paydatetime" type="datetime-local"></td>
 					</tr>
 					<tr>
 						<td>รูปสลิป: <red>*</red></td>
+					</tr>
+					<tr>
 						<td><input type="file" name="imageFile"></td>
 					</tr>
 					<tr>
-						<td></td>
-						<td><input style="float: right;" type="submit" value="Submit" name="button"></td>
+						<td><input class="overlayconfirm" style="float: right;" type="submit" value="Submit" name="button"></td>
 					</tr>
 				</table>
 			</form>
