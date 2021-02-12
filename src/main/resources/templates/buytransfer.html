@@ -5,53 +5,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/buyerside.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
-<style>
-
-/* BuyTransfer */
-.imgproduct{
-	width: 60pt;
-	height: 60pt;
-	border-radius: 60pt;
-	background-color: black;
-}
-
-/* overlay detail */
-#detaildata, #slip{
-	font-size: 10pt;
-	font-style: italic;
-	text-decoration: underline;
-	cursor: pointer;
-}
-.tabledetail{
-	width: 80%;
-	margin: 20px auto;
-}
-.tabledetail:first-child{
-	width: 20px;
-}
-.tablebuytransfer{
-	padding: 0 20%;
-	padding-bottom: 10%;
-}
-.tablebuytransfer tr:nth-child(odd) td{
-	vertical-align: bottom;
-}
-.tablebuytransfer tr:nth-child(even) td{
-	vertical-align: top;
-}
-hr {
-  border: 0;
-  display: block;
-  background-color: gray;
-  height: 2px;
-}
-
-form, table, tbody{
-	height: 100%;
-}
-
-</style>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -171,9 +126,12 @@ function off() {
 		<div class="checked">
 			<close onclick="off()">X</close>
 			<div class="overlayheader center">ยืนยันแจ้งชำระเงิน</div>
-			<form action="#" th:action="@{/savetransfer}" method="post" enctype="multipart/form-data">
+			<form action="#" th:action="@{/savetransfer}"
+				method="post" 
+				enctype="multipart/form-data" 
+				class="tablebuytransfer">
 				<input hidden="true" type="text" id="hiddenid" name="sendid">
-				<table class="tablebuytransfer">
+				<table>
 					<tr>
 						<td>ธนาคารผู้ซื้อ: <red>*</red></td>
 					</tr>

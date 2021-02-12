@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+/* BuyTransfer */
+.imgproduct{
+	width: 60pt;
+	height: 60pt;
+	border-radius: 60pt;
+	background-color: black;
+}
+
+/* overlay detail */
+#detaildata, #slip{
+	font-size: 10pt;
+	font-style: italic;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.tabledetail{
+	width: 80%;
+	margin: 20px auto;
+}
+.tabledetail:first-child{
+	width: 20px;
+}
+.tablebuytransfer table{
+	padding: 0 20%;
+	padding-bottom: 10%;
+}
+.tablebuytransfer tr:nth-child(odd) td{
+	vertical-align: bottom;
+}
+.tablebuytransfer tr:nth-child(even) td{
+	vertical-align: top;
+}
+.tabledetail hr {
+  border: 0;
+  display: block;
+  background-color: gray;
+  height: 2px;
+}
+
+.tablebuytransfer,
+.tablebuytransfer table,
+.tablebuytransfer tbody{
+	height: 100%;
+}
