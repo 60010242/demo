@@ -5,7 +5,8 @@ body{
 	margin: 0;
 }
 
-h1 {
+/* Login */
+.loginwhitebg h1 {
 	margin: -10% 0% 6% 0%;
 }
 
@@ -13,18 +14,22 @@ h1 {
 	color: red;
 }
 
-table {
+.logintable {
 	border: none;
 	border-radius: 6px;
 }
+.logintable tr {
+	height: 16pt;
+}
 
-input[type="text"], input[type="password"] {
+.logintable input[type="text"],
+.logintable input[type="password"] {
 	height: 16pt;
 	border-radius: 16pt;
 	border: 1px solid gray;
 }
 
-input[type="submit"] {
+.col2 input[type="submit"] {
 	font-family: 'Bai Jamjuree', sans-serif;
 	background-color: #1592E6;
 	border: none;
@@ -40,39 +45,6 @@ input[type="submit"] {
 	color: white;
 }
 
-tr {
-	height: 16pt;
-}
-
-/* Nav */
-ul {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-color: var(--brown);
-	box-shadow: 2px 2px 5px gray;
-}
-
-li {
-	float: left;
-	height: 60px;
-}
-
-li a {
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 4px 16px;
-	text-decoration: none;
-}
-
-
-/* Login */
 .loginwhitebg {
 	flex-direction: column;
 	background-color: rgba(255, 255, 255, 0.75);
@@ -122,4 +94,66 @@ li a {
 	color: #1592E6;
 	text-decoration: none;
 	font-size: 14pt;
+}
+
+
+/* Sign up */	
+.signupwhitebg{
+	position: relative;
+	flex-direction: column;
+	background-color: rgba(255,255,255,0.75);
+	border-radius: 0 100px;
+	width: 60%;
+	height: 500px;
+	box-shadow: 5px 5px 5px gray;
+	margin-top: 6%; 
+}
+.signupwhitebg h1{
+	position: absolute;
+	top: 8px;
+}
+
+red{
+	color: red;
+}
+	
+.signuptable {
+	margin: 5px;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 6px;
+	margin-top: 80px;
+}
+.inputinfo{
+	width: 90%;
+	height: 16pt;
+	cursor: text;
+	margin-top: 2%;
+}
+.inputaddress{
+	width: 90%;
+	height: 60pt;
+	cursor: text;
+	resize: none;
+}
+.signuptable input[type="submit"]{
+	background-color: #1592E6;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 14px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 5px;
+}
+.back{
+	position: absolute;
+	top: 0;
+	left: 10pt;
+	text-decoration: none;
+	font-size: 30pt;
+	color: var(--brown);
 }

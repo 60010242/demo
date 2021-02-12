@@ -1,128 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/loginpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
-<style>
-:root {
-  --brown: #cbaf87;
-  --x: #c7b198;
-  --brown2: #f4ebc1;
-}
 
-body{
-	font-family: 'Bai Jamjuree', sans-serif;
-	height: 100vh;
-	margin: 0;
-	display: flex;
-	background-color: var(--brown2);
-	color: gray;
-}
-
-.center{
-  	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-/* Nav */
-ul {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-color: var(--brown);
-	box-shadow: 2px 2px 5px gray; 
-}
-li {
-	float: left;
-	height: 60px;
-}
-li a {
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 4px 16px;
-	text-decoration: none;
-}
-.profilepicture{
-	border-radius: 50px;
-	width: 50px;
-	height: 50px;
-}
-.logout{
-	position: fixed;
-	top: 35px;
-	right: 100px;
-	color: #30475e;
-}
-
-/* Signup */	
-.signupwhitebg{
-	position: relative;
-	flex-direction: column;
-	background-color: rgba(255,255,255,0.75);
-	border-radius: 0 100px;
-	width: 60%;
-	height: 80%;
-	box-shadow: 5px 5px 5px gray;
-	margin-top: 6%; 
-}
-h1{
-	position: absolute;
-	top: 2%;
-}
-
-red{
-	color: red;
-}
-	
-table {
-	margin: 5px;
-	border: none;
-	padding: 10px 20px;
-	border-radius: 6px;
-	margin-top: 12%;
-}
-.inputinfo{
-	width: 90%;
-	height: 16pt;
-	cursor: text;
-	margin-top: 2%;
-}
-.inputaddress{
-	width: 90%;
-	height: 60pt;
-	cursor: text;
-	resize: none;
-}
-input[type="submit"]{
-	background-color: #1592E6;
-	color: white;
-	border: none;
-	padding: 10px 20px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 14px;
-	margin: 4px 2px;
-	cursor: pointer;
-	border-radius: 5px;
-}
-.back{
-	position: absolute;
-	top: 0;
-	left: 10pt;
-	text-decoration: none;
-	font-size: 30pt;
-	color: var(--brown);
-}
-</style>
 </head>
 <body class="center">
 	<!-- Main Page -->
@@ -130,9 +15,9 @@ input[type="submit"]{
 	<div class="signupwhitebg center">
 	<a href="/" class="back"><</a>
 	<h1 align="center">สร้างบัญชี </h1>
+	
 	<form action="#" th:action="@{/savemem}" th:object="${user}" method="post" enctype="multipart/form-data">
-		
-		<table>
+		<table class="signuptable">
 			<tr>
 				<td>อีเมล: <red>*</red></td>
 				<td><input class="inputinfo" type="email" th:field="*{email}" placeholder="abc@def.com" required></td>
@@ -185,6 +70,7 @@ input[type="submit"]{
 			</tr>
 		</table>
 	</form>
+	
 	</div>
 </body>
 </html>
