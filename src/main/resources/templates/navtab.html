@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="UTF-8">
+<title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+	
+<body class="center">
+
+<!-- Login -->
+<ul class="navheadlogin">
+	<li><a href="/"><img class="profilepicture"
+			th:src="@{/Pembroke-Welsh-Corgi-Puppies-Lying-Down.jpg}"></a></li>
+	<li class="center"><a href="/">ร้านขายของน้องหมา </a></li>
+</ul>
+
+<!-- Seller Navigator -->
+<ul th:fragment="navheadseller" class="navhead">		
+	<li style="float: right;">
+		<a href="/myinfo">
+			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}" th:src="@{'/Icon/default-profile.png'}">
+			<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
+		</a>
+	</li>
+	<li style="float: right;"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
+	<a href="/logout" class="logout">logout</a>
+	<div class="white"></div>
+</ul>
+
+<div th:fragment="tabseller" class="tab">
+  	<a class="tablinks" href="/editproduct">แก้ไขสินค้า </a>
+	<a class="tablinks" href="/checking">ตรวจสอบ </a>
+	<a class="tablinks" href="/tracking">ต้องจัดส่ง </a>
+	<a class="tablinks" href="/complete">จัดส่งแล้ว </a>
+ 	<a class="tablinks" href="/cancel">สินค้าที่ถูกยกเลิก </a>
+</div>
+
+
+<!-- Navigator Buyer -->
+<ul th:fragment="navheadbuyer" class="navhead">
+	<li style="float: left;"><a href="/firstpage"><img class="profilepicture" th:src="@{/Pembroke-Welsh-Corgi-Puppies-Lying-Down.jpg}"></a></li>
+	<li style="float: left; line-height: 52px;"><a href="/firstpage">ร้านขายของน้องหมา </a></li>
+	<li style="float: right"><a href="/myinfo">
+		<img class="profilepicture" th:if="${session.user.getPhotoUser() == null}" alt="can't download"  th:src="@{'/Icon/default-profile.png'}">
+		<img class="profilepicture" th:if="${session.user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${session.user.getPhotoUser()}}">
+	</a></li>
+	<li style="float: right"><a href="/myinfo" th:text="${session.user.getName()}"></a></li>
+	<a href="/logout" class="logout">logout</a>
+</ul>
+
+<div th:fragment="tabbuyer" class="tab">
+  <a class="tablinks" href="/buyproduct">ซื้อสินค้า</a>
+  <a class="tablinks" href="/buytransfer">แจ้งชำระเงิน</a>
+  <a class="tablinks" href="/buytrack">ติดตามคำสั่งซื้อ</a>
+</div>
+
+<div th:fragment="tabcart" class="tabsecond">
+	<a href="/firstpage" class="back"><</a>
+	ตะกร้า
+</div>
+
+</body>
+</html>

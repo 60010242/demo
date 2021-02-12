@@ -27,10 +27,10 @@ function togglePW() {
  <!-- Main Page -->
 	<p hidden="true" th:text="${session.user.getType()}"></p>
 	<div th:if="${session.user.getType() == 'Customer'}">
-		<ul th:replace="firstpage :: navhead"></ul>
+		<ul th:replace="navtab :: navheadbuyer"></ul>
 	</div>
 	<div th:if="${session.user.getType() == 'Seller'}">
-		<ul th:replace="Sfirstpage :: navhead"></ul>
+		<ul th:replace="navtab :: navheadseller"></ul>
 	</div>
 	
 	

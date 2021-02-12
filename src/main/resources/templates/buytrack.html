@@ -136,8 +136,9 @@ function off() {
 	</div>
 
 <!-- Main Page -->
-<div th:replace="firstpage :: navhead"></div>
-<div th:replace="firstpage :: tabbuyer"></div>
+<div th:replace="navtab :: navheadbuyer"></div>
+<div th:replace="navtab :: tabbuyer"></div>
+
 <div style="width: 85%; float: right;" class="overdetail">
 <details th:each="month : ${monthlist}">
 		<summary th:text="${month.getMonthname()}" th:value="${month.getMonthname()}"></summary>
