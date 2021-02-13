@@ -31,6 +31,7 @@ import com.example.demo.Monthgroup;
 import com.example.demo.Orderjson;
 import com.example.demo.Transgroup;
 import com.example.demo.Userjson;
+import com.example.demo.entities.account;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
 import com.example.demo.entities.userorder;
@@ -93,12 +94,58 @@ public class OrderController {
 				}
 			}
 		}
-		
 		for(userorder userorder : userorders) {
 			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
 			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
 			orderlists.addAll(orderdetails);
 		}
+		List<String> accounts = new ArrayList<String>();
+		accounts = accountRepo.getAllNamesellaccount();
+		model.addAttribute("accounts", accounts);
+		model.addAttribute("daylist", daylist);
+		model.addAttribute("orderlists", orderlists);
+		model.addAttribute("userorders", userorders);
+		return "transfercheck";
+	}
+	
+	@GetMapping("/checking/{namebank}")
+	public String findcheckingbyname(@PathVariable("namebank") String namebank
+			,Model model) {
+		List<userorder> userorders = new ArrayList<userorder>();
+		List<orderdetail> orderlists = new ArrayList<orderdetail>();
+		userorders = userorderRepo.getByStatusandBank("checking", namebank);
+		LocalDateTime minDate = userorderRepo.findMinPaytime("checking");
+		LocalDate localDate = LocalDate.now();
+		List<Daygroup> daylist = new ArrayList<Daygroup>();
+		localDate = localDate.plusDays(1);
+		if(minDate != null) {
+			for(LocalDate date = minDate.toLocalDate(); date.isBefore(localDate); date = date.plusDays(1)) {
+				boolean dayhave = false;
+				Daygroup daygroup = new Daygroup();
+				DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+				String mixname = format.format(date);
+				daygroup.setDatenum(date.getDayOfMonth());
+				daygroup.setMonthnum(date.getMonthValue());
+				daygroup.setLocaldate(date);
+				daygroup.setMixname(mixname);
+				for(userorder userorder : userorders) {
+					if(userorder.getPayTime().toLocalDate().isEqual(date)) {
+						dayhave = true;
+					}
+				}
+				if(dayhave) {
+					daylist.add(0, daygroup);
+				}
+			}
+		}
+		for(userorder userorder : userorders) {
+			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
+			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
+			orderlists.addAll(orderdetails);
+		}
+		List<String> accounts = new ArrayList<String>();
+		accounts = accountRepo.getAllNamesellaccount();
+		model.addAttribute("accounts", accounts);
 		model.addAttribute("daylist", daylist);
 		model.addAttribute("orderlists", orderlists);
 		model.addAttribute("userorders", userorders);
