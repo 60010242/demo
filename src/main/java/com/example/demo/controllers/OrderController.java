@@ -101,6 +101,8 @@ public class OrderController {
 		}
 		List<String> accounts = new ArrayList<String>();
 		accounts = accountRepo.getAllNamesellaccount();
+		int index = 1;
+		model.addAttribute("index", index);
 		model.addAttribute("accounts", accounts);
 		model.addAttribute("daylist", daylist);
 		model.addAttribute("orderlists", orderlists);
@@ -145,6 +147,8 @@ public class OrderController {
 		}
 		List<String> accounts = new ArrayList<String>();
 		accounts = accountRepo.getAllNamesellaccount();
+		int index = 2;
+		model.addAttribute("index", index);
 		model.addAttribute("accounts", accounts);
 		model.addAttribute("daylist", daylist);
 		model.addAttribute("orderlists", orderlists);
@@ -170,21 +174,6 @@ public class OrderController {
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
 		return "redirect:/cancel";
-	}
-	
-	@GetMapping("/packing")
-	public String findpacking(Model model) {
-		List<userorder> userorders = new ArrayList<userorder>();
-		List<orderdetail> orderlists = new ArrayList<orderdetail>();
-		userorders = userorderRepo.getByStatus("packing");
-		for(userorder userorder : userorders) {
-			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
-			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
-			orderlists.addAll(orderdetails);
-		}
-		model.addAttribute("orderlists", orderlists);
-		model.addAttribute("userorders", userorders);
-		return "packing";
 	}
 	
 	@PostMapping("/trantoshipping/{idorder}")
@@ -234,6 +223,58 @@ public class OrderController {
 			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
 			orderlists.addAll(orderdetails);
 		}
+		List<String> deliverys = new ArrayList<String>();
+		deliverys = deliRepo.getAllNamedelivery();
+		int index = 1;
+		model.addAttribute("index", index);
+		model.addAttribute("deliverys", deliverys);
+		model.addAttribute("daylist", daylist);
+		model.addAttribute("orderlists", orderlists);
+		model.addAttribute("userorders", userorders);
+		return "transfertrack";
+	}
+	
+	@GetMapping("/tracking/{namedeli}")
+	public String findtrackingbydeli(@PathVariable("namedeli") String namedeli
+			,Model model) {
+		List<userorder> userorders = new ArrayList<userorder>();
+		List<orderdetail> orderlists = new ArrayList<orderdetail>();
+		userorders = userorderRepo.getByTrackingNamedelivery(namedeli, "tracking");
+		LocalDateTime minDate = userorderRepo.findMinPaytime("tracking");
+		LocalDate localDate = LocalDate.now();
+		List<Daygroup> daylist = new ArrayList<Daygroup>();
+		localDate = localDate.plusDays(1);
+		if(minDate != null) {
+			for(LocalDate date = minDate.toLocalDate(); date.isBefore(localDate); date = date.plusDays(1)) {
+				boolean dayhave = false;
+				Daygroup daygroup = new Daygroup();
+				DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+				String mixname = format.format(date);
+				daygroup.setDatenum(date.getDayOfMonth());
+				daygroup.setMonthnum(date.getMonthValue());
+				daygroup.setLocaldate(date);
+				daygroup.setMixname(mixname);
+				for(userorder userorder : userorders) {
+					if(userorder.getPayTime().toLocalDate().isEqual(date)) {
+						dayhave = true;
+					}
+				}
+				if(dayhave) {
+					daylist.add(0, daygroup);
+				}
+			}
+		}
+		
+		for(userorder userorder : userorders) {
+			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
+			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
+			orderlists.addAll(orderdetails);
+		}
+		List<String> deliverys = new ArrayList<String>();
+		deliverys = deliRepo.getAllNamedelivery();
+		int index = 2;
+		model.addAttribute("index", index);
+		model.addAttribute("deliverys", deliverys);
 		model.addAttribute("daylist", daylist);
 		model.addAttribute("orderlists", orderlists);
 		model.addAttribute("userorders", userorders);

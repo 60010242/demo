@@ -178,8 +178,16 @@ function off() {
 <table class="tabcat-container">
 	<tr class="center">
 		<td>
-			<a class="tabcat" id="idcat">
-				ขนส่ง
+			<a href="/tracking" class="tabcat" id="idcat">
+				ทั้งหมด
+			</a>
+		</td>
+	</tr>
+	<tr class="center" th:each="delivery: ${deliverys}">
+		<td>
+			<a th:href="@{'/tracking/' + ${delivery}}" 
+			th:text="${delivery}"
+			class="tabcat" id="idcat" >
 			</a>
 		</td>
 	</tr>
@@ -191,7 +199,8 @@ function off() {
 		<tr class="tableheader">
 			<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
 			<th style="height:30pt; width: 20%"> ชื่อผู้ซื้อ </th>
-			<th style="height:30pt; width: 50%">  รายการ </th>
+			<th style="height:30pt; width: 40%">  รายการ </th>
+			<th style="height:30pt; width: 10%" th:if="${index == 1}">ประเภทขนส่ง</th>
 			<th style="height:30pt; width: 20%">เพิ่ม Track </th>
 		</tr>
 		<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
@@ -210,6 +219,7 @@ function off() {
 					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ยกเลิกรายการ </a>
 					<a id="detaildata" th:attr="onclick=|ondetail('${userorder.getIdOrder()}')|">รายละเอียด </a>
 				</td>
+				<td th:text="${userorder.getNameDelivery()}" th:if="${index == 1}"></td>
 			<td style="text-align: center;">
 				<form action="#" th:action="@{'/trantoshipping/' + ${userorder.getIdOrder()}}" method="post">
 					<input style="width: 100pt;" type="text" name="numtrack" id="numtrack">

@@ -168,7 +168,7 @@ function off() {
 			<tr class="tableheader">
 				<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
 				<th style="height:30pt; width: 40%">  รายการ </th>
-				<th style="height:30pt; width: 10%">ธนาคารผู้ขาย </th>
+				<th style="height:30pt; width: 10%" th:if="${index == 1}">ธนาคารผู้ขาย </th>
 				<th style="height:30pt; width: 10%">วัน-เวลาที่โอน </th>
 				<th style="height:30pt; width: 10%">ยอดรวมที่ต้องโอน</th>
 				<th style="height:30pt; width: 10%">จำนวนเงินที่โอนมา</th>
@@ -186,7 +186,7 @@ function off() {
 					</ul>
 					<!-- <a onclick="ondetail()" id="detaildata">รายละเอียด </a> -->
 				</td>
-				<td th:text="${userorder.getSellerBank()}" id="valueTD6">a</td>
+				<td th:text="${userorder.getSellerBank()}" id="valueTD6" th:if="${index == 1}">a</td>
 				<td th:text="${userorder.getPayTime()}" id="valueTD7">a</td>
 				<td th:text="${userorder.getTotalOrder()}" id="valueTD3">a</td>
 				<td th:text="${userorder.getPayTotal()}" id="valueTD4">a</td>
