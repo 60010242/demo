@@ -281,11 +281,13 @@ public class OrderController {
 		return "transfertrack";
 	}
 	
-	@GetMapping("/complete")
-	public String findcomplete(Model model) {
+	@GetMapping("/complete/{status}")
+	public String findcomplete(@PathVariable("status") String status
+			,Model model) {
 		List<userorder> userorders = new ArrayList<userorder>();
 		List<orderdetail> orderlists = new ArrayList<orderdetail>();
-		userorders = userorderRepo.getByTwoStatus("shipping", "complete");
+		userorders = userorderRepo.getByStatus(status);
+		//"shipping", "complete"
 		LocalDate localDate = LocalDate.now();
 		int month = localDate.getMonthValue();
 		int year = localDate.getYear();
