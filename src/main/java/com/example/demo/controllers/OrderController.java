@@ -329,11 +329,13 @@ public class OrderController {
 		return "transfercomplete";
 	}
 	
-	@GetMapping("/cancel")
-	public String findcansel(Model model) {
+	@GetMapping("/cancel/{status}")
+	public String findcansel(@PathVariable("status") String status
+			,Model model) {
 		List<userorder> userorders = new ArrayList<userorder>();
 		List<orderdetail> orderlists = new ArrayList<orderdetail>();
-		userorders = userorderRepo.getByTwoStatus("cancel", "contact");
+		userorders = userorderRepo.getByStatus(status);
+		//"cancel", "contact","transferred"
 		LocalDateTime minDate = userorderRepo.findMinPaytimeTwoStatus("cancel", "contact");
 		LocalDate localDate = LocalDate.now();
 		List<Daygroup> daylist = new ArrayList<Daygroup>();
@@ -363,6 +365,7 @@ public class OrderController {
 			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
 			orderlists.addAll(orderdetails);
 		}
+		model.addAttribute("status",status);
 		model.addAttribute("daylist", daylist);
 		model.addAttribute("orderlists", orderlists);
 		model.addAttribute("userorders", userorders);
@@ -386,7 +389,17 @@ public class OrderController {
 		order.setStatus("contact");
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
-		return "redirect:/cancel";
+		return "redirect:/cancel/cancel";
+	}
+	
+	@GetMapping("/trantotransferred/{idorder}")
+	public String trantotransferred(@PathVariable("idorder") Integer idorder) {
+		userorder order = new userorder(); 
+		order = userorderRepo.findById(idorder).get();
+		order.setStatus("transferred");
+		order.setCratedOrder(LocalDateTime.now());
+		userorderRepo.save(order);
+		return "redirect:/cancel/contact";
 	}
 	
 	@GetMapping("/buytransfer")
