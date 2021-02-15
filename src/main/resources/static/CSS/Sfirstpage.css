@@ -14,7 +14,7 @@
 
 body{
 	font-family: 'Bai Jamjuree', sans-serif;
-	margin: 130px 10% 40px 10%;
+	margin: 130px 4% 40px 4%;
 	display: flex;
 	background-color: var(--brownbg);
 }
@@ -187,7 +187,7 @@ close{
 /* tab category */
 .tabcat-container {
 	top: 100pt;
-	width: 12%;
+	width: 14%;
 	float: left; 
 	border: 0; 
 	position: fixed;
@@ -231,15 +231,14 @@ close{
 /* side tab */
 .sidetab-container {
 	position: fixed;
-	top: 100px;
-	left: 0;
-	width: 15%;
+	top: 100pt;
+	width: 14%;
 	float: left; 
 	border: 0; 
-	height: 100vh;
-  	background-color: rgba(255,255,255,60%);
+	position: fixed;
+	height: 25pt;
+  	overflow: hidden;
 	z-index: 800;
-	box-shadow: 2px 2px 5px gray;
 }
 .sidetab-container td{
 	padding: 0;
@@ -260,12 +259,15 @@ close{
   	font-size: 15px;
   	text-align: center;
   	text-decoration: none;
-  	font-weight: bold;
+  	font-weight: normal;
   	color: var(--grey);
 }
 .sidetab-container td a.active {
-	color: var(--grey);
-	background-color: #e7d39f;
+	background-color: rgba(255,255,255,60%);
+	border-radius: 15px 0 0 15px;
+	border-top: 2px solid transparent;
+  	border-bottom: 2px solid transparent;
+  	border-left: 4px solid var(--blue);
 	font-weight: bold;
 }
 
