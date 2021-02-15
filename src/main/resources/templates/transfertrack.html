@@ -10,7 +10,7 @@
 <style type="text/css">
 
 .tabheadersecond {
-	padding-left: 10%;
+	padding-left: 22%;
 	position: fixed;
 	top: 105px;
 	left: 0;
@@ -68,17 +68,19 @@ hr {
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 $(document).ready(function(){
-	var idcat = document.getElementById("idcat").innerText;
-	var tabcats = document.getElementsByClassName("tabcat");
+	var idcat = document.getElementById("namedeli").innerText;
+	var tabcats = document.getElementsByClassName("sidetab");
 	var tablinks = document.getElementsByClassName("tablinks");
 	
 	$('a.tablinks:nth-child(3)').addClass("active");
-	$('.tabcat-container tr:first-child a').addClass("active");
-	/*for (i = 0; i < tabcats.length; i++) {
-	    if(tabcats[i].id == idcat){
-	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
+	for (i = 0; i < tabcats.length; i++) {
+		if(tabcats[i].id == idcat){
+	    	$('.sidetab-container tr:nth-child('+(i+1)+') a').addClass("active");
 	    }
-	}*/
+	    if(idcat == ''){
+	    	$('.sidetab-container tr:first-child a').addClass("active");
+	    }
+	}
 })
 
 function on() {
@@ -175,10 +177,10 @@ function off() {
 <div th:replace="navtab :: tabseller"></div>
 
 <div style="width: 100%;">
-<table class="tabcat-container">
+<table class="sidetab-container">
 	<tr class="center">
 		<td>
-			<a href="/tracking" class="tabcat" id="idcat">
+			<a href="/tracking" class="sidetab" id="idcat">
 				ทั้งหมด
 			</a>
 		</td>
@@ -187,11 +189,12 @@ function off() {
 		<td>
 			<a th:href="@{'/tracking/' + ${delivery}}" 
 			th:text="${delivery}"
-			class="tabcat" id="idcat" >
+			class="sidetab" th:id="${delivery}">
 			</a>
 		</td>
 	</tr>
 </table>
+<p hidden="true" id="namedeli" th:text="${namedeli}"></p>
 <div style="width: 85%; float: right;" class="overdetail">
 	<details th:each="day : ${daylist}">
 		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>

@@ -10,17 +10,19 @@
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 $(document).ready(function(){
-	var idcat = document.getElementById("idcat").innerText;
-	var tabcats = document.getElementsByClassName("tabcat");
+	var idcat = window.location.href.split('/').pop();
+	var tabcats = document.getElementsByClassName("sidetab");
 	var tablinks = document.getElementsByClassName("tablinks");
 	
 	$('a.tablinks:nth-child(4)').addClass("active");
-	$('.tabcat-container tr:first-child a').addClass("active");
-	/*for (i = 0; i < tabcats.length; i++) {
-	    if(tabcats[i].id == idcat){
-	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
+	for (i = 0; i < tabcats.length; i++) {
+	    if(idcat == "shipping"){
+	    	$('.sidetab-container tr:nth-child(1) a').addClass("active");
 	    }
-	}*/
+	    if(idcat == "complete"){
+	    	$('.sidetab-container tr:nth-child(2) a').addClass("active");
+	    }
+	}
 })
 
 function off() {
@@ -110,17 +112,17 @@ function ondetail(orderId) {
 <div th:replace="navtab :: tabseller"></div>
 
 <div style="width: 100%;">
-<table class="tabcat-container">
+<table class="sidetab-container">
 	<tr class="center">
 		<td>
-			<a href="/complete/shipping" class="tabcat" id="idcat">
+			<a href="/complete/shipping" class="sidetab" id="idcat">
 				กำลังขนส่ง
 			</a>
 		</td>
 	</tr>
 	<tr class="center">
 		<td>
-			<a href="/complete/complete" class="tabcat" id="idcat">
+			<a href="/complete/complete" class="sidetab" id="idcat">
 				ได้รับแล้ว
 			</a>
 		</td>

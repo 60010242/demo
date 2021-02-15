@@ -6,22 +6,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
-<link rel="stylesheet" th:href="@{/CSS/addeditproduct.css}">
+<link rel="stylesheet" th:href="@{/CSS/addeditoneproduct.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style type="text/css">
 
 /* transfercheck */
 
 /* overlay */
-#detaildata{
-	position: absolute;
-	font-size: 10pt;
-	right: 2%;
-	bottom: 2%;
-	text-decoration: underline;
-	cursor: pointer;
-}
-
 .overlaytable{
 	width: 100%;
 	overflow-y: scroll;
@@ -39,21 +30,24 @@
 	width: 200px;
 	height: 200px;
 }
+
 </style>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 $(document).ready(function(){
-	var idcat = document.getElementById("idcat").innerText;
-	var tabcats = document.getElementsByClassName("tabcat");
+	var idcat = document.getElementById("namebank").innerText;
+	var tabcats = document.getElementsByClassName("sidetab");
 	var tablinks = document.getElementsByClassName("tablinks");
 	
 	$('a.tablinks:nth-child(2)').addClass("active");
-	$('.tabcat-container tr:first-child a').addClass("active");
-	/*for (i = 0; i < tabcats.length; i++) {
+	for (i = 0; i < tabcats.length; i++) {
 	    if(tabcats[i].id == idcat){
-	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
+	    	$('.sidetab-container tr:nth-child('+(i+1)+') a').addClass("active");
 	    }
-	}*/
+	    if(idcat == ''){
+	    	$('.sidetab-container tr:first-child a').addClass("active");
+	    }
+	}
 })
 
 function on(orderId) {
@@ -143,10 +137,10 @@ function off() {
 <div th:replace="navtab :: tabseller"></div>
 
 <div style="width: 100%;">
-<table class="tabcat-container">
+<table class="sidetab-container">
 	<tr class="center">
 		<td>
-			<a href="/checking" class="tabcat" id="idcat">
+			<a href="/checking" class="sidetab" id="all">
 				ทั้งหมด
 			</a>
 		</td>
@@ -154,13 +148,13 @@ function off() {
 	<tr class="center" th:each="account: ${accounts}">
 		<td>
 			<a th:href="@{'/checking/' + ${account}}" 
-			th:text="${account}"
-			class="tabcat" id="idcat" >
+				th:text="${#strings.substringBefore(account ,' ')}"
+				class="sidetab" th:id="${account}" >
 			</a>
 		</td>
 	</tr>
 </table>
-
+<p id="namebank" th:text="${namebank}" hidden="true">all</p>
 <div style="width: 85%; float: right;" class="overdetail">
 	<details th:each="day : ${daylist}">
 		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>

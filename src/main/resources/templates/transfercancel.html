@@ -10,17 +10,17 @@
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 $(document).ready(function(){
-	var idcat = document.getElementById("idcat").innerText;
-	var tabcats = document.getElementsByClassName("tabcat");
+	var idcat = window.location.href.split('/').pop();
+	var tabcats = document.getElementsByClassName("sidetab");
 	var tablinks = document.getElementsByClassName("tablinks");
+	var list = ['cancel', 'contact', 'transferred'];
 	
 	$('a.tablinks:nth-child(5)').addClass("active");
-	$('.tabcat-container tr:first-child a').addClass("active");
-	/*for (i = 0; i < tabcats.length; i++) {
-	    if(tabcats[i].id == idcat){
-	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
+	for (i = 0; i < tabcats.length; i++) {
+	    if(idcat == list[i]){
+	    	$('.sidetab-container tr:nth-child(' + (i+1) + ') a').addClass("active");
 	    }
-	}*/
+	}
 })
 function ondetail(orderId) {
 	var roworder = document.getElementById("roworder")
@@ -105,24 +105,24 @@ function off() {
 <div th:replace="navtab :: tabseller"></div>
 
 <div style="width: 100%;">
-<table class="tabcat-container">
+<table class="sidetab-container">
 	<tr class="center">
 		<td>
-			<a href="/cancel/cancel" class="tabcat" id="idcat">
+			<a href="/cancel/cancel" class="sidetab" id="idcat">
 				ต้องติดต่อ
 			</a>
 		</td>
 	</tr>
 	<tr class="center">
 		<td>
-			<a href="/cancel/contact" class="tabcat" id="idcat">
+			<a href="/cancel/contact" class="sidetab" id="idcat">
 				โอนเงินคืน
 			</a>
 		</td>
 	</tr>
 	<tr class="center">
 		<td>
-			<a href="/cancel/transferred" class="tabcat" id="idcat">
+			<a href="/cancel/transferred" class="sidetab" id="idcat">
 				เสร็จสิ้นแล้ว
 			</a>
 		</td>
