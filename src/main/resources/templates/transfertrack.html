@@ -7,8 +7,10 @@
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
-<style type="text/css">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" th:src="@{/JS/sellerjs.js}"></script>
 
+<style type="text/css">
 .tabheadersecond {
 	padding-left: 22%;
 	position: fixed;
@@ -65,7 +67,6 @@ hr {
 	width: 20px;
 }
 </style>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 $(document).ready(function(){
 	var idcat = document.getElementById("namedeli").innerText;
@@ -127,10 +128,6 @@ function ondetail(orderId) {
 	  	    			c3.innerHTML = val.cost;
   	    		  });
   	      });
-}
-
-function off() {
-	document.getElementById("overlaydetail").style.visibility = "hidden";
 }
 </script>
 </head>

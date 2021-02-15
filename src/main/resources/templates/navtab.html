@@ -20,9 +20,17 @@
 	<li style="float: left;" class="center"><a href="/">ร้านขายของน้องหมา </a></li>
 </ul>
 
-<form th:fragment="searchbox" class="search-container" action="">
-	<input type="text">
-	<button><img th:src="@{Icon/search.png}"></button>
+<form th:fragment="searchbox" class="search-container center" action="">
+	<div class="search-box">
+		<select style="width: 90px;" onChange="searchFor(this)">
+			<option value="order num" selected>เลขออเดอร์</option>
+			<option value="name buyer">ชื่อผู้ซื้อ</option>
+			<option value="delivery">ขนส่ง</option>
+			<option value="bank">ธนาคาร</option>
+		</select>
+		<input style="width: 140px;" type="text" placeholder="search for order num" id="search-box">
+	</div>
+	<button class="center"><img th:src="@{Icon/search.png}"></button>
 </form>
 
 <!-- Seller Navigator -->

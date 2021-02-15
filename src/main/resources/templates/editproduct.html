@@ -6,6 +6,8 @@
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link rel="stylesheet" th:href="@{/CSS/buysellproduct.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<script type="text/javascript" th:src="@{/JS/sellerjs.js}"></script>
+
 <style>
 .cathead{
 	width: 100%;
@@ -68,30 +70,6 @@ $(document).ready(function(){
 	}});
 	
 })
-
-//$('.tabcat-container td a').addClass("active");
-
-function onaddproduct() {
-	document.getElementById("overlayaddproduct").style.visibility = "visible";
-}
-function oneditproduct(idproduct) {
-	console.log(idproduct);
-	
-	$.ajax({url: "/editoneproduct/"+idproduct, success: function(result){
-	      $("#editproductpage").html(result);
-	}});
-	
-	document.getElementById("overlayeditproduct").style.visibility = "visible";
-}
-function oncategory() {
-	document.getElementById("overlayaddcat").style.visibility = "visible";
-}
-function off() {
-	document.getElementById("overlayaddcat").style.visibility = "hidden";
-	document.getElementById("overlayaddproduct").style.visibility = "hidden";
-	document.getElementById("overlayeditproduct").style.visibility = "hidden";
-}
-
 </script>
 
 </head>

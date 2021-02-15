@@ -8,6 +8,8 @@
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" th:src="@{/JS/sellerjs.js}"></script>
+
 <script>
 $(document).ready(function(){
 	var idcat = window.location.href.split('/').pop();
@@ -24,10 +26,6 @@ $(document).ready(function(){
 	    }
 	}
 })
-
-function off() {
-	document.getElementById("overlaydetail").style.visibility = "hidden";
-}
 
 function ondetail(orderId) {
 	var roworder = document.getElementById("roworder")

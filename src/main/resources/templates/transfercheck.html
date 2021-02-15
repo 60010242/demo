@@ -8,10 +8,10 @@
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link rel="stylesheet" th:href="@{/CSS/addeditoneproduct.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" th:src="@{/JS/sellerjs.js}"></script>
+
 <style type="text/css">
-
-/* transfercheck */
-
 /* overlay */
 .overlaytable{
 	width: 100%;
@@ -32,7 +32,6 @@
 }
 
 </style>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 $(document).ready(function(){
 	var idcat = document.getElementById("namebank").innerText;
@@ -69,12 +68,6 @@ function on(orderId) {
 	    		  });
 	      });
 }
-
-function off() {
-  document.getElementById("overlay").style.visibility = "hidden";
-  document.getElementById("overlaydetail").style.visibility = "hidden";
-}
-
 
 </script>
 </head>

@@ -9,6 +9,7 @@
   --green: #79d70f;
   --blue: #1592E6;
   --grey: #707070;
+  --lightgrey: #eee;
 }
 
 body{
@@ -55,20 +56,34 @@ close{
 /* search */
 .search-container{
 	position: fixed;
+	justify-content: space-around;
 	top: 0;
 	left: 20px;
 	z-index: 1000;
-	line-height: 60px;
+	height: 60px;
+	width: 270px;
 }
-.search-container input{
-	height: 20px;
-	width: 160px;
+.search-box{
+	height: 25px;
+	line-height: 25px;
+	width: 240px;
 	border: 1px solid gray;
-	border-radius: 10px;
+	border-radius: 15px;
+	background-color: var(--lightgrey);
+}
+.search-box input, .search-box select{
+ 	height: 25px;
+ 	border: none;
+	background-color: transparent;
+	outline: none;
+}
+.search-container button{
+	width: 25px;
+	height: 25px;
 }
 .search-container img{
-	width: 10px;
-	height: 10px;
+	width: 15px;
+	height: 15px;
 }
 
 
@@ -292,7 +307,7 @@ close{
  .overlaypage select,
  .overlaypage textarea{
  	border: 1px solid var(--grey);
-	background-color: #eee;
+	background-color: var(--lightgrey);
 }
 #editproductpage,
 #addproductpage,
