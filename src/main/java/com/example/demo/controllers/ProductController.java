@@ -63,42 +63,6 @@ public class ProductController {
 		return "editproduct";
 	}
 	
-	@GetMapping("/buyproduct/{idcat}")
-	public String buyproduct(@PathVariable("idcat") String idcat
-			,Model model) {
-		List<category> catlist = new ArrayList<category>();
-		catlist = categoryRepo.findAll();
-		category cat = new category();
-		cat = categoryRepo.getOne(idcat);
-		List<productdetail> products = new ArrayList<productdetail>();
-		products = productdetailRepo.getByCategory(cat.getNameCat());
-		model.addAttribute("products", products);
-		model.addAttribute("cat", cat);
-		model.addAttribute("catlist", catlist);
-		
-        return "buyproduct";
-    }
-
-	@GetMapping("/buyproduct")
-	public String buyminproduct(Model model) {
-		List<category> catlist = new ArrayList<category>();
-		catlist = categoryRepo.findAll();
-		category cat = new category();
-		String idcat = categoryRepo.getMinIdcategory();
-		List<productdetail> products = new ArrayList<productdetail>();
-		if(idcat != null) {
-			cat = categoryRepo.getOne(idcat);
-			products = productdetailRepo.getByCategory(cat.getNameCat());
-		}else {
-			cat = null;
-		}
-		model.addAttribute("products", products);
-		model.addAttribute("cat", cat);
-		model.addAttribute("catlist", catlist);
-		
-        return "buyproduct";
-    }
-	
 	@GetMapping("/addoneproduct/{idcat}")
 	public String addoneproduct(@PathVariable("idcat") String idcat
 			,Model model) {

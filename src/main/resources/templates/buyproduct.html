@@ -102,7 +102,7 @@ function off() {
 		th:if="${catlist != null}">
 		<td>
 			<a class="tabcat"
-				th:href="@{'/buyproduct/' + ${cat.getIdCategory()}}"
+				th:href="@{'/buyproduct/' + ${cat.getIdCategory()} + '/' + ${id}}"
 				th:value="${cat.getNameCat()}"
 				th:text="${cat.getNameCat()}"
 				th:id="${cat.getIdCategory()}"
@@ -118,22 +118,30 @@ function off() {
 		<td class="product-container">
 			<p id="idcat" hidden="true" th:text="${cat.getIdCategory()}"></p>
 			<product class="center" th:each="product: ${products}">
-				<div th:if="${product.getEnable()==1}">
+			<div th:if="${product.getEnable()==1}">
+				<form action="#" th:action="@{/saveorder}" method="post">
+				<input hidden="true" type="text" id="hiddenid" th:value="${id}" name="idorder">
+				<input hidden="true" type="text" id="hiddenid" th:value="${product.getIdProduct()}" name="idproduct">
+				<input hidden="true" type="text" id="hiddenid" th:value="${cat.getIdCategory()}" name="idcategory">
 					<img class="imgproduct" th:if="${product.getPhotoProduct() == null}" th:src="@{'/Icon/no-image.png'}">
 					<img class="imgproduct" th:if="${product.getPhotoProduct() != null}" th:src="@{'data:image/jpeg;base64,'+${product.getPhotoProduct()}}">
 					<span th:text="${product.getNameProduct()}"></span>
 					<!-- แก้ href เพิ่มเข้าตะกร้าด้วย -->
 					<div class="smlxl" th:if="${product.getNumberStock() == null}">
-						S&nbsp;&nbsp;<input th:if="${product.getS() > 0}" type="number"><input th:if="${product.getS() == 0}" type="number" disabled>&nbsp;&nbsp;
-						M&nbsp;&nbsp;<input th:if="${product.getM() > 0}" type="number"><input th:if="${product.getM() == 0}" type="number" disabled> <br>
-						L&nbsp;&nbsp;<input th:if="${product.getL() > 0}" type="number"><input th:if="${product.getL() == 0}" type="number" disabled>&nbsp;&nbsp;
-						XL&nbsp;<input th:if="${product.getXl() > 0}" type="number"><input th:if="${product.getXl() == 0}" type="number" disabled> <br>
+						<select name="size">
+							<option value="s">S</option>
+							<option value="m">M</option>
+							<option value="l">L</option>
+							<option value="xl">XL</option>
+						</select>
 					</div>
-					<div th:if="${product.getNumberStock() != null}">
-						จำนวน&nbsp;&nbsp;<input th:if="${product.getNumberStock() > 0}" type="number"><input th:if="${product.getNumberStock() == 0}" type="number" disabled> <br>
-					</div>
-					<a href="#addtocart" class="addcart center">เพิ่มเข้าตะกร้า</a>
-				</div>
+					<div th:if="${product.getNumberStock() != null}"></div>
+					<span>จำนวน </span><input type="number" name="numberorder"><br><br><br>
+					<input class="overlayconfirm" style="float: right;" type="submit" value="เพิ่มเข้าตะกร้า" name="button">
+				</form>
+			</div>
+				
+				
 			</product>
 		</td>
 	</tr>

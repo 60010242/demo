@@ -53,11 +53,6 @@ public class GeneralController {
         return editproductpage;
     }
 	
-	@GetMapping("/cart")
-	public String cart(Model model) {
-		return "cart";
-	}
-	
 	@Autowired
     private JavaMailSender javaMailSender;
 	
