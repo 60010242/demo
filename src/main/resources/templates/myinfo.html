@@ -37,7 +37,7 @@ function off() {
 	<div class="checked">
 		<div class="overlayheader center">เพิ่มบัญชีผู้ขาย </div>
 		<iframe th:src="@{/editaccount}" src="editaccount.html"></iframe>
-		<close>X</close>
+		<close onclick="off()">X</close>
 	</div>
 	<div class="overlaybg" onclick="off()"></div>
 </div>
@@ -45,7 +45,7 @@ function off() {
 	<div class="checked">
 		<div class="overlayheader center">เพิ่มราคาบริการขนส่งสินค้า </div>
 		<iframe th:src="@{/editdelivery}" src="adddeliveryprice.html"></iframe>
-		<close>X</close>
+		<close onclick="off()">X</close>
 	</div>
 	<div class="overlaybg" onclick="off()"></div>
 </div>

@@ -148,7 +148,7 @@ function off() {
 	<tr class="center" th:each="account: ${accounts}">
 		<td>
 			<a th:href="@{'/checking/' + ${account}}" 
-				th:text="${#strings.substringBefore(account ,' ')}"
+				th:text="${#strings.substringAfter(#strings.substringBefore(account ,' '), 'ธนาคาร')}"
 				class="sidetab" th:id="${account}" >
 			</a>
 		</td>
