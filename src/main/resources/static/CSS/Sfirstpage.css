@@ -232,7 +232,7 @@ close{
 .sidetab-container {
 	position: fixed;
 	top: 100pt;
-	width: 14%;
+	width: 14.5%;
 	float: left; 
 	border: 0; 
 	position: fixed;
@@ -241,10 +241,10 @@ close{
 	z-index: 800;
 }
 .sidetab-container td{
-	padding: 0;
 	width: 100%;
 }
 .sidetab-container td a{
+	padding-left: 8px;
   	font-weight: normal;
  }
 .sidetab{
@@ -257,7 +257,7 @@ close{
   	width: 100%;
   	transition: 0.3s;
   	font-size: 15px;
-  	text-align: center;
+  	text-align: left;
   	text-decoration: none;
   	font-weight: normal;
   	color: var(--grey);
@@ -382,7 +382,8 @@ close{
 /* details */
 .overdetail{
 	flex-flow: row;
-	width: 100%;
+	width: 84%;
+	float: right;
 }
 
 .overdetail details {
