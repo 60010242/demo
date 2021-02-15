@@ -52,6 +52,26 @@ close{
 }
 
 
+/* search */
+.search-container{
+	position: fixed;
+	top: 0;
+	left: 20px;
+	z-index: 1000;
+	line-height: 60px;
+}
+.search-container input{
+	height: 20px;
+	width: 160px;
+	border: 1px solid gray;
+	border-radius: 10px;
+}
+.search-container img{
+	width: 10px;
+	height: 10px;
+}
+
+
 /* Navigator */
 .navhead {
 	position: fixed;

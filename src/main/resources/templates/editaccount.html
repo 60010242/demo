@@ -46,7 +46,7 @@
 							'\nชื่อบัญชี '+document.getElementById('nameacc').value)) return false"></td>
 			</tr>
 			<tr th:each="acc: ${accountList}">
-				<td><p th:text="${acc.getNameBank()}"></p></td>
+				<td><p th:text="${#strings.substringAfter(acc.getNameBank(), 'ธนาคาร')}"></p></td>
 				<td><p th:text="${acc.getNumAccount()}"></p></td>
 				<td><p th:text="${acc.getNameAccount()}"></p></td>
 				<td><a th:href="@{'/deleteaccount/' + ${acc.getNumAccount()}}" style="color: blue;" 

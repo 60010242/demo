@@ -20,8 +20,14 @@
 	<li style="float: left;" class="center"><a href="/">ร้านขายของน้องหมา </a></li>
 </ul>
 
+<form th:fragment="searchbox" class="search-container" action="">
+	<input type="text">
+	<button><img th:src="@{Icon/search.png}"></button>
+</form>
+
 <!-- Seller Navigator -->
-<ul th:fragment="navheadseller" class="navhead">		
+<ul th:fragment="navheadseller" class="navhead">
+	<li th:replace="navtab :: searchbox"></li>
 	<li style="float: right;">
 		<a href="/myinfo">
 			<img class="profilepicture white" th:if="${session.user.getPhotoUser() == null}" th:src="@{'/Icon/default-profile.png'}">
