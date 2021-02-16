@@ -53,7 +53,6 @@ function on(orderId) {
   	document.getElementById("overlay").style.visibility = "visible";
   	$.ajax({
 	      url:"http://localhost:7070/checkajax?id="+orderId,
-	      url:"http://127.0.0.1:7070/userajax?id="+orderId,
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
@@ -149,7 +148,6 @@ function on(orderId) {
 	</tr>
 </table>
 <p id="namebank" th:text="${namebank}" hidden="true">all</p>
-
 <div class="overdetail">
 	<details th:each="day : ${daylist}">
 		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>

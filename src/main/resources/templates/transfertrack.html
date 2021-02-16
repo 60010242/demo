@@ -98,7 +98,6 @@ function ondetail(orderId) {
     }
 	$.ajax({
 	      url:"http://localhost:7070/userajax?id="+orderId,
-	      url:"http://127.0.0.1:7070/userajax?id="+orderId,
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
@@ -110,7 +109,6 @@ function ondetail(orderId) {
 	      });
   	$.ajax({
   	      url:"http://localhost:7070/testajax?id="+orderId,
-  	  	  url:"http://127.0.0.1:7070/userajax?id="+orderId,
   	    })
   	      .done(function( data ) {
   	    	  $.each( data, function(key,val) {
