@@ -16,6 +16,9 @@ public interface OrderDetailRepository extends JpaRepository<orderdetail, orderd
 	@Query("from orderdetail d where d.idOrder = :idOrder order by d.noOrder")
 	List<orderdetail> getByIdorder(@Param("idOrder")int idOrder);
 	
+	@Query("select MAX(d.noOrder) from orderdetail d where d.idOrder = :idOrder")
+	int findMaxNoOrder(@Param("idOrder")int idOrder);
+	
 	@Modifying
 	@Transactional
 	@Query (nativeQuery = true, value="DELETE FROM orderdetail WHERE id_product = :idProduct")
