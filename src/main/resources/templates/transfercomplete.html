@@ -123,7 +123,7 @@ function ondetail(orderId) {
 		</td>
 	</tr>
 </table>
-<div class="overdetail">
+<div class="overdetail" id="overdetail">
 <details th:each="month : ${monthlist}">
 	<summary th:text="${month.getMonthname()}" th:value="${month.getMonthname()}"></summary>
 	<table class="maintable">

@@ -1,3 +1,12 @@
+$(document).ready(function(){
+	var count = document.getElementById("overdetail").childElementCount;
+	if (count == 0){
+		document.getElementById("overdetail").style.height="60vh";
+	}
+	console.log(count);
+})
+
+
 /* search */
 function searchFor(select){
 	console.log(select.options[select.selectedIndex].value);

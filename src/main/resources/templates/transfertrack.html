@@ -179,7 +179,7 @@ function ondetail(orderId) {
 	</tr>
 </table>
 <p hidden="true" id="namedeli" th:text="${namedeli}"></p>
-<div class="overdetail">
+<div class="overdetail" id="overdetail">
 	<details th:each="day : ${daylist}">
 		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
 		<table class="maintable">

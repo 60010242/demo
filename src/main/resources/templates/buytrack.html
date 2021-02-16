@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/overlay.css}">
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link rel="stylesheet" th:href="@{/CSS/buyerside.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@ $(document).ready(function(){
 	var tablinks = document.getElementsByClassName("tablinks");
 	
 	$('a.tablinks:nth-child(3)').addClass("active");
-	$('.tabcat-container tr:first-child a').addClass("active");
+	$('.sidetab-container tr:first-child a').addClass("active");
 	/*for (i = 0; i < tabcats.length; i++) {
 	    if(tabcats[i].id == idcat){
 	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
@@ -97,7 +98,7 @@ function off() {
 <div th:replace="navtab :: tabbuyer"></div>
 
 <div style="width: 100%;">
-<table class="tabcat-container">
+<table class="sidetab-container">
 	<tr class="center">
 		<td>
 			<a class="tabcat" id="idcat">กำลังดำเนินการ</a>
@@ -115,7 +116,7 @@ function off() {
 	</tr>
 </table>
 
-<div style="width: 85%; float: right;" class="overdetail">
+<div class="overdetail">
 <details th:each="month : ${monthlist}">
 		<summary th:text="${month.getMonthname()}" th:value="${month.getMonthname()}"></summary>
 		<table class="maintable">

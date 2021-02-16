@@ -299,10 +299,9 @@ close{
 	flex-flow: row;
 	background-color: rgba(255,255,255,60%);
 	width: 80.25%;
-	padding: 2%;
+	padding: 1% 2%;
 	float: right;
 }
-
 .overdetail details {
 	width: 100%;
 	border: 2px gray solid;

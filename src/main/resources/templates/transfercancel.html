@@ -5,8 +5,8 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
-<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link rel="stylesheet" th:href="@{/CSS/overlay.css}">
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" th:src="@{/JS/sellerjs.js}"></script>
@@ -126,7 +126,7 @@ function ondetail(orderId) {
 		</td>
 	</tr>
 </table>
-<div class="overdetail">
+<div class="overdetail" id="overdetail">
 <details th:each="day : ${daylist}">
 	<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
 	<table class="maintable">

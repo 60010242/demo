@@ -149,7 +149,7 @@ function on(orderId) {
 	</tr>
 </table>
 <p id="namebank" th:text="${namebank}" hidden="true">all</p>
-<div class="overdetail">
+<div class="overdetail" id="overdetail">
 	<details th:each="day : ${daylist}">
 		<summary th:text="${day.getMixname()}" th:value="${day.getMixname()}"></summary>
 		<table class="maintable">
