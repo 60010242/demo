@@ -6,6 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/overlay.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" th:src="@{/JS/sellerjs.js}"></script>
@@ -68,31 +69,28 @@ function ondetail(orderId) {
 <body>
 <!-- overlay -->
 	<div class="center" id="overlaydetail">
-		<div class="checked center">
+		<div class="checked">
 			<close onclick="off()">X</close>
+			
 			<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
-			<table id="table" class="tabledetail" style="width: 80%;">
+			<div><num id="overlaytableTD1"/></div>
+			
+			<div class="buyerdetail">
+				คุณ <name id="overlaytableTD2"></name><br/>
+				ที่อยู่ <address style="padding-left: 10px;" id="overlaytableTD6"></address>
+			</div>
+			
+			<table id="table" class="tabledetail" style="width: 80%; margin: 4% 10%;">
 				<tr>
-					<td>รหัส order</td>
-					<td id="overlaytableTD1" colspan="2"></td>
+					<td colspan="3">รายการคำสั่งซื้อ</td>
 				</tr>
-				<tr>
-					<td>ชื่อผู้ซื้อ </td>
-					<td id="overlaytableTD2" colspan="2"></td>
-				</tr>
-				<tr>
-					<td>รายการ </td>
-					<td>จำนวน</td>
-					<td>ราคา (ต่อชิ้น)</td>
-				</tr>
+				<tr><td colspan="3"><hr/></td></tr>
+				
 				<tbody id="roworder"></tbody>
+				
+				<tr><td colspan="3"><hr/></td></tr>
 				<tr id="rowtotal">
-					<td colspan="2">ยอดรวม </td>
-					<td id="overlaytableTD5"></td>
-				</tr>
-				<tr>
-					<td>ที่อยู่</td>
-					<td id="overlaytableTD6" colspan="2"></td>
+					<td align="right" colspan="3">ยอดรวม <total id="overlaytableTD5"/></td>
 				</tr>
 			</table>
 		</div>
