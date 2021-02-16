@@ -124,25 +124,12 @@ product .smlxl input{
 	border-radius: 100pt;
 }
 
-
-.btnsubmit{
-	font-family: 'Bai Jamjuree', sans-serif;
-	background-color: var(--green);
-	height: 20pt;
-	width: 50pt;
-	border-radius: 5pt;
-	text-align: center;
-	color: white;
-	border: none;
-	margin-right: 10%;
-	float: right;
+.addtocart{
+	color: var(--brown);
+	font-weight: bold;
+	font-style: italic;
 	cursor: pointer;
-}
-.btnsubmit:hover{
-	background-color: darkgreen;
-	width: 50pt;
-	height: 20pt;
-	line-height: 20pt;
-	font-weight: bolder;
-	border: outset 1pt white;
+	float: right;
+	border: none;
+	background-color: transparent;
 }
