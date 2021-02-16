@@ -82,6 +82,9 @@ $(document).ready(function(){
 	    	$('.sidetab-container tr:first-child a').addClass("active");
 	    }
 	}
+	console.log(window.location.origin+"/userajax?id=");
+	console.log("http://localhost:7070/userajax?id=");
+	console.log(window.location.origin);
 })
 
 function on() {
@@ -91,13 +94,14 @@ function on() {
 function ondetail(orderId) {
 	var roworder = document.getElementById("roworder")
 	var childrow = roworder.lastElementChild;
+	var origin = window.location.origin;
 	document.getElementById("overlaydetail").style.visibility = "visible";
 	while (childrow) { 
 		roworder.removeChild(childrow); 
 		childrow = roworder.lastElementChild; 
     }
 	$.ajax({
-	      url:"http://localhost:7070/userajax?id="+orderId,
+	      url: origin +"/userajax?id="+orderId,
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
@@ -108,7 +112,7 @@ function ondetail(orderId) {
 	    		  });
 	      });
   	$.ajax({
-  	      url:"http://localhost:7070/testajax?id="+orderId,
+  	      url: origin +"/testajax?id="+orderId,
   	    })
   	      .done(function( data ) {
   	    	  $.each( data, function(key,val) {
