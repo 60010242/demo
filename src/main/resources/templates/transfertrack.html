@@ -88,10 +88,6 @@ function on() {
 	  document.getElementById("overlay").style.visibility = "visible";
 }
 
-function off() {
-	  document.getElementById("overlay").style.visibility = "hidden";
-}
-
 function ondetail(orderId) {
 	var roworder = document.getElementById("roworder")
 	var childrow = roworder.lastElementChild;
@@ -102,6 +98,7 @@ function ondetail(orderId) {
     }
 	$.ajax({
 	      url:"http://localhost:7070/userajax?id="+orderId,
+	      url:"http://127.0.0.1:7070/userajax?id="+orderId,
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
@@ -113,6 +110,7 @@ function ondetail(orderId) {
 	      });
   	$.ajax({
   	      url:"http://localhost:7070/testajax?id="+orderId,
+  	  	  url:"http://127.0.0.1:7070/userajax?id="+orderId,
   	    })
   	      .done(function( data ) {
   	    	  $.each( data, function(key,val) {
