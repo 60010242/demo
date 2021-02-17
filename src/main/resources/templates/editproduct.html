@@ -134,8 +134,8 @@ $(document).ready(function(){
 	</tr>
 </table>
 
-<table class="tablecat-whitebg">
-	<tr class="sep" th:if="${cat != null}">
+<table class="tablecat-whitebg" th:if="${cat != null}">
+	<tr class="sep">
 		<td>
 			<div class="cathead">
 				สินค้าประเภท <catname th:text="${cat.getNameCat()}"/>
@@ -174,13 +174,13 @@ $(document).ready(function(){
 	<tr>
 		<td>&nbsp;</td>
 	</tr>
-	<tr class="sep" th:if="${cat != null}">
+	<tr class="sep">
 		<td class="product-container">
 			<product class="center">
 				<a onclick="onaddproduct()"><img class="imgproduct addproduct" th:src="@{/Icon/addplus.png}"></a>
 			</product>
-			<product class="center" th:each="product: ${products}">
-				<div th:if="${product.getEnable()==1}">
+			<product class="center" th:each="product: ${products}" th:if="${product.getEnable()==1}">
+				<div>
 					<p id="idproduct" th:value="${product.getIdProduct()}" hidden="true"></p>
 					<a th:attr="onclick=|oneditproduct('${product.getIdProduct()}')|">
 						<img class="imgproduct" th:if="${product.getPhotoProduct() == null}" alt="can't download" th:src="@{'/Icon/no-image.png'}">

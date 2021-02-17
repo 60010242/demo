@@ -33,6 +33,7 @@ public class userorder {
 	private String photoPay;
 	private LocalDateTime cratedOrder;
 	private int idUser;
+	private Integer idAddress;
 
 	@OneToMany
 	private Set<orderdetail> orderdetails = new HashSet<orderdetail>();
@@ -43,6 +44,10 @@ public class userorder {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUser", referencedColumnName = "idUser",insertable = false, updatable = false)
 	private userprofile userprofile;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idAddress", referencedColumnName = "idAddress",insertable = false, updatable = false)
+	private useraddress useraddress;
 	
 	public Set<orderdetail> getOrderdetails() {
 		return orderdetails;
@@ -62,13 +67,25 @@ public class userorder {
 			payment.setUserorder(this);
 		}
 	}
-	
 	public userprofile getUserprofile() {
 		return userprofile;
 	}
 	public void setUserprofile(userprofile userprofile) {
 		this.userprofile = userprofile;
 		this.userprofile.getUserorders().add(this);
+	}
+	public useraddress getUseraddress() {
+		return useraddress;
+	}
+	public void setUseraddress(useraddress useraddress) {
+		this.useraddress = useraddress;
+		this.useraddress.getUserorders().add(this);
+	}
+	public Integer getIdAddress() {
+		return idAddress;
+	}
+	public void setIdAddress(Integer idAddress) {
+		this.idAddress = idAddress;
 	}
 	
 	public int getIdOrder() {

@@ -118,8 +118,8 @@ function off() {
 	<tr class="sep" th:if="${cat != null}">
 		<td class="product-container">
 			<p id="idcat" hidden="true" th:text="${cat.getIdCategory()}"></p>
-			<product class="center" th:each="product: ${products}">
-			<div th:if="${product.getEnable()==1}">
+			<product class="center" th:each="product: ${products}" th:if="${product.getEnable()==1}">
+			<div>
 				<form action="#" th:action="@{/saveorder}" method="post">
 				<input hidden="true" type="text" id="hiddenid" th:value="${id}" name="idorder">
 				<input hidden="true" type="text" id="hiddenid" th:value="${product.getIdProduct()}" name="idproduct">

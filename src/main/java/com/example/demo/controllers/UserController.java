@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,19 +10,25 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.CreateFile;
+import com.example.demo.entities.useraddress;
 import com.example.demo.entities.userprofile;
+import com.example.demo.repositories.UserAddressRepository;
 import com.example.demo.repositories.UserProfileRepository;
 
 @Controller
 public class UserController {					// about user and user tables
 	@Autowired
 	private UserProfileRepository userprofileRepo;
+	
+	@Autowired
+	private UserAddressRepository useraddressRepo;
 	
 	@GetMapping("/signup")
 	public String greeting(Model model) {
@@ -88,5 +96,35 @@ public class UserController {					// about user and user tables
 		userprofileRepo.save(mem);
 		System.out.println("Update!!");
 		return "redirect:/myinfo";
+	}
+	
+	@GetMapping("/address")
+	public String editAddress(@SessionAttribute("user") userprofile user,Model model) {
+		List<useraddress> addresses = new ArrayList<useraddress>();
+		addresses = useraddressRepo.getByIdUser(user.getIdUser());
+		int count = useraddressRepo.countAddress(user.getIdUser());
+		model.addAttribute("addresses", addresses);
+		model.addAttribute("count", count);
+		return "useraddress"; 
+	}
+	
+	@PostMapping("/saveaddress")
+	public String saveaddress(@RequestParam(name = "newaddress") String newaddress
+			,@SessionAttribute("user") userprofile user) {
+		useraddress address = new useraddress();
+		address.setAddress(newaddress);
+		address.setEnable(1);
+		address.setIdUser(user.getIdUser());
+		useraddressRepo.save(address);
+		return "redirect:/address";
+	}
+	
+	@GetMapping("/deleteaddress/{idaddress}")
+	public String deleteaddress(@PathVariable("idaddress") Integer idaddress) {
+		useraddress address = new useraddress();
+		address = useraddressRepo.findById(idaddress).get();
+		address.setEnable(0);
+		useraddressRepo.save(address);
+		return "redirect:/address";
 	}
 }

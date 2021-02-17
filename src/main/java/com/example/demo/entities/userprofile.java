@@ -48,6 +48,18 @@ public class userprofile {
 		}
 	}
 	
+	@OneToMany
+	private Set<useraddress> useraddresses = new HashSet<useraddress>();
+	public Set<useraddress> getUseraddresses() {
+		return useraddresses;
+	}
+	public void setUseraddresses(Set<useraddress> useraddresses) {
+		this.useraddresses = useraddresses;
+		for(useraddress useraddress :useraddresses) {
+			useraddress.setUserprofile(this);
+		}
+	}
+	
 	public int getIdUser() {
 		return idUser;
 	}
