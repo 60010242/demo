@@ -530,7 +530,7 @@ public class OrderController {
 		List<String> deliverylist = new ArrayList<String>();
 		deliverylist = deliRepo.getAllNamedelivery();
 		String transport = deliverylist.get(0);
-		String filepath = "D:/filefromspring/" + transport + ".pdf";
+		String filepath = "Desktop" + transport + ".pdf";
 		String encoded = "";
 		int check = 0;
 		List<userorder> userorders = new ArrayList<userorder>();
@@ -563,7 +563,7 @@ public class OrderController {
 	@GetMapping("/createPDF/{transport}")
 	public String createPDF2(@PathVariable("transport") String transport
 			,Model model) throws IOException {
-		String filepath = "D:/filefromspring/" + transport + ".pdf";
+		String filepath = "Desktop" + transport + ".pdf";
 		List<String> deliverylist = new ArrayList<String>();
 		deliverylist = deliRepo.getAllNamedelivery();
 		String encoded = "";
