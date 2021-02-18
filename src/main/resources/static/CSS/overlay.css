@@ -91,26 +91,26 @@
 	width: 20px;
 }
 .tabledetail tbody:first-child{
-	font-size: 18px;
+	font-size: 16px;
 	text-align: center;
 }
 #overlaydetail .checked{
 	font-size: 14px;
 }
 #overlaydetail .checked hr{
-	margin: 5%;
+	margin: 12px 5%;
 	border: 0;
   	display: block;
   	background-color: gray;
   	height: 2px;
 }
 #overlaydetail .checked num{
-	font-size: 20px;
+	font-size: 16px;
 	font-weight: bold;
 	font-style: italic;
 }
 #overlaydetail .checked total{
-	font-size: 18px;
+	font-size: 16px;
 }
 #overlaydetail .buyerdetail{
 	margin: 4% 8%;
