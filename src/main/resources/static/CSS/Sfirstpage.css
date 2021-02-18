@@ -15,7 +15,6 @@
 body{
 	font-family: 'Bai Jamjuree', sans-serif;
 	margin: 130px 4% 40px 4%;
-	display: flex;
 	background-color: var(--brownbg);
 }
 

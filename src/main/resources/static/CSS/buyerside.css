@@ -44,3 +44,44 @@
 .tablebuytransfer tbody{
 	height: 100%;
 }
+
+/* add address */
+.addresstable{
+	padding: 5%;
+}
+.addresstable form{
+	height: 100px;
+}
+.addresstable textarea{
+	margin: 0 10%;
+	height: 35px;
+	width: 80%;
+	background-color: var(--lightgrey);
+	resize: none;
+}
+useraddress{
+	height: 60%;
+	width: 80%;
+	border-spacing: 5px 0;
+	border-collapse: collapse;
+}
+useraddress>div{
+	margin: 4% 10%;
+	padding: 2%;
+	border: 1px solid gray;
+	border-radius: 5px;
+}
+useraddress div div:first-child{
+	display: inline-block;
+	width: 80%;
+	color: var(--grey);
+	left: 0;
+}
+useraddress div div:last-child{
+	width: 20%;
+	right: 0;
+	text-align: right;
+}
+useraddress tr td{
+	padding: 2%;
+}

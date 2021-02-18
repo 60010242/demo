@@ -21,11 +21,15 @@ function togglePW() {
 function onaccount() {
 	  document.getElementById("overlayaccount").style.visibility = "visible";
 }
+function onaddress() {
+	  document.getElementById("overlayaddress").style.visibility = "visible";
+}
 function ondelivery() {
 	  document.getElementById("overlaydelivery").style.visibility = "visible";
 }
 function off() {
 	  document.getElementById("overlayaccount").style.visibility = "hidden";
+	  document.getElementById("overlayaddress").style.visibility = "hidden";
 	  document.getElementById("overlaydelivery").style.visibility = "hidden";
 }
 </script>
@@ -34,6 +38,15 @@ function off() {
 <body class="center">
 
 <!-- Overlay -->
+<div class="center" id="overlayaddress">
+	<div class="checked">
+		<div class="overlayheader center">แก้ไขอยู่ผู้ใช้ </div>
+		<iframe th:src="@{/address}"></iframe>
+		<close onclick="off()">X</close>
+	</div>
+	<div class="overlaybg" onclick="off()"></div>
+</div>
+
 <div class="center" id="overlayaccount">
 	<div class="checked">
 		<div class="overlayheader center">เพิ่มบัญชีผู้ขาย </div>
@@ -42,6 +55,7 @@ function off() {
 	</div>
 	<div class="overlaybg" onclick="off()"></div>
 </div>
+
 <div class="center" id="overlaydelivery" onclick="off()">
 	<div class="checked">
 		<div class="overlayheader center">เพิ่มราคาบริการขนส่งสินค้า </div>
@@ -94,10 +108,11 @@ function off() {
 	</tr>
 	<tr>
 		<td>ที่อยู่ </td>
-		<td><a href="/address">แก้ไขที่อยู่ผู้ใช้งาน </a></td>
+		<td><a class="editaddress" onclick="onaddress()">แก้ไขที่อยู่ </a></td>
 	</tr>
 	</table>
-	<a href="/edit" class="btneditinfo">แก้ไขข้อมูลผู้ใช้งาน </a>
+	
+		<div style="width: 80%; text-align: right; padding: 2% 0;"><a href="/edit" class="btneditinfo">แก้ไขข้อมูลผู้ใช้งาน </a></div>
 	</div>
 	
 	

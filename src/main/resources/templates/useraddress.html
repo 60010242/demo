@@ -3,22 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/buyerside.css}">
+
 </head>
-<body>
-	<div th:if="${count<3}">
+<body class="overlaypage">
+	<div class="addresstable">
+	
+		<div th:if="${count<3}">
 		<form action="#" th:action="@{/saveaddress}" method="post">
 			<textarea name="newaddress" placeholder="ที่อยู่" required></textarea>
-			<input style="float: right;" type="submit" value="Submit" name="button">
+			<input class="btnsubmit" type="submit" value="Submit" name="button">
 		</form>
-	</div>
+		</div>
 	
-	<table>
-	<caption>ที่อยู่ทั้งหมดของผู้ใช้งาน</caption>
-		<tr th:each="address: ${addresses}" th:if="${address.getEnable()==1}">
-			<td th:text="${address.getAddress()}"></td>
-			<td><a th:href="@{'/deleteaddress/'+${address.getIdAddress()}}">ลบที่อยู่</a></td>
-		</tr>
-	</table>
-	<p>หมายเหตุ : สามารถเพิ่มได้มากที่สุด3ที่อยู่</p>
+		<useraddress>
+			<p align="center">ที่อยู่ทั้งหมดของผู้ใช้</p>
+			<div th:each="address: ${addresses}" th:if="${address.getEnable()==1}">
+				<div th:text="${address.getAddress()}"></div>
+				<div style="float: right;"><a th:href="@{'/deleteaddress/'+${address.getIdAddress()}}">ลบ</a></div>
+			</div>
+		</useraddress>
+		<red style="font-size: 12px; font-style: italic;">หมายเหตุ : สามารถเพิ่มได้มากที่สุด 3 ที่อยู่</red>
+	</div>
 </body>
 </html>
