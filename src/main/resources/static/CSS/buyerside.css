@@ -50,12 +50,15 @@
 	padding: 5%;
 }
 .addresstable form{
+	height: 70px;
+}
+.addresstable>div{
+	padding: 0 10%;
 	height: 100px;
 }
 .addresstable textarea{
-	margin: 0 10%;
 	height: 35px;
-	width: 80%;
+	width: 100%;
 	background-color: var(--lightgrey);
 	resize: none;
 }

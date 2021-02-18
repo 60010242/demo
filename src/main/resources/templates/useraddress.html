@@ -13,8 +13,13 @@
 		<div th:if="${count<3}">
 		<form action="#" th:action="@{/saveaddress}" method="post">
 			<textarea name="newaddress" placeholder="ที่อยู่" required></textarea>
-			<input class="btnsubmit" type="submit" value="Submit" name="button">
+			<input class="btnsubmit"
+				type="submit"
+				value="Submit"
+				name="button"
+				style="margin-right: 0;">
 		</form>
+		<red style="font-size: 12px; font-style: italic;">หมายเหตุ : สามารถเพิ่มได้มากที่สุด 3 ที่อยู่</red>
 		</div>
 	
 		<useraddress>
@@ -24,7 +29,6 @@
 				<div style="float: right;"><a th:href="@{'/deleteaddress/'+${address.getIdAddress()}}">ลบ</a></div>
 			</div>
 		</useraddress>
-		<red style="font-size: 12px; font-style: italic;">หมายเหตุ : สามารถเพิ่มได้มากที่สุด 3 ที่อยู่</red>
 	</div>
 </body>
 </html>
