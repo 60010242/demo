@@ -113,8 +113,11 @@ function ondetail(orderId) {
 		  	    		var c2 = row.insertCell(1);
 		  	    		var c3 = row.insertCell(2);
 	  	    			c1.innerHTML = val.name;
-	  	    			c2.innerHTML = val.num;
-	  	    			c3.innerHTML = val.cost;
+	  	    			c2.innerHTML = "x" + val.num;
+	  	    			c3.innerHTML = val.cost + " ฿";
+	  	    			c1.width = "70%";
+	  	    			c2.width = "15%";
+	  	    			c3.width = "15%";
 	  	    			c3.align = "right";
   	    		  });
   	      });

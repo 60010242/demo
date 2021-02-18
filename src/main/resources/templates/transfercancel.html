@@ -59,8 +59,12 @@ function ondetail(orderId) {
 		  	    		var c2 = row.insertCell(1);
 		  	    		var c3 = row.insertCell(2);
 	  	    			c1.innerHTML = val.name;
-	  	    			c2.innerHTML = val.num;
-	  	    			c3.innerHTML = val.cost;
+	  	    			c2.innerHTML = "x" + val.num;
+	  	    			c3.innerHTML = val.cost + " ฿";
+	  	    			c1.width = "70%";
+	  	    			c2.width = "15%";
+	  	    			c3.width = "15%";
+	  	    			c3.align = "right";
   	    		  });
   	      });
 }
@@ -114,7 +118,7 @@ function ondetail(orderId) {
 	<tr class="center">
 		<td>
 			<a href="/cancel/contact" class="sidetab" id="idcat">
-				โอนเงินคืน
+				รอโอนเงินคืน
 			</a>
 		</td>
 	</tr>
@@ -163,10 +167,10 @@ function ondetail(orderId) {
 		<td style="text-align: center;">
 			<a th:href="@{'/trantocontact/' + ${userorder.getIdOrder()}}" th:if="${status.equalsIgnoreCase('cancel')}"
 			th:data-confirm-delete="|ต้องการยืนยันดำเนินการรายการ #${userorder.getIdOrder()}?|"
-					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ยืนยัน</a>
+					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ติดต่อแล้ว</a>
 			<a th:href="@{'/trantotransferred/' + ${userorder.getIdOrder()}}" th:if="${status.equalsIgnoreCase('contact')}"
 			th:data-confirm-delete="|ต้องการยืนยันดำเนินการรายการ #${userorder.getIdOrder()}?|"
-					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ยืนยัน</a>
+					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">โอนแล้ว</a>
 			<span th:if="${status.equalsIgnoreCase('transferred')}">ดำเนินการแล้ว</span>
 		</td>
 	</tr>
