@@ -17,6 +17,7 @@ $(document).ready(function(){
 })
 
 function ondetail(orderId) {
+	var origin = window.location.origin;
 	var roworder = document.getElementById("roworder")
 	var childrow = roworder.lastElementChild;
 	document.getElementById("overlaydetail").style.visibility = "visible";
@@ -25,7 +26,7 @@ function ondetail(orderId) {
 		childrow = roworder.lastElementChild; 
     }
 	$.ajax({
-	      url:"http://localhost:7070/userajax?id="+orderId,
+	      url: origin + "/userajax?id="+orderId,
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
@@ -34,7 +35,7 @@ function ondetail(orderId) {
 	    		  });
 	      });
   	$.ajax({
-  	      url:"http://localhost:7070/testajax?id="+orderId,
+  	      url: origin + "/testajax?id="+orderId,
   	    })
   	      .done(function( data ) {
   	    	  $.each( data, function(key,val) {
@@ -46,10 +47,17 @@ function ondetail(orderId) {
 		  	    		var c2 = row.insertCell(1);
 		  	    		var c3 = row.insertCell(2);
 		  	    		var c4 = row.insertCell(3);
-		  	    		c1.innerHTML = "<img width='200' alt='can't download' src='data:image/jpeg;base64,"+ val.image +"'>";
+		  	    		c1.innerHTML = "<img style='width: 80px; height: 80px; border-radius: 40px;'  \
+		  	    			alt='can't download' \
+		  	    			src='data:image/jpeg;base64,"+ val.image +"'>";
 	  	    			c2.innerHTML = val.name;
-	  	    			c3.innerHTML = val.num;
-	  	    			c4.innerHTML = val.cost;
+	  	    			c3.innerHTML = "x" + val.num;
+	  	    			c4.innerHTML = val.cost + " ฿";
+	  	    			c1.width = "20%";
+	  	    			c2.width = "50%";
+	  	    			c3.width = "15%";
+	  	    			c4.width = "15%";
+	  	    			c4.align = "right";
   	    		  });
   	      });
 }
@@ -116,7 +124,7 @@ function off() {
 				<tr>
 					<td colspan="2"><p></p></td>
 					<td>ยอดรวม </td>
-					<td id="total"></td>
+					<td align="right" id="total"></td>
 				</tr>
 			</table>
 		</div>
