@@ -79,13 +79,11 @@ public class UserController {					// about user and user tables
 		mem.setPassword(member.getPassword());
 		mem.setTel(member.getTel());
 		mem.setGender(member.getGender());
-		mem.setAddress(member.getAddress());
 		
 		user.setName(mem.getName());
 		user.setPassword(mem.getPassword());
 		user.setTel(mem.getTel());
 		user.setGender(mem.getGender());
-		user.setAddress(mem.getAddress());
 		
 		if(!file.isEmpty()) {
 			CreateFile bFile = new CreateFile();
@@ -113,7 +111,6 @@ public class UserController {					// about user and user tables
 			,@SessionAttribute("user") userprofile user) {
 		useraddress address = new useraddress();
 		address.setAddress(newaddress);
-		address.setEnable(1);
 		address.setIdUser(user.getIdUser());
 		useraddressRepo.save(address);
 		return "redirect:/address";
@@ -121,10 +118,7 @@ public class UserController {					// about user and user tables
 	
 	@GetMapping("/deleteaddress/{idaddress}")
 	public String deleteaddress(@PathVariable("idaddress") Integer idaddress) {
-		useraddress address = new useraddress();
-		address = useraddressRepo.findById(idaddress).get();
-		address.setEnable(0);
-		useraddressRepo.save(address);
+		useraddressRepo.deleteByIdAddress(idaddress);
 		return "redirect:/address";
 	}
 }

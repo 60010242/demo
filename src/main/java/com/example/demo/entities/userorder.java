@@ -32,8 +32,8 @@ public class userorder {
 	private LocalDateTime payTime;
 	private String photoPay;
 	private LocalDateTime cratedOrder;
+	private String userAddress;
 	private int idUser;
-	private Integer idAddress;
 
 	@OneToMany
 	private Set<orderdetail> orderdetails = new HashSet<orderdetail>();
@@ -44,10 +44,6 @@ public class userorder {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUser", referencedColumnName = "idUser",insertable = false, updatable = false)
 	private userprofile userprofile;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idAddress", referencedColumnName = "idAddress",insertable = false, updatable = false)
-	private useraddress useraddress;
 	
 	public Set<orderdetail> getOrderdetails() {
 		return orderdetails;
@@ -73,19 +69,6 @@ public class userorder {
 	public void setUserprofile(userprofile userprofile) {
 		this.userprofile = userprofile;
 		this.userprofile.getUserorders().add(this);
-	}
-	public useraddress getUseraddress() {
-		return useraddress;
-	}
-	public void setUseraddress(useraddress useraddress) {
-		this.useraddress = useraddress;
-		this.useraddress.getUserorders().add(this);
-	}
-	public Integer getIdAddress() {
-		return idAddress;
-	}
-	public void setIdAddress(Integer idAddress) {
-		this.idAddress = idAddress;
 	}
 	
 	public int getIdOrder() {
@@ -173,6 +156,12 @@ public class userorder {
 	public void setNameDelivery(String nameDelivery) {
 		this.nameDelivery = nameDelivery;
 	}
+	public String getUserAddress() {
+		return userAddress;
+	}
+	public void setUserAddress(String userAddress) {
+		this.userAddress = userAddress;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -180,17 +169,19 @@ public class userorder {
 		result = prime * result + ((cratedOrder == null) ? 0 : cratedOrder.hashCode());
 		result = prime * result + idOrder;
 		result = prime * result + idUser;
-		result = prime * result + lastNum;
+		result = prime * result + ((lastNum == null) ? 0 : lastNum.hashCode());
 		result = prime * result + ((nameDelivery == null) ? 0 : nameDelivery.hashCode());
 		result = prime * result + ((payTime == null) ? 0 : payTime.hashCode());
-		result = prime * result + payTotal;
+		result = prime * result + ((payTotal == null) ? 0 : payTotal.hashCode());
 		result = prime * result + ((photoPay == null) ? 0 : photoPay.hashCode());
 		result = prime * result + ((sellerBank == null) ? 0 : sellerBank.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + totalOrder;
-		result = prime * result + totalWeight;
+		result = prime * result + ((totalOrder == null) ? 0 : totalOrder.hashCode());
+		result = prime * result + ((totalWeight == null) ? 0 : totalWeight.hashCode());
 		result = prime * result + ((track == null) ? 0 : track.hashCode());
+		result = prime * result + ((userAddress == null) ? 0 : userAddress.hashCode());
 		result = prime * result + ((userBank == null) ? 0 : userBank.hashCode());
+		result = prime * result + ((userprofile == null) ? 0 : userprofile.hashCode());
 		return result;
 	}
 	@Override
@@ -211,7 +202,10 @@ public class userorder {
 			return false;
 		if (idUser != other.idUser)
 			return false;
-		if (lastNum != other.lastNum)
+		if (lastNum == null) {
+			if (other.lastNum != null)
+				return false;
+		} else if (!lastNum.equals(other.lastNum))
 			return false;
 		if (nameDelivery == null) {
 			if (other.nameDelivery != null)
@@ -223,7 +217,10 @@ public class userorder {
 				return false;
 		} else if (!payTime.equals(other.payTime))
 			return false;
-		if (payTotal != other.payTotal)
+		if (payTotal == null) {
+			if (other.payTotal != null)
+				return false;
+		} else if (!payTotal.equals(other.payTotal))
 			return false;
 		if (photoPay == null) {
 			if (other.photoPay != null)
@@ -240,21 +237,38 @@ public class userorder {
 				return false;
 		} else if (!status.equals(other.status))
 			return false;
-		if (totalOrder != other.totalOrder)
+		if (totalOrder == null) {
+			if (other.totalOrder != null)
+				return false;
+		} else if (!totalOrder.equals(other.totalOrder))
 			return false;
-		if (totalWeight != other.totalWeight)
+		if (totalWeight == null) {
+			if (other.totalWeight != null)
+				return false;
+		} else if (!totalWeight.equals(other.totalWeight))
 			return false;
 		if (track == null) {
 			if (other.track != null)
 				return false;
 		} else if (!track.equals(other.track))
 			return false;
+		if (userAddress == null) {
+			if (other.userAddress != null)
+				return false;
+		} else if (!userAddress.equals(other.userAddress))
+			return false;
 		if (userBank == null) {
 			if (other.userBank != null)
 				return false;
 		} else if (!userBank.equals(other.userBank))
 			return false;
+		if (userprofile == null) {
+			if (other.userprofile != null)
+				return false;
+		} else if (!userprofile.equals(other.userprofile))
+			return false;
 		return true;
 	}
+	
 	
 }

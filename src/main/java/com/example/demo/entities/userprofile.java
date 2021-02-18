@@ -27,7 +27,6 @@ public class userprofile {
 	private LocalDate birthday;
 	
 	private String tel;
-	private String address;
 	private String email;
 	private String password;
 	private String line;
@@ -90,12 +89,6 @@ public class userprofile {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
 	public String getEmail() {
 		return email;
 	}
@@ -136,7 +129,6 @@ public class userprofile {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((birthday == null) ? 0 : birthday.hashCode());
 		result = prime * result + coin;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
@@ -159,11 +151,6 @@ public class userprofile {
 		if (getClass() != obj.getClass())
 			return false;
 		userprofile other = (userprofile) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
 		if (birthday == null) {
 			if (other.birthday != null)
 				return false;

@@ -45,11 +45,14 @@
 
 embed , object{
 	position: absolute;
-	top: 0;
+	top: 300;
 	margin: 0 20%;
 	width: 60%;
 	height: 680px;
 	left: 10%;
+}
+.setprofile{
+	margin: 10px 20%;
 }
 .pdf{
 	position: fixed;
@@ -109,6 +112,9 @@ $(document).ready(function(){
 </table>
 </div>
 <div class="pdf">
+	<div class="setprofile">
+		<span style="color:red">ไม่มีที่อยู่ของผู้ขาย กรุณาเพิ่มที่อยู่</span><a href="/myinfo">แก้ไขข้อมูลส่วนตัว </a>
+	</div>
 	<p id="transport" th:text="${transport}" hidden="true"></p>
 	<p class="outoforder" th:text="${pdf}" th:if="${check==0}"></p>
 	<object th:data="'data:application/pdf;base64,'+${pdf}" type="application/pdf" th:if="${check==1}">

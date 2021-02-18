@@ -1,8 +1,5 @@
 package com.example.demo.entities;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,7 +16,6 @@ public class useraddress {
 	private Integer idAddress;
 	private String address;
 	private Integer idUser;
-	private int enable; 
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUser", referencedColumnName = "idUser",insertable = false, updatable = false)
@@ -32,19 +27,6 @@ public class useraddress {
 		this.userprofile = userprofile;
 		this.userprofile.getUseraddresses().add(this);
 	}
-	
-	@OneToMany
-	private Set<userorder> userorders = new HashSet<userorder>();
-	public Set<userorder> getUserorders() {
-		return userorders;
-	}
-	public void setUserorders(Set<userorder> userorders) {
-		this.userorders = userorders;
-		for(userorder userorder :userorders) {
-			userorder.setUseraddress(this);
-		}
-	}
-	
 	
 	public Integer getIdAddress() {
 		return idAddress;
@@ -64,19 +46,11 @@ public class useraddress {
 	public void setIdUser(Integer idUser) {
 		this.idUser = idUser;
 	}
-	
-	public int getEnable() {
-		return enable;
-	}
-	public void setEnable(int enable) {
-		this.enable = enable;
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + enable;
 		result = prime * result + ((idAddress == null) ? 0 : idAddress.hashCode());
 		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
 		return result;
@@ -94,8 +68,6 @@ public class useraddress {
 			if (other.address != null)
 				return false;
 		} else if (!address.equals(other.address))
-			return false;
-		if (enable != other.enable)
 			return false;
 		if (idAddress == null) {
 			if (other.idAddress != null)

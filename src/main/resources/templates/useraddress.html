@@ -24,7 +24,7 @@
 	
 		<useraddress>
 			<p align="center">ที่อยู่ทั้งหมดของผู้ใช้</p>
-			<div th:each="address: ${addresses}" th:if="${address.getEnable()==1}">
+			<div th:each="address: ${addresses}">
 				<div th:text="${address.getAddress()}"></div>
 				<div style="float: right;"><a th:href="@{'/deleteaddress/'+${address.getIdAddress()}}">ลบ</a></div>
 			</div>

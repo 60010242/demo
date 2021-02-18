@@ -45,7 +45,6 @@ public class LoginController {
 			// set user data to sessions
 			if(user.getEmail().equalsIgnoreCase(mem.getEmail()) && user.getPassword().equalsIgnoreCase(mem.getPassword())) {
 					mem.setIdUser(user.getIdUser());
-					mem.setAddress(user.getAddress());
 					mem.setBirthday(user.getBirthday());
 					mem.setCoin(user.getCoin());
 					mem.setGender(user.getGender());

@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
+import com.example.demo.entities.useraddress;
 import com.example.demo.entities.userorder;
 import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.ProductDetailRepository;
+import com.example.demo.repositories.UserAddressRepository;
 import com.example.demo.repositories.UserOrderRepository;
 import com.example.demo.repositories.UserProfileRepository;
 import com.itextpdf.text.Document;
@@ -37,6 +39,9 @@ public class CreatePDF {
 	
 	@Autowired
 	private OrderDetailRepository orderdetailRepo;
+	
+	@Autowired
+	private UserAddressRepository useraddressRepo;
 	
 	public void printOrder(Document document,String transport)throws DocumentException {
 		FontFactory.register("D:\\front\\THSarabunNew.ttf", "sarabun");
@@ -79,11 +84,22 @@ public class CreatePDF {
 			hpara.add(new Paragraph("ORDER #"+Integer.toString(userorder1.getIdOrder()),boldFont));
 			addEmptyLine(hpara, 1);
 			
+			List<useraddress> selladdress = new ArrayList<useraddress>();
+			selladdress = useraddressRepo.getByIdUser(seller.getIdUser());
+			useraddress Saddress = new useraddress();
+			
 			insertCell(table1,"ผู้ส่ง (from)",Element.ALIGN_LEFT,1,textFont);
-			insertCell(table1,seller.getAddress(),Element.ALIGN_LEFT,1,textFont);
+			
+			if(selladdress.get(0)!=null) {
+				Saddress = selladdress.get(0);
+				insertCell(table1,Saddress.getAddress(),Element.ALIGN_LEFT,1,textFont);
+			}else {
+				insertCell(table1,"ที่อยู่ผู้ขาย",Element.ALIGN_LEFT,1,textFont);
+			}
+			
 			
 			insertCell(table1,"ผู้รับ (to)",Element.ALIGN_LEFT,1,textFont);
-			insertCell(table1,userorder1.getUserprofile().getAddress(),Element.ALIGN_LEFT,1,textFont);
+			insertCell(table1,userorder1.getUserAddress(),Element.ALIGN_LEFT,1,textFont);
 				
 			hpara.add(table1);
 			addEmptyLine(hpara, 1);

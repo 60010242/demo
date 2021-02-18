@@ -33,19 +33,30 @@ import com.example.demo.Transgroup;
 import com.example.demo.Userjson;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
+import com.example.demo.entities.useraddress;
 import com.example.demo.entities.userorder;
+import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.AccountRepository;
 import com.example.demo.repositories.DeliveryRepository;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.ProductDetailRepository;
+import com.example.demo.repositories.UserAddressRepository;
 import com.example.demo.repositories.UserOrderRepository;
+import com.example.demo.repositories.UserProfileRepository;
 import com.example.demo.services.CreatePDF;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @Controller
 public class OrderController {
+	@Autowired
+	private UserAddressRepository useraddressRepo;
+	
+	@Autowired
+	private UserProfileRepository userprofileRepo;
+	
 	@Autowired
 	private UserOrderRepository userorderRepo;
 	
@@ -553,7 +564,17 @@ public class OrderController {
 			check = 0;
 			encoded = "OUT OF ORDER";
 		}
-		
+		List<userprofile> sellerlist = new ArrayList<userprofile>();
+		userprofile seller = new userprofile();
+		sellerlist = userprofileRepo.findOneByType("Seller");
+		seller = sellerlist.get(0);
+		List<useraddress> selladdress = new ArrayList<useraddress>();
+		selladdress = useraddressRepo.getByIdUser(seller.getIdUser());
+		boolean address = false;
+		if(selladdress.get(0)!=null) {
+			address = true;
+		}
+		model.addAttribute("address", address);
 		model.addAttribute("deliverylist", deliverylist);
 		model.addAttribute("pdf", encoded);
 		model.addAttribute("check", check);
@@ -636,7 +657,7 @@ public class OrderController {
 		user.setId(userorder.getIdOrder());
 		user.setUsername(userorder.getUserprofile().getName());
 		user.setTotal(userorder.getTotalOrder());
-		user.setAddress(userorder.getUserprofile().getAddress());
+		user.setAddress(userorder.getUserAddress());
 		user.setTrack(userorder.getTrack());
 		List<Userjson> jsList = new ArrayList<Userjson>();
 		jsList.add(user);
