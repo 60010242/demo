@@ -38,9 +38,11 @@ public class UserController {					// about user and user tables
 	
 	@PostMapping("/savemem")
 	public String saveMember(@ModelAttribute userprofile user
+			,@RequestParam(name = "newaddress") String newaddress
 			, BindingResult errors
 			, Model model
 			,@RequestParam("imageFile") MultipartFile file) throws IOException  {
+		userprofile profile = new userprofile();
 		if(!file.isEmpty()) {
 			CreateFile bFile = new CreateFile();
 			String image = bFile.invertfile(file);
@@ -48,7 +50,11 @@ public class UserController {					// about user and user tables
 		}
 		user.setType("Customer");				//Customer
 		user.setCoin(0);
-		userprofileRepo.save(user);
+		profile = userprofileRepo.save(user);
+		useraddress address = new useraddress();
+		address.setAddress(newaddress);
+		address.setIdUser(profile.getIdUser());
+		useraddressRepo.save(address);
 		model.addAttribute("message", "You have already signed.");
 		model.addAttribute("user", new userprofile());
 		return "signup";

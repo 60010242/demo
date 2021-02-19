@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.Checkjason;
@@ -413,10 +414,10 @@ public class OrderController {
 	}
 	
 	@GetMapping("/buytransfer")
-	public String buytransfer(Model model) {
+	public String buytransfer(@SessionAttribute("user") userprofile user,Model model) {
 		List<userorder> userorders = new ArrayList<userorder>();
 		List<Transgroup> transgroup = new ArrayList<Transgroup>();
-		userorders = userorderRepo.getByStatus("paying");
+		userorders = userorderRepo.getByStatusAndIduser("paying", user.getIdUser());
 		for(userorder userorder : userorders) {
 			Transgroup tran = new Transgroup();
 			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
@@ -457,12 +458,11 @@ public class OrderController {
 	}
 	
 	@GetMapping("/buytrack")
-	public String buytrack(Model model) {
+	public String buytrack(@SessionAttribute("user") userprofile userprofile,Model model) {
 		List<userorder> userorders = new ArrayList<userorder>();
 		List<userorder> Alluserorders = new ArrayList<userorder>();
 		List<orderdetail> orderlists = new ArrayList<orderdetail>();
-		
-		userorders = userorderRepo.getByStatus("shipping");
+		userorders = userorderRepo.getByStatusAndIduser("shipping", userprofile.getIdUser());
 		for(userorder u : userorders) {
 			LocalDateTime to = LocalDateTime.now();
 			long days = ChronoUnit.DAYS.between(u.getCratedOrder(), to);
@@ -475,14 +475,13 @@ public class OrderController {
 				userorderRepo.save(user);
 			}
 		}
-		
-		userorders = userorderRepo.getByStatus("checking");
+		userorders = userorderRepo.getByStatusAndIduser("checking", userprofile.getIdUser());
 		Alluserorders.addAll(userorders);
-		userorders = userorderRepo.getByStatus("tracking");
+		userorders = userorderRepo.getByStatusAndIduser("tracking", userprofile.getIdUser());
 		Alluserorders.addAll(userorders);
-		userorders = userorderRepo.getByStatus("shipping");
+		userorders = userorderRepo.getByStatusAndIduser("shipping", userprofile.getIdUser());
 		Alluserorders.addAll(userorders);
-		userorders = userorderRepo.getByStatus("complete");
+		userorders = userorderRepo.getByStatusAndIduser("complete", userprofile.getIdUser());
 		Alluserorders.addAll(userorders);
 		
 		LocalDate localDate = LocalDate.now();

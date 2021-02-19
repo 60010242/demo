@@ -65,6 +65,27 @@ public class BuyproductController {
 		return "buyproduct";
 	}
 	
+	@GetMapping("/buyproduct/{idorder}")
+	public String buyproduct(@PathVariable("idorder") String idorder
+			,Model model) {
+		List<category> catlist = new ArrayList<category>();
+		catlist = categoryRepo.findAll();
+		category cat = new category();
+		String idcat = categoryRepo.getMinIdcategory();
+		List<productdetail> products = new ArrayList<productdetail>();
+		if(idcat != null) {
+			cat = categoryRepo.getOne(idcat);
+			products = productdetailRepo.getByCategory(cat.getNameCat());
+		}else {
+			cat = null;
+		}
+		model.addAttribute("id", idorder);
+		model.addAttribute("products", products);
+		model.addAttribute("cat", cat);
+		model.addAttribute("catlist", catlist);
+		return "buyproduct";
+	}
+	
 	@GetMapping("/buyproduct/{idcat}/{idorder}")
 	public String buyproduct(@PathVariable("idcat") String idcat
 			,@PathVariable("idorder") String idorder
@@ -158,8 +179,10 @@ public class BuyproductController {
 		return "redirect:/buyproduct/"+ idcategory +"/"+ idorder;
 	}
 	
-	@GetMapping("/cart")
-	public String cart(Model model) {
+	@GetMapping("/cart/{idorder}")
+	public String cart(@PathVariable("idorder") String idorder
+			,Model model) {
+		
 		return "cart";
 	}
 }
