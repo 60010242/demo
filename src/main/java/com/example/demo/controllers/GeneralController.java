@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.Orderjson;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
 import com.example.demo.entities.userprofile;
@@ -43,51 +44,56 @@ public class GeneralController {
 	
 	@GetMapping("/testpage/{idorder}")
 	public String testpage(@PathVariable("idorder") Integer idorder
+			,HttpServletRequest request
 			,Model model) {
-		int i = 1;
+		
+		/* 0 = มีรายการคำสั่งซื้อใหม่,
+		 * 1 = ยกเลิกสินค้า*/
+		int i = 0;
+		String base_url = "http://"+request.getLocalName()+":7070";
+		String target_mail = "rixshiki@gmail.com";
+		String[] subject_list = {
+				"แจ้งเตือนคำสั่งซื้อใหม่ ออเดอร์ #"+ idorder,
+				"แจ้งเตือนยกเลิกออเดอร์ #"+ idorder};
+		
 		List<orderdetail> orderlist = new ArrayList<orderdetail>();
 		orderlist = orderdetailRepo.getByIdorder(idorder);
 	    String myorder = "\n\nรายการ\n----\n";
 	    Integer totalprice = 0;
 	    
+	    // order detail text in mail
 	    for(orderdetail order : orderlist) {
 	    	productdetail product = productRepo.getByIdproduct(order.getIdProduct());
 	    	if(order.getSize()!=null) {
-	    		myorder += product.getNameProduct()+" ไซส์"+
-	    				order.getSize().toUpperCase()+" x"+
-	    	    		order.getNumber()+" ราคา "+
-	    	    		order.getRealPrice()+" บาท";
+	    		myorder += product.getNameProduct()
+	    				+" ไซส์"+order.getSize().toUpperCase()
+	    	    		+" x"+order.getNumber()
+	    	    		+" ราคา "+order.getRealPrice()+" บาท";
 	    		totalprice += order.getRealPrice();
 	    	}else {
-	    		myorder += product.getNameProduct()+" x"+
-	    	    		order.getNumber()+" ราคา"+
-	    	    		order.getRealPrice()+" บาท";
+	    		myorder += product.getNameProduct()
+	    	    		+" x"+order.getNumber()
+	    	    		+" ราคา"+order.getRealPrice()+" บาท";
 	    		totalprice += order.getRealPrice();
 	    	}
 	    	myorder += "\n";
 	    }
-	    if(i==0) myorder += "----\n\nราคารวมทั้งสิ้น "+ totalprice +" บาท";
-	    if(i==1) myorder += "----\n\nต้องคืนเงินรวมทั้งสิ้น "+ totalprice +" บาท";
-	    
-		orderlist = orderdetailRepo.getByIdorder(idorder);
-		String customer_mail = "rixshiki@gmail.com";
-		String[] subject_list = {
-				"แจ้งเตือนคำสั่งซื้อใหม่ ออเดอร์ #"+ idorder,
-				"แจ้งเตือนยกเลิกออเดอร์ #"+ idorder};
+	    if(i==0) myorder += "----\n\nราคารวมทั้งสิ้น "+ totalprice +" บาท\n\n"+base_url+"/checking";
+	    if(i==1) myorder += "----\n\nต้องคืนเงินรวมทั้งสิ้น "+ totalprice +" บาท\n\n"+base_url+"/cancel/cancel";
+
 		String[] body_text_list = {
 				"ออเดอร์ #"+ idorder + myorder,
 				"ยกเลิกออเดอร์ #"+ idorder + myorder};
 		
-		//yaml_mail.setUsername("rixshiki@gmail.com");
-		//yaml_mail.setPassword("fmrftkyefqyonglu");
-		
+		// set SMTP seller to send G-mail
 		System.setProperty("spring.mail.host", "smtp.gmail.com");
 		System.setProperty("spring.mail.port", "587");
 		System.setProperty("spring.mail.username", "rixshiki@gmail.com");
 		System.setProperty("spring.mail.password", "fmrftkyefqyonglu");
 		
-		System.out.println(body_text_list[i]);
-		sendEmail(customer_mail, subject_list[i], body_text_list[i]);
+		System.out.println(myorder);
+		
+		//sendEmail(target_mail, subject_list[i], body_text_list[i]);
 		
 		return "testpage";
 	}
