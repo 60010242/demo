@@ -162,7 +162,10 @@ public class BuyproductController {
 				}
 			}
 			if(!save) {												//ออเดอร์ใหม่แต่มีidorderแล้ว
-				int maxNo = orderdetailRepo.findMaxNoOrder(Integer.parseInt(idorder)); 
+				int maxNo = 0; 
+				if(orderdetailRepo.countNoOrderbyId(Integer.parseInt(idorder))>0) {
+					maxNo = orderdetailRepo.findMaxNoOrder(Integer.parseInt(idorder)); 
+				}
 				orderdetail order = new orderdetail();
 				order.setIdOrder(Integer.parseInt(idorder));
 				order.setNoOrder(maxNo+1);
@@ -182,7 +185,55 @@ public class BuyproductController {
 	@GetMapping("/cart/{idorder}")
 	public String cart(@PathVariable("idorder") String idorder
 			,Model model) {
-		
+		List<orderdetail> orders = new ArrayList<orderdetail>();
+		if(!(idorder.equalsIgnoreCase("noid"))) {
+			orders = orderdetailRepo.getByIdorder(Integer.parseInt(idorder));
+//			for(orderdetail oredr:orders) {
+//				oredr.getProductdetail().getPhotoProduct();
+//			}
+		}
+		model.addAttribute("orders", orders);
+		model.addAttribute("id", idorder);
+		model.addAttribute("textno", "ไม่มีสินค้าในตะกร้า");
 		return "cart";
+	}
+	
+	@GetMapping("/minusorder/{idorder}/{noorder}")
+	public String minusorder(@PathVariable("idorder") String idorder
+			,@PathVariable("noorder") int noorder) {
+		orderdetail order = new orderdetail();
+		orderdetailid id = new orderdetailid();
+		id.setIdOrder(Integer.parseInt(idorder));
+		id.setNoOrder(noorder);
+		order = orderdetailRepo.findById(id).get();
+		order.setNumber(order.getNumber()-1);
+		orderdetailRepo.save(order);
+		return "redirect:/cart/"+idorder;
+	}
+	
+	@GetMapping("/addorder/{idorder}/{noorder}")
+	public String addorder(@PathVariable("idorder") String idorder
+			,@PathVariable("noorder") int noorder) {
+		orderdetail order = new orderdetail();
+		orderdetailid id = new orderdetailid();
+		id.setIdOrder(Integer.parseInt(idorder));
+		id.setNoOrder(noorder);
+		order = orderdetailRepo.findById(id).get();
+		order.setNumber(order.getNumber()+1);
+		orderdetailRepo.save(order);
+		return "redirect:/cart/"+idorder;
+	}
+	
+	@GetMapping("/deleteorder/{idorder}/{noorder}")
+	public String deleteorder(@PathVariable("idorder") String idorder
+			,@PathVariable("noorder") int noorder) {
+		orderdetailRepo.deleteByIdAndNo(Integer.parseInt(idorder), noorder);
+		return "redirect:/cart/"+idorder;
+	}
+	
+	@GetMapping("/buy/{idorder}")
+	public String buy(@PathVariable("idorder") String idorder) {
+		
+		return "";
 	}
 }
