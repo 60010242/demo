@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+<a href="/cart">back</a>
+	<div style="margin: 2%;">
+		<a href="#address">เลือกที่อยู่</a><txt>text ที่อยู่</txt> <br/>
+		<a href="#transfer">เลือกขนส่ง</a><txt>text ขนส่ง</txt>
+	</div>
+	
+	<table style="border: 1px black solid; width: 50%;">
+ 		<tr>
+    		<th style="width: 60%;">รายการ</th>
+    		<th style="width: 20%;">จำนวน</th>
+    		<th style="width: 20%;">ราคา</th>
+  		</tr>
+  		<tr>
+    		<td>ชื่อสินค้า</td>
+    		<td>จำนวน</td>
+    		<td>ราคา</td>
+  		</tr>
+  		<tr>
+    		<td colspan="2">ค่าส่ง</td>
+    		<td>ราคาส่ง</td>
+  		</tr>
+  		<tr>
+  			<td colspan="3"><hr style="background: gray;"/></td>
+  		</tr>
+  		<tr>
+    		<td colspan="2" align="right">รวม</td>
+    		<td>ราคารวม</td>
+  		</tr>
+	</table>
+	<button>ยืนยัน</button>
+	
+</body>
+</html>
