@@ -58,6 +58,8 @@ public class BuyproductController {
 			cat = null;
 		}
 		String id = "noid";
+		int numcart = 0;
+		model.addAttribute("numcart", numcart);
 		model.addAttribute("id", id);
 		model.addAttribute("products", products);
 		model.addAttribute("cat", cat);
@@ -79,6 +81,11 @@ public class BuyproductController {
 		}else {
 			cat = null;
 		}
+		int numcart = 0;
+		if(!(idorder.equalsIgnoreCase("noid"))) {
+			numcart = orderdetailRepo.countNoOrderbyId(Integer.parseInt(idorder));
+		}
+		model.addAttribute("numcart", numcart);
 		model.addAttribute("id", idorder);
 		model.addAttribute("products", products);
 		model.addAttribute("cat", cat);
@@ -96,6 +103,11 @@ public class BuyproductController {
 		cat = categoryRepo.getOne(idcat);
 		List<productdetail> products = new ArrayList<productdetail>();
 		products = productdetailRepo.getByCategory(cat.getNameCat());
+		int numcart = 0;
+		if(!(idorder.equalsIgnoreCase("noid"))) {
+			numcart = orderdetailRepo.countNoOrderbyId(Integer.parseInt(idorder));
+		}
+		model.addAttribute("numcart", numcart);
 		model.addAttribute("id", idorder);
 		model.addAttribute("products", products);
 		model.addAttribute("cat", cat);

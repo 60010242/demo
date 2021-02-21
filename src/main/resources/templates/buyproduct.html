@@ -93,6 +93,7 @@ function off() {
 </div>
 <a class="cart-container center" th:href="@{'/cart/' + ${id}}">
 	<img class="cart" th:src="@{/Icon/cart.png}">
+	<span th:if="${numcart!=0}" th:text="${numcart}"></span>
 </a>
 
 <!-- Tab เลิอก Cat -->
