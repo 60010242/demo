@@ -8,17 +8,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
-<a href="#">back</a>
+<a  th:href="@{'/cartconfirm/' + ${id}}">back</a>
 	<h3>เลือกขนส่ง</h3>
-	<table style="width: 50%;">
-  		<tr>
-    		<td style="width: 13px;"><input type="radio"></td>
-    		<td align="left">ขนส่ง</td>
-    		<td align="right">ราคา</td>
-	    </tr>
-	    <tr>
-    		<td colspan="2" align="right"><button>ยืนยัน</button></td>
-	    </tr>
-	</table>
+	<form action="#" th:action="@{'/savecartdelivery/' + ${id}}" method="post">
+		<table style="width: 50%;">
+	  		<tr>
+	    		<td style="width: 13px;"><input type="radio"></td>
+	    		<td align="left">ขนส่ง</td>
+	    		<td align="right">ราคา</td>
+		    </tr>
+		    <tr>
+	    		<td colspan="2" align="right"><button>ยืนยัน</button></td>
+		    </tr>
+		</table>
+	</form>
+	
 </body>
 </html>

@@ -608,7 +608,17 @@ public class OrderController {
 			check = 0;
 			encoded = "OUT OF ORDER";
 		}
-		
+		List<userprofile> sellerlist = new ArrayList<userprofile>();
+		userprofile seller = new userprofile();
+		sellerlist = userprofileRepo.findOneByType("Seller");
+		seller = sellerlist.get(0);
+		List<useraddress> selladdress = new ArrayList<useraddress>();
+		selladdress = useraddressRepo.getByIdUser(seller.getIdUser());
+		boolean address = false;
+		if(selladdress.get(0)!=null) {
+			address = true;
+		}
+		model.addAttribute("address", address);
 		model.addAttribute("deliverylist", deliverylist);
 		model.addAttribute("pdf", encoded);
 		model.addAttribute("check", check);

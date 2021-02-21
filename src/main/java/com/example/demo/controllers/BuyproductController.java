@@ -16,12 +16,14 @@ import com.example.demo.entities.category;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.orderdetailid;
 import com.example.demo.entities.productdetail;
+import com.example.demo.entities.useraddress;
 import com.example.demo.entities.userorder;
 import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.AccountRepository;
 import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.ProductDetailRepository;
+import com.example.demo.repositories.UserAddressRepository;
 import com.example.demo.repositories.UserOrderRepository;
 
 @Controller
@@ -43,6 +45,9 @@ public class BuyproductController {
 	
 	@Autowired
 	private ProductDetailRepository productdetailRepo;
+	
+	@Autowired
+	private UserAddressRepository useraddressRepo;
 	
 	@GetMapping("/buyproduct")
 	public String buyproduct(Model model) {
@@ -243,9 +248,72 @@ public class BuyproductController {
 		return "redirect:/cart/"+idorder;
 	}
 	
-	@GetMapping("/buy/{idorder}")
-	public String buy(@PathVariable("idorder") String idorder) {
+	@GetMapping("/cartconfirm/{idorder}")
+	public String cartconfirm(@PathVariable("idorder") String idorder
+			,Model model) {
+		userorder userorder = new userorder();
+		userorder = userorderRepo.findById(Integer.parseInt(idorder)).get();
+		List<orderdetail> orders = new ArrayList<orderdetail>();
+		orders = orderdetailRepo.getByIdorder(Integer.parseInt(idorder));
+		int totalOrder = 0;
+		int totalWeight = 0;
+		for(orderdetail order : orders) {
+			totalOrder = totalOrder + (order.getRealPrice()*order.getNumber());
+			totalWeight = totalWeight + (order.getProductdetail().getWeight()*order.getNumber());
+		}
+		if(userorder.getTotalOrder() == 0 && userorder.getTotalWeight() == 0) {
+			userorder.setTotalOrder(totalOrder);
+			userorder.setTotalWeight(totalWeight);
+			userorder = userorderRepo.save(userorder);
+		}
+		int sendcost = userorder.getTotalOrder() - totalOrder;
+		model.addAttribute("sendcost", sendcost);
+		model.addAttribute("id", idorder);
+		model.addAttribute("userorder", userorder);
+		model.addAttribute("orders", orders);
+		return "cartconfirm";
+	}
+	
+	@GetMapping("/cartaddress/{idorder}")
+	public String cartaddress(@PathVariable("idorder") String idorder
+			,@SessionAttribute("user") userprofile user
+			,Model model) {
+		List<useraddress> addresses = new ArrayList<useraddress>();
+		addresses = useraddressRepo.getByIdUser(user.getIdUser());
+		int count = useraddressRepo.countAddress(user.getIdUser());
+		model.addAttribute("count", count);
+		model.addAttribute("id", idorder);
+		model.addAttribute("addresses", addresses);
+		return "cartaddress";
+	}
+	
+	@GetMapping("/savecartaddress/{idorder}")
+	public String savecartaddress(@PathVariable("idorder") String idorder) {
 		
-		return "";
+		return "redirect:/cartconfirm/"+idorder;
+	}
+	
+	@GetMapping("/cartdelivery/{idorder}")
+	public String cartdelivery(@PathVariable("idorder") String idorder
+			,Model model) {
+		
+		model.addAttribute("id", idorder);
+		return "cartdelivery";
+	}
+	
+	@GetMapping("/savecartdelivery/{idorder}")
+	public String savecartdelivery(@PathVariable("idorder") String idorder) {
+		userorder userorder = new userorder();
+		userorder = userorderRepo.findById(Integer.parseInt(idorder)).get();
+		List<orderdetail> orders = new ArrayList<orderdetail>();
+		orders = orderdetailRepo.getByIdorder(Integer.parseInt(idorder));
+		int totalOrder = 0;
+		int totalWeight = 0;
+		for(orderdetail order : orders) {
+			totalOrder = totalOrder + (order.getRealPrice()*order.getNumber());
+			totalWeight = totalWeight + (order.getProductdetail().getWeight()*order.getNumber());
+		}
+		//เอาtotalOrder+=ค่าส่ง
+		return "redirect:/cartconfirm/"+idorder;
 	}
 }

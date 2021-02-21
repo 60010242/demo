@@ -112,7 +112,7 @@ $(document).ready(function(){
 </table>
 </div>
 <div class="pdf">
-	<div class="setprofile">
+	<div class="setprofile" th:if="${!address}">
 		<span style="color:red">ไม่มีที่อยู่ของผู้ขาย กรุณาเพิ่มที่อยู่</span><a href="/myinfo">แก้ไขข้อมูลส่วนตัว </a>
 	</div>
 	<p id="transport" th:text="${transport}" hidden="true"></p>
