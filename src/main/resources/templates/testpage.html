@@ -6,11 +6,17 @@
 <title>Insert title here</title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
 
+</script>
 </head>
 <body>
 
-Test Page
+<p>Message</p><br>
+
+<p th:text="${msg_subject}"></p><br>
+
+<p th:utext="${#strings.replace(msg_body, '&#10;', '<br />')}"></p>
 
 </body>
 </html>
