@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.example.demo.OrderId;
 import com.example.demo.entities.category;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.orderdetailid;
@@ -27,6 +30,7 @@ import com.example.demo.repositories.UserAddressRepository;
 import com.example.demo.repositories.UserOrderRepository;
 
 @Controller
+@SessionAttributes("orderid")
 public class BuyproductController {
 	@Autowired
 	private UserOrderRepository userorderRepo;
@@ -49,8 +53,14 @@ public class BuyproductController {
 	@Autowired
 	private UserAddressRepository useraddressRepo;
 	
+	@ModelAttribute("orderid")
+	public OrderId setUporderid() {
+		return new OrderId();
+	}
+	
 	@GetMapping("/buyproduct")
-	public String buyproduct(Model model) {
+	public String buyproduct(@ModelAttribute("orderid") OrderId Sorderid
+			,Model model) {
 		List<category> catlist = new ArrayList<category>();
 		catlist = categoryRepo.findAll();
 		category cat = new category();
@@ -62,10 +72,16 @@ public class BuyproductController {
 		}else {
 			cat = null;
 		}
-		String id = "noid";
+		if(Sorderid.getOrderid() == null) {
+			Sorderid.setOrderid("noid");
+		}
+		System.out.println(Sorderid.getOrderid());
 		int numcart = 0;
+		if(!(Sorderid.getOrderid().equalsIgnoreCase("noid"))) {
+			numcart = orderdetailRepo.countNoOrderbyId(Integer.parseInt(Sorderid.getOrderid()));
+		}
 		model.addAttribute("numcart", numcart);
-		model.addAttribute("id", id);
+		model.addAttribute("id", Sorderid.getOrderid());
 		model.addAttribute("products", products);
 		model.addAttribute("cat", cat);
 		model.addAttribute("catlist", catlist);
@@ -74,6 +90,7 @@ public class BuyproductController {
 	
 	@GetMapping("/buyproduct/{idorder}")
 	public String buyproduct(@PathVariable("idorder") String idorder
+			,@ModelAttribute("orderid") OrderId Sorderid
 			,Model model) {
 		List<category> catlist = new ArrayList<category>();
 		catlist = categoryRepo.findAll();
@@ -87,11 +104,11 @@ public class BuyproductController {
 			cat = null;
 		}
 		int numcart = 0;
-		if(!(idorder.equalsIgnoreCase("noid"))) {
-			numcart = orderdetailRepo.countNoOrderbyId(Integer.parseInt(idorder));
+		if(!(Sorderid.getOrderid().equalsIgnoreCase("noid"))) {
+			numcart = orderdetailRepo.countNoOrderbyId(Integer.parseInt(Sorderid.getOrderid()));
 		}
 		model.addAttribute("numcart", numcart);
-		model.addAttribute("id", idorder);
+		model.addAttribute("id", Sorderid.getOrderid());
 		model.addAttribute("products", products);
 		model.addAttribute("cat", cat);
 		model.addAttribute("catlist", catlist);
@@ -100,6 +117,7 @@ public class BuyproductController {
 	
 	@GetMapping("/buyproduct/{idcat}/{idorder}")
 	public String buyproduct(@PathVariable("idcat") String idcat
+			,@ModelAttribute("orderid") OrderId Sorderid
 			,@PathVariable("idorder") String idorder
 			,Model model) {
 		List<category> catlist = new ArrayList<category>();
@@ -109,11 +127,11 @@ public class BuyproductController {
 		List<productdetail> products = new ArrayList<productdetail>();
 		products = productdetailRepo.getByCategory(cat.getNameCat());
 		int numcart = 0;
-		if(!(idorder.equalsIgnoreCase("noid"))) {
-			numcart = orderdetailRepo.countNoOrderbyId(Integer.parseInt(idorder));
+		if(!(Sorderid.getOrderid().equalsIgnoreCase("noid"))) {
+			numcart = orderdetailRepo.countNoOrderbyId(Integer.parseInt(Sorderid.getOrderid()));
 		}
 		model.addAttribute("numcart", numcart);
-		model.addAttribute("id", idorder);
+		model.addAttribute("id", Sorderid.getOrderid());
 		model.addAttribute("products", products);
 		model.addAttribute("cat", cat);
 		model.addAttribute("catlist", catlist);
@@ -122,6 +140,7 @@ public class BuyproductController {
 	
 	@PostMapping("/saveorder")
 	public String saveorder(@SessionAttribute("user") userprofile user
+			,@ModelAttribute("orderid") OrderId Sorderid
 			,@RequestParam(name = "idorder") String idorder
 			,@RequestParam(name = "idproduct") int idproduct
 			,@RequestParam(name = "idcategory") String idcategory
@@ -130,7 +149,7 @@ public class BuyproductController {
 		boolean save = false;
 		productdetail product = new productdetail();
 		product = productRepo.getByIdproduct(idproduct);
-		if(idorder.equalsIgnoreCase("noid")) {						//ออเดอร์แรก
+		if(Sorderid.getOrderid().equalsIgnoreCase("noid")) {						//ออเดอร์แรก
 			userorder userorder = new userorder();
 			userorder.setIdUser(user.getIdUser());
 			userorder = userorderRepo.save(userorder);
@@ -144,11 +163,12 @@ public class BuyproductController {
 				order.setSize(size);
 			}
 			orderdetailRepo.save(order);
-			idorder = Integer.toString(userorder.getIdOrder());
+			Sorderid.setOrderid(Integer.toString(userorder.getIdOrder()));
 			System.out.println("1");
+			System.out.println(Sorderid.getOrderid());
 		}else {
 			List<orderdetail> orderlist = new ArrayList<orderdetail>();
-			orderlist = orderdetailRepo.getByIdorder(Integer.parseInt(idorder));
+			orderlist = orderdetailRepo.getByIdorder(Integer.parseInt(Sorderid.getOrderid()));
 			for(orderdetail orderdetail : orderlist) {								//กดเพิ่มซ้ำรายการเดิม
 				if(idproduct == orderdetail.getIdProduct()) {
 					if(product.getNumberStock()==null) {
@@ -180,11 +200,11 @@ public class BuyproductController {
 			}
 			if(!save) {												//ออเดอร์ใหม่แต่มีidorderแล้ว
 				int maxNo = 0; 
-				if(orderdetailRepo.countNoOrderbyId(Integer.parseInt(idorder))>0) {
-					maxNo = orderdetailRepo.findMaxNoOrder(Integer.parseInt(idorder)); 
+				if(orderdetailRepo.countNoOrderbyId(Integer.parseInt(Sorderid.getOrderid()))>0) {
+					maxNo = orderdetailRepo.findMaxNoOrder(Integer.parseInt(Sorderid.getOrderid())); 
 				}
 				orderdetail order = new orderdetail();
-				order.setIdOrder(Integer.parseInt(idorder));
+				order.setIdOrder(Integer.parseInt(Sorderid.getOrderid()));
 				order.setNoOrder(maxNo+1);
 				order.setNumber(numberorder);
 				order.setIdProduct(idproduct);
@@ -196,21 +216,19 @@ public class BuyproductController {
 				System.out.println("3");
 			}
 		}
-		return "redirect:/buyproduct/"+ idcategory +"/"+ idorder;
+		return "redirect:/buyproduct/"+ idcategory +"/"+ Sorderid.getOrderid();
 	}
 	
 	@GetMapping("/cart/{idorder}")
 	public String cart(@PathVariable("idorder") String idorder
+			,@ModelAttribute("orderid") OrderId Sorderid
 			,Model model) {
 		List<orderdetail> orders = new ArrayList<orderdetail>();
-		if(!(idorder.equalsIgnoreCase("noid"))) {
-			orders = orderdetailRepo.getByIdorder(Integer.parseInt(idorder));
-//			for(orderdetail oredr:orders) {
-//				oredr.getProductdetail().getPhotoProduct();
-//			}
+		if(!(Sorderid.getOrderid().equalsIgnoreCase("noid"))) {
+			orders = orderdetailRepo.getByIdorder(Integer.parseInt(Sorderid.getOrderid()));
 		}
 		model.addAttribute("orders", orders);
-		model.addAttribute("id", idorder);
+		model.addAttribute("id", Sorderid.getOrderid());
 		model.addAttribute("textno", "ไม่มีสินค้าในตะกร้า");
 		return "cart";
 	}
