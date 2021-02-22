@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.demo.OrderId;
 import com.example.demo.entities.category;
+import com.example.demo.entities.delivery;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.orderdetailid;
 import com.example.demo.entities.productdetail;
@@ -24,6 +25,7 @@ import com.example.demo.entities.userorder;
 import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.AccountRepository;
 import com.example.demo.repositories.CategoryRepository;
+import com.example.demo.repositories.DeliveryRepository;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.ProductDetailRepository;
 import com.example.demo.repositories.UserAddressRepository;
@@ -52,6 +54,9 @@ public class BuyproductController {
 	
 	@Autowired
 	private UserAddressRepository useraddressRepo;
+	
+	@Autowired
+	private DeliveryRepository deliveryRepo;
 	
 	@ModelAttribute("orderid")
 	public OrderId setUporderid() {
@@ -275,16 +280,28 @@ public class BuyproductController {
 		orders = orderdetailRepo.getByIdorder(Integer.parseInt(idorder));
 		int totalOrder = 0;
 		int totalWeight = 0;
+		int sendcost = 0;
 		for(orderdetail order : orders) {
 			totalOrder = totalOrder + (order.getRealPrice()*order.getNumber());
 			totalWeight = totalWeight + (order.getProductdetail().getWeight()*order.getNumber());
 		}
-		if(userorder.getTotalOrder() == 0 && userorder.getTotalWeight() == 0) {
+		if(userorder.getNameDelivery()==null) {
 			userorder.setTotalOrder(totalOrder);
 			userorder.setTotalWeight(totalWeight);
 			userorder = userorderRepo.save(userorder);
+		}else {
+			List<delivery> delis = new ArrayList<delivery>();
+			delis = deliveryRepo.getBynameDelivery(userorder.getNameDelivery());
+			for(delivery deli : delis) {
+				if(userorder.getTotalWeight()<=deli.getMaxWeight()) {
+					userorder.setTotalOrder(totalOrder+deli.getPriceDelivery());
+					userorder.setTotalWeight(totalWeight);
+					userorder = userorderRepo.save(userorder);
+					sendcost = deli.getPriceDelivery();
+					break; 
+				}
+			}
 		}
-		int sendcost = userorder.getTotalOrder() - totalOrder;
 		model.addAttribute("sendcost", sendcost);
 		model.addAttribute("id", idorder);
 		model.addAttribute("userorder", userorder);
@@ -305,33 +322,52 @@ public class BuyproductController {
 		return "cartaddress";
 	}
 	
-	@GetMapping("/savecartaddress/{idorder}")
-	public String savecartaddress(@PathVariable("idorder") String idorder) {
-		
+	@PostMapping("/savecartaddress/{idorder}")
+	public String savecartaddress(@PathVariable("idorder") String idorder
+			,@RequestParam(name = "address") String address) {
+		userorder userorder = new userorder();
+		userorder = userorderRepo.findById(Integer.parseInt(idorder)).get();
+		userorder.setUserAddress(address);
+		userorderRepo.save(userorder);
 		return "redirect:/cartconfirm/"+idorder;
 	}
 	
 	@GetMapping("/cartdelivery/{idorder}")
 	public String cartdelivery(@PathVariable("idorder") String idorder
 			,Model model) {
-		
+		List<delivery> delilist = new ArrayList<delivery>();
+		List<delivery> delis = new ArrayList<delivery>();
+		List<String> namedeli = new ArrayList<String>();
+		userorder userorder = new userorder();
+		userorder = userorderRepo.findById(Integer.parseInt(idorder)).get();
+		namedeli = deliveryRepo.getAllNamedelivery();
+		aa:
+		for(String name : namedeli) {
+			delis = deliveryRepo.getBynameDelivery(name);
+			bb:
+			for(delivery deli : delis) {
+				if(userorder.getTotalWeight()<=deli.getMaxWeight()) {
+					delilist.add(deli);
+					System.out.println(deli.getNameDelivery()+deli.getMaxWeight());
+					break bb; 
+				}
+			}
+		}
+		model.addAttribute("delilist", delilist);
 		model.addAttribute("id", idorder);
 		return "cartdelivery";
 	}
 	
-	@GetMapping("/savecartdelivery/{idorder}")
-	public String savecartdelivery(@PathVariable("idorder") String idorder) {
+	@PostMapping("/savecartdelivery/{idorder}")
+	public String savecartdelivery(@PathVariable("idorder") String idorder
+			,@RequestParam(name = "delivery") Integer delivery) {
 		userorder userorder = new userorder();
 		userorder = userorderRepo.findById(Integer.parseInt(idorder)).get();
-		List<orderdetail> orders = new ArrayList<orderdetail>();
-		orders = orderdetailRepo.getByIdorder(Integer.parseInt(idorder));
-		int totalOrder = 0;
-		int totalWeight = 0;
-		for(orderdetail order : orders) {
-			totalOrder = totalOrder + (order.getRealPrice()*order.getNumber());
-			totalWeight = totalWeight + (order.getProductdetail().getWeight()*order.getNumber());
-		}
-		//เอาtotalOrder+=ค่าส่ง
+		delivery deli = new delivery();
+		deli = deliveryRepo.getByidDelivery(delivery);
+		userorder.setNameDelivery(deli.getNameDelivery());
+		userorder.setTotalOrder(userorder.getTotalOrder()+deli.getPriceDelivery());
+		userorderRepo.save(userorder);
 		return "redirect:/cartconfirm/"+idorder;
 	}
 }

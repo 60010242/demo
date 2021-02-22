@@ -127,4 +127,22 @@ public class UserController {					// about user and user tables
 		useraddressRepo.deleteByIdAddress(idaddress);
 		return "redirect:/address";
 	}
+	
+	@PostMapping("/saveaddress2/{idorder}")
+	public String saveaddress(@RequestParam(name = "newaddress") String newaddress
+			,@PathVariable("idorder") String idorder
+			,@SessionAttribute("user") userprofile user) {
+		useraddress address = new useraddress();
+		address.setAddress(newaddress);
+		address.setIdUser(user.getIdUser());
+		useraddressRepo.save(address);
+		return "redirect:/cartaddress/"+idorder;
+	}
+	
+	@GetMapping("/deleteaddress/{idorder}/{idaddress}")
+	public String deleteaddress(@PathVariable("idaddress") Integer idaddress
+			,@PathVariable("idorder") String idorder) {
+		useraddressRepo.deleteByIdAddress(idaddress);
+		return "redirect:/cartaddress/"+idorder;
+	}
 }

@@ -18,6 +18,12 @@ public interface DeliveryRepository extends JpaRepository<delivery, String> {
 	@Query("from delivery order by nameDelivery,maxWeight")
 	List<delivery> findAllOrderByNameDeli();
 	
+	@Query("from delivery d where d.nameDelivery = :nameDelivery order by d.maxWeight")
+	List<delivery> getBynameDelivery(@Param("nameDelivery")String nameDelivery);
+	
+	@Query("from delivery d where d.idDelivery = :idDelivery")
+	delivery getByidDelivery(@Param("idDelivery")int idDelivery);
+	
 	@Modifying
 	@Transactional
 	@Query (nativeQuery = true, value="DELETE FROM delivery WHERE id_delivery = :idDelivery")

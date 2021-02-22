@@ -12,13 +12,13 @@
 	<h3>เลือกขนส่ง</h3>
 	<form action="#" th:action="@{'/savecartdelivery/' + ${id}}" method="post">
 		<table style="width: 50%;">
-	  		<tr>
-	    		<td style="width: 13px;"><input type="radio"></td>
-	    		<td align="left">ขนส่ง</td>
-	    		<td align="right">ราคา</td>
+	  		<tr th:each="deli : ${delilist}">
+	    		<td style="width: 13px;"><input type="radio" th:id="${deli.getIdDelivery()}" name="delivery" th:value="${deli.getIdDelivery()}"></td>
+	    		<td align="left"><label th:for="${deli.getIdDelivery()}" th:text="${deli.getNameDelivery()}"></label></td>
+	    		<td align="right"><label th:for="${deli.getIdDelivery()}" th:text="${deli.getPriceDelivery()}"></label></td>
 		    </tr>
 		    <tr>
-	    		<td colspan="2" align="right"><button>ยืนยัน</button></td>
+	    		<td colspan="3" align="right"><input type="submit" value="Submit" name="button"></td>
 		    </tr>
 		</table>
 	</form>

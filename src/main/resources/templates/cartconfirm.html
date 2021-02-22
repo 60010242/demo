@@ -10,8 +10,8 @@
 <body>
 <a th:href="@{'/cart/' + ${id}}">back</a>
 	<div style="margin: 2%;">
-		<a th:href="@{'/cartaddress/' + ${id}}">เลือกที่อยู่</a> <span th:if="${userorder.getUserAddress()!=null}" th:text="userorder.getUserAddress()"></span> <br/>
-		<a th:href="@{'/cartdelivery/' + ${id}}">เลือกขนส่ง</a> <span th:if="${userorder.getNameDelivery()!=null}" th:text="userorder.getNameDelivery()"></span>
+		<a th:href="@{'/cartaddress/' + ${id}}">เลือกที่อยู่</a> <span th:if="${userorder.getUserAddress()!=null}" th:text="${userorder.getUserAddress()}"></span> <br/>
+		<a th:href="@{'/cartdelivery/' + ${id}}">เลือกขนส่ง</a> <span th:if="${userorder.getNameDelivery()!=null}" th:text="${userorder.getNameDelivery()}"></span>
 	</div>
 	
 	<table style="border: 1px black solid; width: 50%;">
@@ -21,12 +21,12 @@
     		<th style="width: 20%;">ราคา</th>
   		</tr>
   		<tr th:each="order: ${orders}">
-    		<td style="width: 50%;">
+    		<td>
     			<span th:text="${order.getProductdetail().getNameProduct()}"></span>
 				<span th:text="${' '+order.getSize().toUpperCase()}" th:if="${order.getSize()!=null}"></span>
     		</td>
-    		<td style="width: 25%;" th:text="${order.getNumber()}"></td>
-    		<td style="width: 25%;" th:text="${order.getRealPrice()}"></td>
+    		<td th:text="${order.getNumber()}"></td>
+    		<td th:text="${order.getRealPrice()}"></td>
   		</tr>
   		<tr th:if="${userorder.getNameDelivery()!=null && sendcost!=0}">
     		<td colspan="2">ค่าส่ง</td>

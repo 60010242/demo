@@ -127,9 +127,9 @@ function off() {
 				<input hidden="true" type="text" id="hiddenid" th:value="${cat.getIdCategory()}" name="idcategory">
 					<img class="imgproduct" th:if="${product.getPhotoProduct() == null}" th:src="@{'/Icon/no-image.png'}">
 					<img class="imgproduct" th:if="${product.getPhotoProduct() != null}" th:src="@{'data:image/jpeg;base64,'+${product.getPhotoProduct()}}">
-					<span th:text="${product.getNameProduct()}"></span>
+					<span th:text="${product.getNameProduct()}"></span><br>
 					<!-- แก้ href เพิ่มเข้าตะกร้าด้วย -->
-					<div class="smlxl" th:if="${product.getNumberStock() == null}">
+					<div class="smlxl" th:if="${product.getNumberStock() == null}" style="display: inline;">
 						<select name="size">
 							<option value="s">S</option>
 							<option value="m">M</option>
@@ -137,8 +137,9 @@ function off() {
 							<option value="xl">XL</option>
 						</select>
 					</div>
-					<div th:if="${product.getNumberStock() != null}"></div>
-					<span>จำนวน </span><input type="number" name="numberorder"><br><br>
+					<span th:text="${' '+ product.getPrice() +' บาท'}"></span><br>
+					<!-- <div th:if="${product.getNumberStock() != null}"></div> -->
+					<span>จำนวน </span><input type="number" name="numberorder" required><br><br>
 					<input class="addtocart" type="submit" value="เพิ่มเข้าตะกร้า" name="button">
 				</form>
 			</div>
