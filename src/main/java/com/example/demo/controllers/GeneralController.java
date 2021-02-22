@@ -13,8 +13,6 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.Orderjson;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
 import com.example.demo.entities.userprofile;
-import com.example.demo.entities.yml;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.ProductDetailRepository;
 
@@ -101,6 +97,8 @@ public class GeneralController {
 		
 		msg_subject = mailText(msg_type ,idorder, base_url)[0];
 		msg_body = mailText(msg_type ,idorder, base_url)[1];
+		
+		System.out.println(msg_subject +"\n\n"+ msg_body);
 		
 		//sendEmail(target_mail, msg_subject, msg_body);
 	}
