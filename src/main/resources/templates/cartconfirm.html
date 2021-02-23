@@ -40,7 +40,7 @@
     		<td th:text="${userorder.getTotalOrder()}">ราคารวม</td>
   		</tr>
 	</table>
-	<button>ยืนยัน</button>
+	<a th:href="@{'/confirmorder/' + ${id}}">ยืนยัน</a>
 	
 </body>
 </html>

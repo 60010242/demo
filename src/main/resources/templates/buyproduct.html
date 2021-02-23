@@ -53,6 +53,29 @@ function off() {
 	  document.getElementById("overlay").style.visibility = "hidden";
 }
 
+function setstock(idproduct){
+	var size = document.getElementById("size").value;
+	$.ajax({
+	      url: origin + "/productajax?id=" + idproduct,
+	    })
+	      .done(function( data ) {
+	    	  $.each( data, function(key,val) {
+		    		if(size==='s'){
+		    			document.getElementById("stock").innerHTML='คลัง  '+ val.sstock;
+		    			document.getElementById("inputnum").max = val.sstock;
+		    		}else if(size==='m'){
+		    			document.getElementById("stock").innerHTML='คลัง  '+ val.mstock;
+		    			document.getElementById("inputnum").max = val.mstock;
+		    		}else if(size==='l'){
+		    			document.getElementById("stock").innerHTML='คลัง  '+ val.lstock;
+		    			document.getElementById("inputnum").max = val.lstock;
+		    		}else if(size==='xl'){
+		    			document.getElementById("stock").innerHTML='คลัง  '+ val.xlstock;
+		    			document.getElementById("inputnum").max = val.xlstock;
+		    		}
+	    		  });
+	      });
+}
 </script>
 </head>
 
@@ -119,7 +142,7 @@ function off() {
 	<tr class="sep" th:if="${cat != null}">
 		<td class="product-container">
 			<p id="idcat" hidden="true" th:text="${cat.getIdCategory()}"></p>
-			<product class="center" th:each="product: ${products}" th:if="${product.getEnable()==1}">
+			<product class="center" th:each="product: ${products}" th:if="${product.getEnable()==1 && (product.getS()>0||product.getM()>0||product.getL()>0||product.getXl()>0||product.getNumberStock()>0)}">
 			<div>
 				<form action="#" th:action="@{/saveorder}" method="post">
 				<input hidden="true" type="text" id="hiddenid" th:value="${id}" name="idorder">
@@ -128,18 +151,22 @@ function off() {
 					<img class="imgproduct" th:if="${product.getPhotoProduct() == null}" th:src="@{'/Icon/no-image.png'}">
 					<img class="imgproduct" th:if="${product.getPhotoProduct() != null}" th:src="@{'data:image/jpeg;base64,'+${product.getPhotoProduct()}}">
 					<span th:text="${product.getNameProduct()}"></span><br>
+					<span th:text="${' '+ product.getPrice() +' บาท'}"></span><br>
 					<!-- แก้ href เพิ่มเข้าตะกร้าด้วย -->
 					<div class="smlxl" th:if="${product.getNumberStock() == null}" style="display: inline;">
-						<select name="size">
-							<option value="s">S</option>
-							<option value="m">M</option>
-							<option value="l">L</option>
-							<option value="xl">XL</option>
+						<select name="size" id="size" th:attr="onchange=|setstock('${product.getIdProduct()}')|">
+							<option value="s" th:if="${product.getS()>0}">S</option>
+							<option value="m" th:if="${product.getM()>0}">M</option>
+							<option value="l" th:if="${product.getL()>0}">L</option>
+							<option value="xl" th:if="${product.getXl()>0}">XL</option>
 						</select>
+						<span id="stock" th:text="'คลัง  '+${product.getS()}"></span><br>
+						<span>จำนวน </span><input type="number" id="inputnum" name="numberorder" min="1" th:max="${product.getS()}" required><br><br>
 					</div>
-					<span th:text="${' '+ product.getPrice() +' บาท'}"></span><br>
-					<!-- <div th:if="${product.getNumberStock() != null}"></div> -->
-					<span>จำนวน </span><input type="number" name="numberorder" required><br><br>
+					<div th:if="${product.getNumberStock() != null}">
+						<span th:text="${'คลัง  '+ product.getNumberStock()}"></span><br>
+						<span>จำนวน </span><input type="number" name="numberorder" min="1" th:max="${product.getNumberStock()}" required><br><br>
+					</div>
 					<input class="addtocart" type="submit" value="เพิ่มเข้าตะกร้า" name="button">
 				</form>
 			</div>

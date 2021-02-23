@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.demo.OrderId;
+import com.example.demo.Productjson;
 import com.example.demo.entities.category;
 import com.example.demo.entities.delivery;
 import com.example.demo.entities.orderdetail;
@@ -184,6 +187,23 @@ public class BuyproductController {
 							orderid.setNoOrder(orderdetail.getNoOrder());
 							order = orderdetailRepo.findById(orderid).get();
 							int number = order.getNumber()+numberorder;
+							if(size.equalsIgnoreCase("s")) {
+								if(number > product.getS()) {
+									number = product.getS();
+								}
+							}else if(size.equalsIgnoreCase("m")) {
+								if(number > product.getM()) {
+									number = product.getM();
+								}
+							}else if(size.equalsIgnoreCase("l")) {
+								if(number > product.getL()) {
+									number = product.getL();
+								}
+							}else if(size.equalsIgnoreCase("xl")) {
+								if(number > product.getXl()) {
+									number = product.getXl();
+								}
+							}
 							order.setNumber(number);
 							orderdetailRepo.save(order);
 							save = true;
@@ -196,6 +216,9 @@ public class BuyproductController {
 						orderid.setNoOrder(orderdetail.getNoOrder());
 						order = orderdetailRepo.findById(orderid).get();
 						int number = order.getNumber()+numberorder;
+						if(number > product.getNumberStock()) {
+							number = product.getNumberStock();
+						}
 						order.setNumber(number);
 						orderdetailRepo.save(order);
 						save = true;
@@ -259,7 +282,33 @@ public class BuyproductController {
 		id.setIdOrder(Integer.parseInt(idorder));
 		id.setNoOrder(noorder);
 		order = orderdetailRepo.findById(id).get();
-		order.setNumber(order.getNumber()+1);
+		productdetail product = new productdetail();
+		product = productRepo.getByIdproduct(order.getProductdetail().getIdProduct());
+		int number = order.getNumber()+1;
+		if(order.getSize()!=null) {
+			if(order.getSize().equalsIgnoreCase("s")) {
+				if(number > product.getS()) {
+					number = product.getS();
+				}
+			}else if(order.getSize().equalsIgnoreCase("m")) {
+				if(number > product.getM()) {
+					number = product.getM();
+				}
+			}else if(order.getSize().equalsIgnoreCase("l")) {
+				if(number > product.getL()) {
+					number = product.getL();
+				}
+			}else if(order.getSize().equalsIgnoreCase("xl")) {
+				if(number > product.getXl()) {
+					number = product.getXl();
+				}
+			}
+		}else {
+			if(number > product.getNumberStock()) {
+				number = product.getNumberStock();
+			}
+		}
+		order.setNumber(number);
 		orderdetailRepo.save(order);
 		return "redirect:/cart/"+idorder;
 	}
@@ -370,4 +419,33 @@ public class BuyproductController {
 		userorderRepo.save(userorder);
 		return "redirect:/cartconfirm/"+idorder;
 	}
+	
+	@GetMapping("/confirmorder/{idorder}")
+	public String confirmorder(@PathVariable("idorder") String idorder
+			,@ModelAttribute("orderid") OrderId Sorderid) {
+		userorder userorder = new userorder();
+		userorder = userorderRepo.findById(Integer.parseInt(idorder)).get();
+		userorder.setStatus("paying");
+		userorder.setCratedOrder(LocalDateTime.now());
+		Sorderid.setOrderid("noid");
+		userorderRepo.save(userorder);
+		//set stock
+		return "redirect:/buyproduct";
+	}
+	
+	@GetMapping("productajax")
+	@ResponseBody
+	public List<Productjson> productajax(@RequestParam int id){
+		Productjson pjson = new Productjson();
+		List<Productjson> jsList = new ArrayList<Productjson>();
+		productdetail product = new productdetail();
+		product = productdetailRepo.getByIdproduct(id);
+		pjson.setSstock(product.getS());
+		pjson.setMstock(product.getM());
+		pjson.setLstock(product.getL());
+		pjson.setXLstock(product.getXl());
+		jsList.add(pjson);
+		return jsList;
+	}
+	
 }
