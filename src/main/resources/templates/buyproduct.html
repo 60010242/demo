@@ -160,8 +160,8 @@ function setstock(idproduct){
 							<option value="l" th:if="${product.getL()>0}">L</option>
 							<option value="xl" th:if="${product.getXl()>0}">XL</option>
 						</select>
-						<span id="stock" th:text="'คลัง  '+${product.getS()}"></span><br>
-						<span>จำนวน </span><input type="number" id="inputnum" name="numberorder" min="1" th:max="${product.getS()}" required><br><br>
+						<span id="stock">คลัง  1</span><br>
+						<span>จำนวน </span><input type="number" id="inputnum" name="numberorder" min="1" max="1" required><br><br>
 					</div>
 					<div th:if="${product.getNumberStock() != null}">
 						<span th:text="${'คลัง  '+ product.getNumberStock()}"></span><br>
