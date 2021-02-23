@@ -116,17 +116,17 @@ function off() {
 <table class="sidetab-container">
 	<tr class="center">
 		<td>
-			<a class="tabcat" id="idcat">กำลังดำเนินการ</a>
+			<a class="tabcat" id="idcat" href="/buytrack/1">กำลังดำเนินการ</a>
 		</td>
 	</tr>
 	<tr class="center">
 		<td>
-			<a class="tabcat" id="idcat">สำเร็จแล้ว</a>
+			<a class="tabcat" id="idcat" href="/buytrack/2">จัดส่งแล้ว</a>
 		</td>
 	</tr>
 	<tr class="center">
 		<td>
-			<a class="tabcat" id="idcat">ถูกยกเลิก</a>
+			<a class="tabcat" id="idcat" href="/buytrack/3">ถูกยกเลิก</a>
 		</td>
 	</tr>
 </table>
@@ -139,8 +139,10 @@ function off() {
 				<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
 				<th style="height:30pt; width: 60%">  รายการ </th>
 				<th style="height:30pt; width: 10%">สถานะ </th>
-				<th style="height:30pt; width: 10%">เลขแทร็ก</th>
-				<th style="height:30pt; width: 10%">ยืนยันรับพัสดุ </th>
+				<th style="height:30pt; width: 10%"  
+				th:if="${state==2}">เลขแทร็ก</th>
+				<th style="height:30pt; width: 10%"  
+				th:if="${state==2}">ยืนยันรับพัสดุ </th>
 			</tr>
 			<tr th:each="userorder: ${userlist}" th:if=${userorder.getPayTime().getMonthValue()==month.getMonthnum()}>
 				<td th:text="${'#'+ userorder.getIdOrder()}" id="valueTD1"></td>
@@ -158,11 +160,12 @@ function off() {
 				<td th:if="${userorder.getStatus().equalsIgnoreCase('tracking')}">รอจัดส่ง</td>
 				<td th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">จัดส่งแล้ว</td>
 				<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับของแล้ว</td>
+				<td th:if="${userorder.getStatus().equalsIgnoreCase('cancel')}">คำสั่งซื้อถูกยกเลิก</td>
+				<td th:if="${userorder.getStatus().equalsIgnoreCase('contact')}">ผู้ขายติดต่อแล้ว</td>
+				<td th:if="${userorder.getStatus().equalsIgnoreCase('transferred')}">ผู้ขายโอนเงินแล้ว</td>
 				
 				<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')||userorder.getStatus().equalsIgnoreCase('shipping')}" th:text="${userorder.getTrack()}"></td>
-				<td style="text-align: center;" th:if="${userorder.getStatus().equalsIgnoreCase('tracking')||userorder.getStatus().equalsIgnoreCase('checking')}">-</td>
 				
-				<td style="text-align: center;" th:if="${userorder.getStatus().equalsIgnoreCase('tracking')||userorder.getStatus().equalsIgnoreCase('checking')}">-</td>
 				<td style="text-align: center;" th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">
 					<a th:href="@{'/trantocomplete/'+ ${userorder.getIdOrder()}}" class="btncheck" onclick="if(!confirm('ยืนยันรับพัสดุ?')) return false;">ยืนยัน </a>
 				</td>

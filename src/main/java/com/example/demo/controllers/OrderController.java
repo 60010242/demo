@@ -457,8 +457,10 @@ public class OrderController {
 		return "redirect:/buytransfer";
 	}
 	
-	@GetMapping("/buytrack")
-	public String buytrack(@SessionAttribute("user") userprofile userprofile,Model model) {
+	@GetMapping("/buytrack/{state}")
+	public String buytrack(@SessionAttribute("user") userprofile userprofile
+			,@PathVariable("state") Integer state
+			,Model model) {
 		List<userorder> userorders = new ArrayList<userorder>();
 		List<userorder> Alluserorders = new ArrayList<userorder>();
 		List<orderdetail> orderlists = new ArrayList<orderdetail>();
@@ -475,14 +477,26 @@ public class OrderController {
 				userorderRepo.save(user);
 			}
 		}
-		userorders = userorderRepo.getByStatusAndIduser("checking", userprofile.getIdUser());
-		Alluserorders.addAll(userorders);
-		userorders = userorderRepo.getByStatusAndIduser("tracking", userprofile.getIdUser());
-		Alluserorders.addAll(userorders);
-		userorders = userorderRepo.getByStatusAndIduser("shipping", userprofile.getIdUser());
-		Alluserorders.addAll(userorders);
-		userorders = userorderRepo.getByStatusAndIduser("complete", userprofile.getIdUser());
-		Alluserorders.addAll(userorders);
+		if(state == 1) {
+			userorders = userorderRepo.getByStatusAndIduser("checking", userprofile.getIdUser());
+			Alluserorders.addAll(userorders);
+			userorders = userorderRepo.getByStatusAndIduser("tracking", userprofile.getIdUser());
+			Alluserorders.addAll(userorders);
+		}else if(state == 2) {
+			userorders = userorderRepo.getByStatusAndIduser("shipping", userprofile.getIdUser());
+			Alluserorders.addAll(userorders);
+			userorders = userorderRepo.getByStatusAndIduser("complete", userprofile.getIdUser());
+			Alluserorders.addAll(userorders);
+		}else if(state == 3) {
+			userorders = userorderRepo.getByStatusAndIduser("cancel", userprofile.getIdUser());
+			Alluserorders.addAll(userorders);
+			userorders = userorderRepo.getByStatusAndIduser("contact", userprofile.getIdUser());
+			Alluserorders.addAll(userorders);
+			userorders = userorderRepo.getByStatusAndIduser("transferred", userprofile.getIdUser());
+			Alluserorders.addAll(userorders);
+		}
+		
+		
 		
 		LocalDate localDate = LocalDate.now();
 		int month = localDate.getMonthValue();
@@ -518,6 +532,7 @@ public class OrderController {
 			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
 			orderlists.addAll(orderdetails);
 		}
+		model.addAttribute("state", state);
 		model.addAttribute("userlist", ul);
 		model.addAttribute("monthlist", monthlist);
 		model.addAttribute("orderlists", orderlists);
