@@ -42,8 +42,9 @@ function ondetail(orderId) {
 	    	  $.each( data, function(key,val) {
 		    		document.getElementById("overlaytableTD1").innerHTML = '#' + val.id;
 		    		document.getElementById("overlaytableTD2").innerHTML = val.username;
-		    		document.getElementById("overlaytableTD5").innerHTML = val.total;
+		    		document.getElementById("overlaytableTD5").innerHTML = val.total + " ฿";
 		    		document.getElementById("overlaytableTD6").innerHTML = val.address;
+		    		document.getElementById("sendcost").innerHTML = val.sendcost + " ฿";
 	    		  });
 	      });
   	$.ajax({
@@ -58,13 +59,18 @@ function ondetail(orderId) {
 		  	    		var c1 = row.insertCell(0);
 		  	    		var c2 = row.insertCell(1);
 		  	    		var c3 = row.insertCell(2);
-	  	    			c1.innerHTML = val.name;
-	  	    			c2.innerHTML = "x" + val.num;
-	  	    			c3.innerHTML = val.cost + " ฿";
-	  	    			c1.width = "70%";
-	  	    			c2.width = "15%";
+		  	    		var c4 = row.insertCell(3);
+		  	    		c1.innerHTML = "<img style='width: 80px; height: 80px; border-radius: 40px;'  \
+		  	    			alt='can't download' \
+		  	    			src='data:image/jpeg;base64,"+ val.image +"'>";
+	  	    			c2.innerHTML = val.name;
+	  	    			c3.innerHTML = "x" + val.num;
+	  	    			c4.innerHTML = val.cost + " ฿";
+	  	    			c1.width = "20%";
+	  	    			c2.width = "50%";
 	  	    			c3.width = "15%";
-	  	    			c3.align = "right";
+	  	    			c4.width = "15%";
+	  	    			c4.align = "right";
   	    		  });
   	      });
 }
@@ -86,15 +92,22 @@ function ondetail(orderId) {
 			
 			<table id="table" class="tabledetail" style="width: 80%; margin: 4% 10%;">
 				<tr>
-					<td colspan="3">รายการคำสั่งซื้อ</td>
+					<td colspan="4">รายการคำสั่งซื้อ</td>
 				</tr>
-				<tr><td colspan="3"><hr/></td></tr>
+				<tr><td colspan="4"><hr/></td></tr>
 				
 				<tbody id="roworder"></tbody>
-				
-				<tr><td colspan="3"><hr/></td></tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>ค่าส่ง</td>
+					<td>&nbsp;</td>
+					<td id="sendcost" style="text-align: right;"></td>
+				</tr>
+				<tr><td colspan="4"><hr/></td></tr>
 				<tr id="rowtotal">
-					<td align="right" colspan="3">ยอดรวม <total id="overlaytableTD5"/></td>
+					<td colspan="2">&nbsp;</td>
+					<td>ยอดรวม </td>
+					<td align="right" id="overlaytableTD5"></td>
 				</tr>
 			</table>
 		</div>

@@ -427,9 +427,29 @@ public class BuyproductController {
 		userorder = userorderRepo.findById(Integer.parseInt(idorder)).get();
 		userorder.setStatus("paying");
 		userorder.setCratedOrder(LocalDateTime.now());
-		Sorderid.setOrderid("noid");
 		userorderRepo.save(userorder);
 		//set stock
+		List<orderdetail> orders = new ArrayList<orderdetail>();
+		orders = orderdetailRepo.getByIdorder(Integer.parseInt(idorder));
+		productdetail product = new productdetail();
+		for(orderdetail order : orders) {
+			product = productdetailRepo.findById(order.getProductdetail().getIdProduct()).get();
+			if(order.getSize()!=null) {
+				if(order.getSize().equalsIgnoreCase("s")) {
+					product.setS(product.getS()-order.getNumber());
+				}else if(order.getSize().equalsIgnoreCase("m")) {
+					product.setM(product.getM()-order.getNumber());
+				}else if(order.getSize().equalsIgnoreCase("l")) {
+					product.setL(product.getL()-order.getNumber());
+				}else if(order.getSize().equalsIgnoreCase("xl")) {
+					product.setXl(product.getXl()-order.getNumber());
+				}
+			}else {
+				product.setNumberStock(product.getNumberStock()-order.getNumber());
+			}
+			productdetailRepo.save(product);
+		}
+		Sorderid.setOrderid("noid");
 		return "redirect:/buyproduct";
 	}
 	

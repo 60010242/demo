@@ -38,6 +38,7 @@ function ondetail(orderId) {
 	    	  $.each( data, function(key,val) {
 		    		document.getElementById("idorder").innerHTML = 'ORDER #' + val.id;
 		    		document.getElementById("total").innerHTML = val.total;
+		    		document.getElementById("sendcost").innerHTML = val.sendcost + " ฿";
 	    		  });
 	      });
   	$.ajax({
@@ -88,6 +89,12 @@ function off() {
 					<td colspan="4"><hr></td>
 				</tr>
 				<tbody id="roworder"></tbody>
+				<tr>
+					<td>&nbsp;</td>
+					<td>ค่าส่ง</td>
+					<td>&nbsp;</td>
+					<td id="sendcost" style="text-align: right;"></td>
+				</tr>
 				<tr>
 					<td colspan="4"><hr></td>
 				</tr>

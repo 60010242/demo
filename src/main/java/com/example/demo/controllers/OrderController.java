@@ -668,6 +668,15 @@ public class OrderController {
 		user.setTotal(userorder.getTotalOrder());
 		user.setAddress(userorder.getUserAddress());
 		user.setTrack(userorder.getTrack());
+		
+		List<orderdetail> orders = new ArrayList<orderdetail>();
+		orders = orderdetailRepo.getByIdorder(id);
+		int totalOrder = 0;
+		for(orderdetail order : orders) {
+			totalOrder = totalOrder + (order.getRealPrice()*order.getNumber());
+		}
+		
+		user.setSendcost(userorder.getTotalOrder()-totalOrder);
 		List<Userjson> jsList = new ArrayList<Userjson>();
 		jsList.add(user);
 		return jsList;

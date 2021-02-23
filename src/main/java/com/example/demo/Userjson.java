@@ -6,6 +6,7 @@ public class Userjson {
 	private int total;
 	private String Address;
 	private String track;
+	private int sendcost;
 	public int getId() {
 		return id;
 	}
@@ -35,6 +36,12 @@ public class Userjson {
 	}
 	public void setTrack(String track) {
 		this.track = track;
+	}
+	public int getSendcost() {
+		return sendcost;
+	}
+	public void setSendcost(int sendcost) {
+		this.sendcost = sendcost;
 	}
 	
 	
