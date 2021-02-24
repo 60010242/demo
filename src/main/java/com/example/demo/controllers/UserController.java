@@ -181,4 +181,11 @@ public class UserController {					// about user and user tables
 		useraddressRepo.deleteByIdAddress(idaddress);
 		return "redirect:/cartaddress/"+idorder;
 	}
+	
+	@PostMapping("/search")
+	public String search(@RequestParam(name = "type") String type
+			,@RequestParam(name = "code") String code) {
+		System.out.println("search");
+		return "redirect:/firstpage";
+	}
 }
