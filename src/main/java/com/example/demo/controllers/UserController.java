@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.CreateFile;
+import com.example.demo.Sellinfo;
+import com.example.demo.entities.account;
 import com.example.demo.entities.useraddress;
 import com.example.demo.entities.userprofile;
+import com.example.demo.repositories.AccountRepository;
 import com.example.demo.repositories.UserAddressRepository;
 import com.example.demo.repositories.UserProfileRepository;
 
@@ -29,6 +32,9 @@ public class UserController {					// about user and user tables
 	
 	@Autowired
 	private UserAddressRepository useraddressRepo;
+	
+	@Autowired
+	private AccountRepository accountRepo;
 	
 	@GetMapping("/signup")
 	public String greeting(Model model) {
@@ -63,6 +69,36 @@ public class UserController {					// about user and user tables
 	@GetMapping("/myinfo")
 	public String myinfo() {
 		return "myinfo";
+	}
+	
+	@GetMapping("/sellinfo")
+	public String sellinfo(Model model) {
+		List<userprofile> sellerlist = new ArrayList<userprofile>();
+		userprofile seller = new userprofile();
+		sellerlist = userprofileRepo.findOneByType("Seller");
+		seller = sellerlist.get(0);
+		List<useraddress> a = new ArrayList<useraddress>();
+		List<Sellinfo> addresses = new ArrayList<Sellinfo>();
+		int i = 1;
+		a = useraddressRepo.getByIdUser(seller.getIdUser());
+		for(useraddress a1 : a) {
+			Sellinfo s = new Sellinfo();
+			s.setIndex(i);
+			s.setAddress(a1.getAddress());
+			addresses.add(s);
+			i++;
+		}
+		model.addAttribute("seller", seller);
+		model.addAttribute("addresses", addresses);
+		return "sellinfo";
+	}
+	
+	@GetMapping("/sellaccount")
+	public String sellaccount(Model model) {
+		List<account> accounts = new ArrayList<account>();
+		accounts = accountRepo.findAllOrderByNameBank();
+		model.addAttribute("accounts", accounts);
+		return "sellaccount";
 	}
 	
 	@GetMapping("/edit")

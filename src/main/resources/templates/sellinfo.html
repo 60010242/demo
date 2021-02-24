@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/infopage.css}">
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/overlay.css}">
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+</head>
+
+<body class="center">
+
+<!-- Main Page -->
+	<p hidden="true" th:text="${session.user.getType()}"></p>
+	<div th:if="${session.user.getType() == 'Customer'}">
+		<ul th:replace="navtab :: navheadbuyer"></ul>
+	</div>
+	<div th:if="${session.user.getType() == 'Seller'}">
+		<ul th:replace="navtab :: navheadseller"></ul>
+	</div>
+	<div class="brownbg center">
+	<a href="/firstpage" class="back"><</a>
+	
+	<img class="editprofilepicture" th:if="${seller.getPhotoUser() == null}" alt="can't download" th:src="@{'/Icon/default-profile.png'}">
+	<img class="editprofilepicture" th:if="${seller.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${seller.getPhotoUser()}}">
+	
+	<table class="myinfo-table">
+	<tr>
+		<td>ชื่อผู้ใช้งาน </td>
+		<td><p class="outputinfo" th:text="${seller.getName()}"></p></td>
+	</tr>
+	<tr>
+		<td>E-mail </td>
+		<td><p class="outputinfo" th:text="${seller.getEmail()}"></p></td>
+	</tr>
+	<tr>
+		<td>เบอร์โทรศัพท์ </td>
+		<td><p class="outputinfo" th:text="${seller.getTel()}"></p></td>
+	</tr>
+	<tr th:each="address : ${addresses}">
+		<td th:text="${'ที่อยู่ '+address.getIndex()}"></td>
+		<td th:text="${address.getAddress()}"></td>
+	</tr>
+	</table>
+	</div>
+	
+	
+</body>
+</html>

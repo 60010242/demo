@@ -55,7 +55,12 @@ function off() {
 
 function setstock(idproduct){
 	var size = document.getElementById("size").value;
-	$.ajax({
+	var x = document.getElementById("numsize");
+	  if (x.style.display === 'none') {
+	    x.style.display = "inline";
+	  }
+	if (size !== undefined && size !== null){
+		$.ajax({
 	      url: origin + "/productajax?id=" + idproduct,
 	    })
 	      .done(function( data ) {
@@ -75,6 +80,8 @@ function setstock(idproduct){
 		    		}
 	    		  });
 	      });
+	}
+	
 }
 </script>
 </head>
@@ -150,24 +157,28 @@ function setstock(idproduct){
 				<input hidden="true" type="text" id="hiddenid" th:value="${cat.getIdCategory()}" name="idcategory">
 					<img class="imgproduct" th:if="${product.getPhotoProduct() == null}" th:src="@{'/Icon/no-image.png'}">
 					<img class="imgproduct" th:if="${product.getPhotoProduct() != null}" th:src="@{'data:image/jpeg;base64,'+${product.getPhotoProduct()}}">
-					<span th:text="${product.getNameProduct()}"></span><br>
-					<span th:text="${' '+ product.getPrice() +' บาท'}"></span><br>
+					<span th:text="${product.getNameProduct()}"></span>
+					<span th:text="${' '+ product.getPrice() +' ฿'}" style="font-weight: bold;"></span><br>
 					<!-- แก้ href เพิ่มเข้าตะกร้าด้วย -->
-					<div class="smlxl" th:if="${product.getNumberStock() == null}" style="display: inline;">
-						<select name="size" id="size" th:attr="onchange=|setstock('${product.getIdProduct()}')|">
+					<div class="smlxl" th:if="${product.getNumberStock() == null}">
+						<select name="size" id="size" th:attr="onchange=|setstock('${product.getIdProduct()}')|" required>
+							<option selected disabled>Choose size</option>
 							<option value="s" th:if="${product.getS()>0}">S</option>
 							<option value="m" th:if="${product.getM()>0}">M</option>
 							<option value="l" th:if="${product.getL()>0}">L</option>
 							<option value="xl" th:if="${product.getXl()>0}">XL</option>
 						</select>
-						<span id="stock">คลัง  1</span><br>
-						<span>จำนวน </span><input type="number" id="inputnum" name="numberorder" min="1" max="1" required><br><br>
+						<div id="numsize" style="display:none;">
+							<span id="stock"></span><br>
+							<span>จำนวน </span><input type="number" id="inputnum" name="numberorder" min="1" max="1" required>
+						</div>
+						<br><br>
 					</div>
 					<div th:if="${product.getNumberStock() != null}">
 						<span th:text="${'คลัง  '+ product.getNumberStock()}"></span><br>
 						<span>จำนวน </span><input type="number" name="numberorder" min="1" th:max="${product.getNumberStock()}" required><br><br>
 					</div>
-					<input class="addtocart" type="submit" value="เพิ่มเข้าตะกร้า" name="button">
+					<input class="addtocart" type="submit" value="เพิ่มเข้าตะกร้า" name="button" style="text-align: right;">
 				</form>
 			</div>
 				

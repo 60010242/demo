@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<a href="/buytransfer">back</a>
+	<table>
+		<tr>
+				<td>ธนาคาร</td>
+				<td>เลขบัญชี</td>
+				<td>ชื่อบัญชี</td>
+		</tr>
+		<tr th:each="acc: ${accounts}">
+				<td><p th:text="${#strings.substringAfter(acc.getNameBank(), 'ธนาคาร')}"></p></td>
+				<td><p th:text="${acc.getNumAccount()}"></p></td>
+				<td><p th:text="${acc.getNameAccount()}"></p></td>
+			</tr>
+	</table>
+</body>
+</html>
