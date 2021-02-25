@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/infopage.css}">
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/overlay.css}">
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<style>
+	.outoforder{
+	text-align: center;
+	font-size: 40px;
+	font-weight: bold;
+	font-style: italic;
+	line-height: 80vh;
+	text-shadow: 2px 2px 2px gray;
+	color: var(--grey);
+}
+</style>
+</head>
+
+<body class="center">
+
+<!-- Main Page -->
+	<p hidden="true" th:text="${session.user.getType()}"></p>
+	<div th:if="${session.user.getType() == 'Customer'}">
+		<ul th:replace="navtab :: navheadbuyer"></ul>
+	</div>
+	<div th:if="${session.user.getType() == 'Seller'}">
+		<ul th:replace="navtab :: navheadseller"></ul>
+	</div>
+	
+	<div class="brownbg center"  th:if="${type.equalsIgnoreCase('ordernum')}">
+		<a href="/firstpage" class="back"><</a>
+		<p class="outoforder" th:text="${text}" th:if="${search == false}"></p>
+		<table>
+				<tr>
+					<td style="text-align: center;" colspan="4" th:text="${'รายการคำสั่งซื้อ order #'+userorder.getIdOrder()}"> </td>
+				</tr>
+				<tr>
+					<td>ชื่อผู้ซื้อ</td>
+					<td colspan="3" th:text="${userorder.getUserprofile().getName()}"></td>
+				</tr>
+				<tr>
+					<td>ที่อยู่ผู้ซื้อ</td>
+					<td colspan="3" th:text="${userorder.getUserAddress()}"></td>
+				</tr>
+				<tr>
+					<td>ช่องทางติดต่อ</td>
+					<td th:if="${userorder.getUserprofile().getTel()!=null}" th:text="${'เบอร์โทร :'+userorder.getUserprofile().getTel()}"></td>
+					<td th:if="${userorder.getUserprofile().getEmail()!=null}" th:text="${'e-mail :'+userorder.getUserprofile().getEmail()}"></td>
+					<td th:if="${userorder.getUserprofile().getLine()!=null}" th:text="${'Line :'+userorder.getUserprofile().getLine()}"></td>
+				</tr>
+				<tr>
+					<td colspan="4"><hr></td>
+				</tr>
+				<tr th:each="order:${orders}">
+					<td>
+						<img style="width: 80px; height: 80px; border-radius: 40px;"
+		  	    			alt="can't download"
+		  	    			th:src="@{'data:image/jpeg;base64,'+ ${order.getProductdetail().getPhotoProduct()}}">
+		  	    	</td>
+		  	    	<td>
+		  	    		<span th:text="${order.getProductdetail().getNameProduct()}"></span>
+						<span th:text="${' '+order.getSize().toUpperCase()}" th:if="${order.getSize()!=null}"></span>
+						
+		  	    	</td>
+		  	    	<td><span th:text="${'  x'+ order.getNumber()}"></span></td>
+		  	    	<td th:text="${order.getRealPrice()}"></td>
+				<tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>ค่าส่ง</td>
+					<td>&nbsp;</td>
+					<td id="sendcost" style="text-align: right;" th:text="${sendcost}"></td>
+				</tr>
+				<tr>
+					<td colspan="4"><hr></td>
+				</tr>
+				<tr>
+					<td colspan="2"><p></p></td>
+					<td>ยอดรวม </td>
+					<td align="right" id="total" th:text="${userorder.getTotalOrder()}"></td>
+				</tr>
+			</table>
+	</div>
+	
+	<div th:if="${type.equalsIgnoreCase('namebuyer')}" class="whitebg">
+		<a href="/firstpage" class="back"><</a>
+		<p class="outoforder" th:text="${text}" th:if="${search == false}"></p>
+			<table style="width: 100%;" th:each="user: ${users}">
+			<tr>
+				<td style="width: 20%;">
+					<div class="imgproduct">
+						<img class="imgproduct" style="width: 100px; border-radius: 40px;" th:if="${user.getPhotoUser() == null}" alt="can't download" th:src="@{'/Icon/no-image.png'}">
+						<img class="imgproduct" style="width: 100px; border-radius: 40px;" th:if="${user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${user.getPhotoUser()}}">
+					</div>
+				</td>
+				<td style="width: 60%;">
+				<div><p th:text="${'User #'+user.getIdUser()}"></p></div>
+					<div><p th:text="${user.getName()}"></p></div>
+					<div><p th:text="${user.getEmail()+' , '+user.getTel()}"></p></div>
+				</td>
+				<td style="width: 20%;">
+					<a th:href="@{'/showordersearch/' + ${user.getIdUser()}}"  target="_blank">></a>
+				</td>
+			</tr>
+			<tr><td colspan="3"><hr style="margin: 2% 10%;"/></td></tr>
+		</table>
+		</div>
+	
+</body>
+</html>

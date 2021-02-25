@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/overlay.css}">
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/buyerside.css}">
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var tablinks = document.getElementsByClassName("tablinks");
+	$('a.tablinks:nth-child(2)').addClass("active");
+	$('.whitebg table:last-child hr').remove();
+})
+
+function ondetail(orderId) {
+	var origin = window.location.origin;
+	var roworder = document.getElementById("roworder")
+	var childrow = roworder.lastElementChild;
+	document.getElementById("overlaydetail").style.visibility = "visible";
+	while (childrow) { 
+		roworder.removeChild(childrow); 
+		childrow = roworder.lastElementChild; 
+    }
+	$.ajax({
+	      url: origin + "/userajax?id="+orderId,
+	    })
+	      .done(function( data ) {
+	    	  $.each( data, function(key,val) {
+		    		document.getElementById("idorder").innerHTML = 'ORDER #' + val.id;
+		    		document.getElementById("total").innerHTML = val.total;
+		    		document.getElementById("sendcost").innerHTML = val.sendcost + " ฿";
+	    		  });
+	      });
+  	$.ajax({
+  	      url: origin + "/testajax?id="+orderId,
+  	    })
+  	      .done(function( data ) {
+  	    	  $.each( data, function(key,val) {
+	  	    		  	var row = document.createElement("TR");
+	  	    		 	var rowtotal = document.getElementById("rowtotal");
+		  	    		//rowtotal.parentNode.insertBefore(row, rowtotal);
+		  	    		roworder.appendChild(row);
+		  	    		var c1 = row.insertCell(0);
+		  	    		var c2 = row.insertCell(1);
+		  	    		var c3 = row.insertCell(2);
+		  	    		var c4 = row.insertCell(3);
+		  	    		c1.innerHTML = "<img style='width: 80px; height: 80px; border-radius: 40px;'  \
+		  	    			alt='can't download' \
+		  	    			src='data:image/jpeg;base64,"+ val.image +"'>";
+	  	    			c2.innerHTML = val.name;
+	  	    			c3.innerHTML = "x" + val.num;
+	  	    			c4.innerHTML = val.cost + " ฿";
+	  	    			c1.width = "20%";
+	  	    			c2.width = "50%";
+	  	    			c3.width = "15%";
+	  	    			c4.width = "15%";
+	  	    			c4.align = "right";
+  	    		  });
+  	      });
+}
+
+function off() {
+	document.getElementById("overlaydetail").style.visibility = "hidden";
+	document.getElementById("overlay").style.visibility = "hidden";
+}
+</script>
+</head>
+
+<body class="center">
+<!-- overlay -->
+<div class="center" id="overlaydetail">
+		<div class="checked">
+			<close style="color: red;" onclick="off()">X</close>
+			<div style="position: absolute; left: 0; top: 0;"><p id="idorder"></p></div>
+			<table class="tabledetail">
+				<tr>
+					<td style="text-align: center;" colspan="4">รายการคำสั่งซื้อ </td>
+				</tr>
+				<tr>
+					<td colspan="4"><hr></td>
+				</tr>
+				<tbody id="roworder"></tbody>
+				<tr>
+					<td>&nbsp;</td>
+					<td>ค่าส่ง</td>
+					<td>&nbsp;</td>
+					<td id="sendcost" style="text-align: right;"></td>
+				</tr>
+				<tr>
+					<td colspan="4"><hr></td>
+				</tr>
+				<tr>
+					<td colspan="2"><p></p></td>
+					<td>ยอดรวม </td>
+					<td align="right" id="total"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="overlaybg" onclick="off()"></div>
+	</div>
+	
+	
+<!-- Main Page -->
+
+<!-- Loop order -->
+	<div class="whitebg">
+		<p class="outoforder" th:if="${transgroup.size()==0}">No order</p>
+		<table style="width: 100%;" th:each="tran: ${transgroup}">
+			<tr>
+				<td style="width: 20%;">
+					<div class="imgproduct">
+						<img class="imgproduct" th:if="${tran.getImage() == null}" alt="can't download" th:src="@{'/Icon/no-image.png'}">
+						<img class="imgproduct" th:if="${tran.getImage() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${tran.getImage()}}">
+					</div>
+				</td>
+				<td style="width: 60%;">
+					<div><p th:text="${'order #'+ tran.getUserorder().getIdOrder()}"></p></div>
+					<div>
+						<p th:if="${tran.getUserorder().getStatus().equalsIgnoreCase('paying')}">รอชำระเงิน</p>
+						<p th:if="${tran.getUserorder().getStatus().equalsIgnoreCase('checking')}">รอตรวจสอบ</p>
+						<p th:if="${tran.getUserorder().getStatus().equalsIgnoreCase('tracking')}">รอจัดส่ง</p>
+						<p th:if="${tran.getUserorder().getStatus().equalsIgnoreCase('shipping')}">จัดส่งแล้ว</p>
+						<p th:if="${tran.getUserorder().getStatus().equalsIgnoreCase('complete')}">ได้รับของแล้ว</p>
+						<p th:if="${tran.getUserorder().getStatus().equalsIgnoreCase('cancel')}">คำสั่งซื้อถูกยกเลิก</p>
+						<p th:if="${tran.getUserorder().getStatus().equalsIgnoreCase('contact')}">คำสั่งซื้อถูกยกเลิก ผู้ขายติดต่อแล้ว</p>
+						<p th:if="${tran.getUserorder().getStatus().equalsIgnoreCase('transferred')}">คำสั่งซื้อถูกยกเลิก ผู้ขายโอนเงินแล้ว</p>
+					</div><br>
+					<div><p th:text="${'สั่งเมื่อ  '+ tran.getUserorder().getCratedOrder()}"></p></div>
+				</td>
+				<td style="width: 20%;">
+					<a th:attr="onclick=|ondetail('${tran.getUserorder().getIdOrder()}')|" id="slip">รายละเอียด</a>
+				</td>
+			</tr>
+			<tr><td colspan="3"><hr style="margin: 2% 10%;"/></td></tr>
+		</table>
+	</div>
+</body>
+</html>

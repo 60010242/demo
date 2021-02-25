@@ -20,7 +20,7 @@
 	<li style="float: left;" class="center"><a href="/">ร้านขายของน้องหมา </a></li>
 </ul>
 
-<form action="#"  th:action="@{/search}" th:fragment="searchbox" class="search-container center">
+<form action="#"  th:action="@{/search}"  method="post" th:fragment="searchbox" class="search-container center">
 	<div class="search-box">
 		<select name="type" style="width: 90px;" onChange="searchFor(this)" required>
 			<option value="ordernum" selected>เลขออเดอร์</option>

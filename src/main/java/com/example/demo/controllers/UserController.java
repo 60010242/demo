@@ -18,11 +18,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.CreateFile;
 import com.example.demo.Sellinfo;
+import com.example.demo.Transgroup;
 import com.example.demo.entities.account;
+import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.useraddress;
+import com.example.demo.entities.userorder;
 import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.AccountRepository;
+import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.UserAddressRepository;
+import com.example.demo.repositories.UserOrderRepository;
 import com.example.demo.repositories.UserProfileRepository;
 
 @Controller
@@ -35,6 +40,12 @@ public class UserController {					// about user and user tables
 	
 	@Autowired
 	private AccountRepository accountRepo;
+	
+	@Autowired
+	private UserOrderRepository userorderRepo;
+	
+	@Autowired
+	private OrderDetailRepository orderdetailRepo;
 	
 	@GetMapping("/signup")
 	public String greeting(Model model) {
@@ -184,8 +195,66 @@ public class UserController {					// about user and user tables
 	
 	@PostMapping("/search")
 	public String search(@RequestParam(name = "type") String type
-			,@RequestParam(name = "code") String code) {
-		System.out.println("search");
-		return "redirect:/firstpage";
+			,@RequestParam(name = "code") String code
+			,Model model) {
+		String text ="";
+		boolean search = false;
+		int sendcost = 0;
+		userorder userorder = new userorder();
+		List<orderdetail> orders = new ArrayList<orderdetail>();
+		List<userprofile> users = new ArrayList<userprofile>();
+		if(type.equalsIgnoreCase("ordernum")) {
+			if(userorderRepo.getByIdOrder(Integer.parseInt(code))!=null) {
+				userorder = userorderRepo.getByIdOrder(Integer.parseInt(code));
+				orders = orderdetailRepo.getByIdorder(Integer.parseInt(code));
+				int totalOrder = 0;
+				for(orderdetail order : orders) {
+					totalOrder = totalOrder + (order.getRealPrice()*order.getNumber());
+				}
+				
+				sendcost = userorder.getTotalOrder()-totalOrder;
+				search = true;
+			}
+			text = "เลขออเดอร์";
+		}else if(type.equalsIgnoreCase("namebuyer")) {
+			if(userprofileRepo.findByname(code)!=null) {
+				users = userprofileRepo.findByname(code);
+				search = true;
+			}
+			text = "ชื่อผู้ซื้อ";
+		}else if(type.equalsIgnoreCase("delivery")) {
+			text = "ขนส่ง";
+		}else if(type.equalsIgnoreCase("bank")) {
+			text = "ธนาคาร";
+		}
+		model.addAttribute("userorder", userorder);
+		model.addAttribute("orders", orders);
+		model.addAttribute("users", users);
+		model.addAttribute("text", "ไม่มีข้อมูลของ "+ text +" "+code);
+		model.addAttribute("type", type);
+		model.addAttribute("search", search);
+		model.addAttribute("sendcost", sendcost);
+		return "/showsearch";
+	}
+	
+	@GetMapping("/showordersearch/{iduser}")
+	public String showorderuser(@PathVariable("iduser") Integer iduser
+			,Model model) {
+		List<userorder> userorders = new ArrayList<userorder>();
+		List<Transgroup> transgroup = new ArrayList<Transgroup>();
+		userorders = userorderRepo.getByidUser(iduser);
+		for(userorder userorder : userorders) {
+			Transgroup tran = new Transgroup();
+			List<orderdetail> orderdetails = new ArrayList<orderdetail>();
+			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
+			String img = orderdetails.get(0).getProductdetail().getPhotoProduct();
+			tran.setUserorder(userorder);
+			tran.setImage(img);
+			//tran.getUserorder().getIdUser()
+			//tran.getImage()
+			transgroup.add(tran);
+		}
+		model.addAttribute("transgroup", transgroup);
+		return "/showordersearch";
 	}
 }
