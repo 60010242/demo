@@ -43,7 +43,7 @@ function ondetail(orderId) {
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
-		    		document.getElementById("overlaytableTD1").innerHTML = '#' + val.id;
+		    		document.getElementById("overlaytableTD1").innerHTML = 'ORDER #' + val.id;
 		    		document.getElementById("overlaytableTD2").innerHTML = val.username;
 		    		document.getElementById("overlaytableTD5").innerHTML = val.total + " ฿";
 		    		document.getElementById("overlaytableTD6").innerHTML = val.address;
@@ -91,7 +91,7 @@ function ondetail(orderId) {
 			
 			<div class="buyerdetail">
 				คุณ <name id="overlaytableTD2"></name><br/><br>
-				ที่อยู่ <address id="overlaytableTD6"></address>
+				ที่อยู่ : <span id="overlaytableTD6"></span>
 			</div>
 			
 			<div class="track">Track number: <track id="overlaytableTD7"></track></div>

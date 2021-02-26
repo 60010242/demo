@@ -7,6 +7,7 @@ public class Userjson {
 	private String Address;
 	private String track;
 	private int sendcost;
+	private String detailcancel;
 	public int getId() {
 		return id;
 	}
@@ -42,6 +43,12 @@ public class Userjson {
 	}
 	public void setSendcost(int sendcost) {
 		this.sendcost = sendcost;
+	}
+	public String getDetailcancel() {
+		return detailcancel;
+	}
+	public void setDetailcancel(String detailcancel) {
+		this.detailcancel = detailcancel;
 	}
 	
 	

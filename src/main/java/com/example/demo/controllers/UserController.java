@@ -222,10 +222,6 @@ public class UserController {					// about user and user tables
 				search = true;
 			}
 			text = "ชื่อผู้ซื้อ";
-		}else if(type.equalsIgnoreCase("delivery")) {
-			text = "ขนส่ง";
-		}else if(type.equalsIgnoreCase("bank")) {
-			text = "ธนาคาร";
 		}
 		model.addAttribute("userorder", userorder);
 		model.addAttribute("orders", orders);

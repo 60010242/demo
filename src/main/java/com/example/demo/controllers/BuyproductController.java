@@ -252,9 +252,14 @@ public class BuyproductController {
 			,@ModelAttribute("orderid") OrderId Sorderid
 			,Model model) {
 		List<orderdetail> orders = new ArrayList<orderdetail>();
+		int totalOrder = 0;
 		if(!(Sorderid.getOrderid().equalsIgnoreCase("noid"))) {
 			orders = orderdetailRepo.getByIdorder(Integer.parseInt(Sorderid.getOrderid()));
+			for(orderdetail order : orders) {
+				totalOrder = totalOrder + (order.getRealPrice()*order.getNumber());
+			}
 		}
+		model.addAttribute("total", totalOrder);
 		model.addAttribute("orders", orders);
 		model.addAttribute("id", Sorderid.getOrderid());
 		model.addAttribute("textno", "ไม่มีสินค้าในตะกร้า");

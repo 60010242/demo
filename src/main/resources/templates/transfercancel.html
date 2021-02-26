@@ -40,11 +40,14 @@ function ondetail(orderId) {
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
-		    		document.getElementById("overlaytableTD1").innerHTML = '#' + val.id;
+		    		document.getElementById("overlaytableTD1").innerHTML = 'ORDER #' + val.id;
 		    		document.getElementById("overlaytableTD2").innerHTML = val.username;
 		    		document.getElementById("overlaytableTD5").innerHTML = val.total + " ฿";
 		    		document.getElementById("overlaytableTD6").innerHTML = val.address;
 		    		document.getElementById("sendcost").innerHTML = val.sendcost + " ฿";
+		    		if(val.detailcancel!==null){
+		    			document.getElementById("detailcancel").innerHTML = "<br><p>รายละเอียดการยกเลิก : "+val.detailcancel+"</p>";
+		    		}
 	    		  });
 	      });
   	$.ajax({
@@ -85,9 +88,10 @@ function ondetail(orderId) {
 			<div class="overlayheader center">รายละเอียดเพิ่มเติม </div>
 			<div><num id="overlaytableTD1"/></div>
 			
-			<div class="buyerdetail">
+			<div class="buyerdetail" id="headdetail">
 				คุณ <name id="overlaytableTD2"></name><br/><br>
-				ที่อยู่ <address style="padding-left: 10px;" id="overlaytableTD6"></address>
+				ที่อยู่ : <span id="overlaytableTD6"></span>
+				<div id="detailcancel"></div>
 			</div>
 			
 			<table id="table" class="tabledetail" style="width: 80%; margin: 4% 10%;">
@@ -178,13 +182,19 @@ function ondetail(orderId) {
 			</ul>
 		</td>
 		<td style="text-align: center;">
-			<a th:href="@{'/trantocontact/' + ${userorder.getIdOrder()}}" th:if="${status.equalsIgnoreCase('cancel')}"
-			th:data-confirm-delete="|ต้องการยืนยันดำเนินการรายการ #${userorder.getIdOrder()}?|"
-					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ติดต่อแล้ว</a>
+			<div th:if="${status.equalsIgnoreCase('cancel')}">
+				<form action="#" th:action="@{'/trantocontact/' + ${userorder.getIdOrder()}}" method="post">
+					<textarea rows="3" cols="50" name="detailcancel" placeholder="รายละเอียดการติดต่อ เช่น ชื่อธนาคาร เลขบัญชีของผู้ซื้อ"></textarea>
+					<input type="submit" value="ติดต่อแล้ว"
+					th:data-confirm-submit="|ต้องการยืนยันดำเนินการรายการ #${userorder.getIdOrder()}?|"
+					onclick="if (!confirm(this.getAttribute('data-confirm-submit'))) return false">
+				</form>
+				
+			</div>
 			<a th:href="@{'/trantotransferred/' + ${userorder.getIdOrder()}}" th:if="${status.equalsIgnoreCase('contact')}"
 			th:data-confirm-delete="|ต้องการยืนยันดำเนินการรายการ #${userorder.getIdOrder()}?|"
 					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">โอนแล้ว</a>
-			<span th:if="${status.equalsIgnoreCase('transferred')}">ดำเนินการแล้ว</span>
+			<span th:if="${status.equalsIgnoreCase('transferred')}">ดำเนินการเสร็จสิ้น</span>
 		</td>
 	</tr>
 	</table>

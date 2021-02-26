@@ -32,6 +32,7 @@ public class userorder {
 	private LocalDateTime payTime;
 	private String photoPay;
 	private LocalDateTime cratedOrder;
+	private String detailcancel;
 	private String userAddress;
 	private int idUser;
 
@@ -162,14 +163,21 @@ public class userorder {
 	public void setUserAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
+	
+	public String getDetailcancel() {
+		return detailcancel;
+	}
+	public void setDetailcancel(String detailcancel) {
+		this.detailcancel = detailcancel;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cratedOrder == null) ? 0 : cratedOrder.hashCode());
+		result = prime * result + ((detailcancel == null) ? 0 : detailcancel.hashCode());
 		result = prime * result + idOrder;
 		result = prime * result + idUser;
-		result = prime * result + ((lastNum == null) ? 0 : lastNum.hashCode());
 		result = prime * result + ((nameDelivery == null) ? 0 : nameDelivery.hashCode());
 		result = prime * result + ((payTime == null) ? 0 : payTime.hashCode());
 		result = prime * result + ((payTotal == null) ? 0 : payTotal.hashCode());
@@ -181,7 +189,6 @@ public class userorder {
 		result = prime * result + ((track == null) ? 0 : track.hashCode());
 		result = prime * result + ((userAddress == null) ? 0 : userAddress.hashCode());
 		result = prime * result + ((userBank == null) ? 0 : userBank.hashCode());
-		result = prime * result + ((userprofile == null) ? 0 : userprofile.hashCode());
 		return result;
 	}
 	@Override
@@ -198,14 +205,14 @@ public class userorder {
 				return false;
 		} else if (!cratedOrder.equals(other.cratedOrder))
 			return false;
+		if (detailcancel == null) {
+			if (other.detailcancel != null)
+				return false;
+		} else if (!detailcancel.equals(other.detailcancel))
+			return false;
 		if (idOrder != other.idOrder)
 			return false;
 		if (idUser != other.idUser)
-			return false;
-		if (lastNum == null) {
-			if (other.lastNum != null)
-				return false;
-		} else if (!lastNum.equals(other.lastNum))
 			return false;
 		if (nameDelivery == null) {
 			if (other.nameDelivery != null)
@@ -262,13 +269,7 @@ public class userorder {
 				return false;
 		} else if (!userBank.equals(other.userBank))
 			return false;
-		if (userprofile == null) {
-			if (other.userprofile != null)
-				return false;
-		} else if (!userprofile.equals(other.userprofile))
-			return false;
 		return true;
 	}
-	
 	
 }
