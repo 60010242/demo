@@ -106,7 +106,8 @@ product table td:last-of-type{
 	right: 2%;
 }
 
-.cart-container{
+/*cart icon*/
+.carticon-container{
 	position: fixed;
 	bottom: 10px;
 	right: 10px;
@@ -118,7 +119,7 @@ product table td:last-of-type{
 	text-decoration: none;
 	cursor: pointer;
 }
-.cart-container span{
+.carticon-container span{
 	position: fixed;
 	bottom: 70px;
 	right: 70px;
@@ -130,10 +131,18 @@ product table td:last-of-type{
 	background-color: red;
 	color: white;
 }
-.cart{
+.carticon{
 	width: 50px;
 	height: 50px;
 	filter: invert(98%) sepia(0%) saturate(7500%) hue-rotate(320deg) brightness(110%) contrast(97%);
+}
+
+/* cart page */
+.cartlist-container .editnum a{
+	color: var(--brown);
+	font-size: 20px;
+	font-weight: bold;
+	text-decoration: none;
 }
 
 .tablecat-whitebg{

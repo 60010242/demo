@@ -21,7 +21,7 @@ $(document).ready(function(){
 	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
 	    }
 	}
-	$('.cart').hover(function() {
+	$('.carticon').hover(function() {
         	$('.popup').fadeIn(200);
    		},
     	function(){
@@ -121,8 +121,8 @@ function setstock(idproduct){
 <div class="popup popup-cart-position">
 	<span class="popuptext">ดูตะกร้า</span>
 </div>
-<a class="cart-container center" th:href="@{'/cart/' + ${id}}">
-	<img class="cart" th:src="@{/Icon/cart.png}">
+<a class="carticon-container center" th:href="@{'/cart/' + ${id}}">
+	<img class="carticon" th:src="@{/Icon/cart.png}">
 	<span th:if="${numcart!=0}" th:text="${numcart}"></span>
 </a>
 

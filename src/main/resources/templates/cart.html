@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/buysellproduct.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style type="text/css">
 .button{
@@ -45,11 +46,15 @@
 
 <div id="tst" style="position: fixed; top: 200px; right: 0;"></div>
 	<p class="outoforder" th:text="${textno}" th:if="${id.equalsIgnoreCase('noid')||orders.isEmpty()}"></p>
-	<table class="cart-container whitebg" style="width: 80%; margin: 0 10%;" th:if="${!(id.equalsIgnoreCase('noid'))&&!(orders.isEmpty())}">
+	<table class="cartlist-container whitebg" style="width: 80%; margin: 0 10%;" th:if="${!(id.equalsIgnoreCase('noid'))&&!(orders.isEmpty())}">
 		<tr style="height: 100px;" th:each="order: ${orders}">
-			<td style="width: 20%; padding: 10px 0;">
-				<img style="width: 80px; height: 80px; background-color: black; border-radius: 50px;"
-				alt="can't download" th:src="@{'data:image/jpeg;base64,'+${order.getProductdetail().getPhotoProduct()}}">
+			<td style="width: 20%; padding: 0;">
+				<img style="width: 80px; height: 80px; border-radius: 50px;"
+				th:if="${order.getProductdetail().getPhotoProduct() != null}"
+				th:src="@{'data:image/jpeg;base64,'+${order.getProductdetail().getPhotoProduct()}}">
+				<img style="width: 80px; height: 80px; border-radius: 50px;"
+				th:if="${order.getProductdetail().getPhotoProduct() == null}"
+				th:src="@{'/Icon/no-image.png'}">
 			</td>
 			<td style="width: 40%;">
 				<span th:text="${order.getProductdetail().getNameProduct()}"></span>
@@ -57,10 +62,10 @@
 			</td>
 			<td style="width: 20%;" class="editnum">
 				<div th:if="${order.getNumber()>1}" style="display: inline;">
-					<a th:href="@{'/minusorder/' + ${order.getIdOrder()} + '/' + ${order.getNoOrder()}}"><</a>
+					<a th:href="@{'/minusorder/' + ${order.getIdOrder()} + '/' + ${order.getNoOrder()}}">-</a>
 				</div>
 				<span th:text="${order.getNumber()}"></span>
-				<a th:href="@{'/addorder/' + ${order.getIdOrder()} + '/' + ${order.getNoOrder()}}">></a>
+				<a th:href="@{'/addorder/' + ${order.getIdOrder()} + '/' + ${order.getNoOrder()}}">+</a>
 			</td>
 			<td style="width: 10%;" th:text="${order.getRealPrice()}"></td>
 			<td style="width: 10%;">
