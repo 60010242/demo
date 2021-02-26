@@ -36,6 +36,21 @@ product .smlxl input{
 	display: inline-table;
 	position: relative;
 }
+product .firstline span{
+	display: inline-block;
+	font-weight: bold;
+	width: 50%;
+}
+product .firstline span:last-of-type{
+	color: var(--green);
+	text-align: right;
+}
+product table, product select{
+	width: 100%;
+}
+product table td:last-of-type{
+	text-align: right;
+}
 .addproduct{
 	cursor: pointer;
 	filter: invert(85%) sepia(3%) saturate(5021%) hue-rotate(342deg) brightness(89%) contrast(78%);
