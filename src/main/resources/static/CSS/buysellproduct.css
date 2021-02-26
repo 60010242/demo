@@ -100,7 +100,20 @@ product .smlxl input{
 	border-radius: 80px;
 	background-color: var(--grey);
 	box-shadow: 2px 2px 5px var(--grey);
+	text-decoration: none;
 	cursor: pointer;
+}
+.cart-container span{
+	position: fixed;
+	bottom: 70px;
+	right: 70px;
+	height: 20px;
+	padding: 0 8px;
+	text-align: center;
+	line-height: 20px;
+	border-radius: 5px;
+	background-color: red;
+	color: white;
 }
 .cart{
 	width: 50px;
