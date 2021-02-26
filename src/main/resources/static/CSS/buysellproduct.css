@@ -162,7 +162,8 @@ product table td:last-of-type{
 }
 
 .addtocart{
-	color: var(--brown);
+	color: var(--blue);
+	font-family: 'Bai Jamjuree', sans-serif;
 	font-weight: bold;
 	font-style: italic;
 	cursor: pointer;

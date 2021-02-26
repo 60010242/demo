@@ -67,7 +67,7 @@
 				<span th:text="${order.getNumber()}"></span>
 				<a th:href="@{'/addorder/' + ${order.getIdOrder()} + '/' + ${order.getNoOrder()}}">+</a>
 			</td>
-			<td style="width: 10%;" th:text="${order.getRealPrice()}"></td>
+			<td style="width: 10%;" th:text="${order.getRealPrice()*order.getNumber()}"></td>
 			<td style="width: 10%;">
 				<a style="margin: 2px;" th:href="@{'/deleteorder/' + ${order.getIdOrder()} + '/' + ${order.getNoOrder()}}"><img style="width: 20px; height: 20px;" th:src="@{/Icon/cart-remove.png}"></a>
 			</td>
