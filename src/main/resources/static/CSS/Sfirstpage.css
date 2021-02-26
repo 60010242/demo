@@ -347,6 +347,7 @@ close{
 	font-family: 'Bai Jamjuree', sans-serif;
 	background-color: var(--green);
 	height: 20pt;
+	line-height: 20pt;
 	width: 50pt;
 	border-radius: 5pt;
 	text-align: center;
@@ -354,6 +355,7 @@ close{
 	border: none;
 	margin-right: 10%;
 	float: right;
+	text-decoration: none;
 	cursor: pointer;
 }
 .btnsubmit:hover{
