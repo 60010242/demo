@@ -243,11 +243,18 @@ close{
 	z-index: 800;
 }
 .sidetab-container td{
+	position: relative;
 	width: 100%;
 }
 .sidetab-container td a{
 	padding-left: 8px;
   	font-weight: normal;
+ }
+ .sidetab-container td span{
+	position: absolute;
+	right: 5px;
+	line-height: 40px;
+	color: var(--blue);
  }
 .sidetab{
 	background-color: inherit;

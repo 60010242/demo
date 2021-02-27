@@ -64,7 +64,8 @@ function ondetail(orderId) {
 }
 function onaddslip(orderId) {
 	document.getElementById("overlay").style.visibility = "visible";
-	
+
+	var origin = window.location.origin;
 	var tdbank = document.getElementById("selectbank")
 	var sel = document.createElement("SELECT");
 	var childrow = tdbank.lastElementChild;
@@ -76,7 +77,7 @@ function onaddslip(orderId) {
 	sel.setAttribute("id", "MySelect");
 	sel.setAttribute("name", "sellbank"); 
 	$.ajax({
-	      url:"http://localhost:7070/userajax?id="+orderId,
+	      url:origin +"/userajax?id="+orderId,
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
@@ -86,7 +87,7 @@ function onaddslip(orderId) {
 	    		  });
 	      });
 	$.ajax({
-	      url:"http://localhost:7070//accountajax",
+	      url:origin +"/accountajax",
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
@@ -151,6 +152,7 @@ function off() {
 				enctype="multipart/form-data" 
 				class="tablebuytransfer">
 				<input hidden="true" type="text" id="hiddenid" name="sendid">
+				<div id="headslip"></div>
 				<table>
 					<tr>
 						<td>ธนาคารผู้ซื้อ: <red>*</red></td>
@@ -191,19 +193,19 @@ function off() {
 						<td>จำนวนเงินที่โอน: <red>*</red></td>
 					</tr>
 					<tr>
-						<td><input name="pay" type="number" id="paytotal"></td>
+						<td><input name="pay" type="number" id="paytotal" required></td>
 					</tr>
 					<tr>
 						<td>วัน-เวลาที่โอน: <red>*</red></td>
 					</tr>
 					<tr>
-						<td><input name="paydatetime" type="datetime-local"></td>
+						<td><input name="paydatetime" type="datetime-local" required></td>
 					</tr>
 					<tr>
 						<td>รูปสลิป: <red>*</red></td>
 					</tr>
 					<tr>
-						<td><input type="file" name="imageFile"></td>
+						<td><input type="file" name="imageFile" required></td>
 					</tr>
 					<tr>
 						<td><input class="overlayconfirm" style="float: right;" type="submit" value="Submit" name="button"></td>

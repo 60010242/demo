@@ -137,8 +137,8 @@ function on(orderId) {
 		<td>
 			<a href="/checking" class="sidetab" id="all">
 				ทั้งหมด
-				<span th:if="${Allorder>0}" th:text="${Allorder}"></span>
 			</a>
+			<span th:if="${Allorder>0}" th:text="${Allorder}"></span>
 		</td>
 	</tr>
 	<tr class="center" th:each="tab: ${tabs}">
