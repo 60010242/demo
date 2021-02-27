@@ -474,6 +474,20 @@ public class OrderController {
 		List<userorder> userorders = new ArrayList<userorder>();
 		List<Transgroup> transgroup = new ArrayList<Transgroup>();
 		userorders = userorderRepo.getByStatusAndIduser("paying", user.getIdUser());
+		for(userorder u : userorders) {
+			LocalDateTime to = LocalDateTime.now();
+			long days = ChronoUnit.DAYS.between(u.getCratedOrder(), to);
+			System.out.println(days);
+			if(days>2) {
+				userorder reuser = new userorder();
+				reuser = userorderRepo.findById(u.getIdOrder()).get();
+				reuser.setStatus("notpay");
+				reuser.setPayTime(LocalDateTime.now());
+				reuser.setCratedOrder(LocalDateTime.now());
+				userorderRepo.save(reuser);
+			}
+		}
+		userorders = userorderRepo.getByStatusAndIduser("paying", user.getIdUser());
 		for(userorder userorder : userorders) {
 			Transgroup tran = new Transgroup();
 			List<orderdetail> orderdetails = new ArrayList<orderdetail>();

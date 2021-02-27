@@ -149,11 +149,11 @@ function off() {
 		<table class="maintable">
 			<tr class="tableheader">
 				<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
-				<th style="height:30pt; width: 60%">  รายการ </th>
-				<th style="height:30pt; width: 10%">สถานะ </th>
+				<th style="height:30pt; width: 40%">  รายการ </th>
+				<th style="height:30pt; width: 15%">สถานะ </th>
 				<th style="height:30pt; width: 10%"  
 				th:if="${state==2}">เลขแทร็ก</th>
-				<th style="height:30pt; width: 10%"  
+				<th style="height:30pt; width: 15%"  
 				th:if="${state==2}">ยืนยันรับพัสดุ </th>
 			</tr>
 			<tr th:each="userorder: ${userlist}" th:if=${userorder.getPayTime().getMonthValue()==month.getMonthnum()}>
@@ -185,7 +185,7 @@ function off() {
 				<td style="text-align: center;" th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">
 					<a th:href="@{'/trantocomplete/'+ ${userorder.getIdOrder()}}" class="btncheck" onclick="if(!confirm('ยืนยันรับพัสดุ?')) return false;">ยืนยัน </a>
 				</td>
-				<td style="text-align: center;" th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับของแล้ว</td>
+				<td style="text-align: center;" th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">complete</td>
 				
 			</tr>
 		</table>

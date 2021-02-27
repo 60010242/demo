@@ -81,6 +81,7 @@ function onaddslip(orderId) {
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
+		    		document.getElementById("hiddenid").setAttribute("value", val.id);
 		    		document.getElementById("paytotal").setAttribute("value", val.total);
 	    		  });
 	      });
@@ -235,7 +236,7 @@ function off() {
 <div th:replace="navtab :: tabbuyer"></div>
 
 <!-- Loop order -->
-	<!-- <red>หมายเหตุ*: คำสั่งซื้อจะถูกยกเลิก หากไม่โอนเงินภายใน 2 วัน</red> -->
+	<red>หมายเหตุ*: คำสั่งซื้อจะถูกยกเลิก หากไม่โอนเงินภายใน 2 วัน คำสั่งซื้อที่ถูกยกเลิกสามารถกดซื้ออีกครั้งได้ในหน้า ติดตามคำสั่งซื้อ > ถูกยกเลิก</red>
 	<div class="whitebg">
 		<table style="width: 100%;" th:each="tran: ${transgroup}">
 			<tr>
