@@ -30,6 +30,7 @@ import com.example.demo.CreateFile;
 import com.example.demo.Daygroup;
 import com.example.demo.Monthgroup;
 import com.example.demo.Orderjson;
+import com.example.demo.Tab;
 import com.example.demo.Transgroup;
 import com.example.demo.Userjson;
 import com.example.demo.entities.orderdetail;
@@ -46,7 +47,6 @@ import com.example.demo.repositories.UserOrderRepository;
 import com.example.demo.repositories.UserProfileRepository;
 import com.example.demo.services.CreatePDF;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -112,7 +112,17 @@ public class OrderController {
 		}
 		List<String> accounts = new ArrayList<String>();
 		accounts = accountRepo.getAllNamesellaccount();
+		List<Tab> tabs = new ArrayList<Tab>();
+		for(String account : accounts) {
+			Tab tab = new Tab();
+			tab.setNumorder(userorderRepo.countAllBystatusAndSellerbank("checking", account));
+			tab.setNametab(account);
+			tabs.add(tab);
+		}
+		int Allorder = userorderRepo.countAllBystatus("checking");
 		int index = 1;
+		model.addAttribute("tabs", tabs);
+		model.addAttribute("Allorder", Allorder);
 		model.addAttribute("index", index);
 		model.addAttribute("accounts", accounts);
 		model.addAttribute("daylist", daylist);
@@ -158,7 +168,17 @@ public class OrderController {
 		}
 		List<String> accounts = new ArrayList<String>();
 		accounts = accountRepo.getAllNamesellaccount();
+		List<Tab> tabs = new ArrayList<Tab>();
+		for(String account : accounts) {
+			Tab tab = new Tab();
+			tab.setNumorder(userorderRepo.countAllBystatusAndSellerbank("checking", account));
+			tab.setNametab(account);
+			tabs.add(tab);
+		}
+		int Allorder = userorderRepo.countAllBystatus("checking");
 		int index = 2;
+		model.addAttribute("tabs", tabs);
+		model.addAttribute("Allorder", Allorder);
 		model.addAttribute("index", index);
 		model.addAttribute("accounts", accounts);
 		model.addAttribute("daylist", daylist);

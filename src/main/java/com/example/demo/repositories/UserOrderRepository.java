@@ -40,4 +40,13 @@ public interface UserOrderRepository extends JpaRepository<userorder, Integer> {
 	
 	@Query("from userorder o where o.status = :status and o.sellerBank = :bank order by o.payTime asc")
 	List<userorder> getByStatusandBank(@Param("status")String status,@Param("bank")String bank);
+
+	@Query("select COUNT(*) from userorder o where o.status = :status")
+	int countAllBystatus(@Param("status")String status);
+	
+	@Query("select COUNT(*) from userorder o where o.status = :status and o.sellerBank = :bank")
+	int countAllBystatusAndSellerbank(@Param("status")String status,@Param("bank")String bank);
+	
+	@Query("select COUNT(*) from userorder o where o.status = :status and o.nameDelivery = :transport")
+	int countAllBystatusAndNamedelivery(@Param("status")String status,@Param("transport")String transport);
 }
