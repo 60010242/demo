@@ -256,7 +256,17 @@ public class OrderController {
 		}
 		List<String> deliverys = new ArrayList<String>();
 		deliverys = deliRepo.getAllNamedelivery();
+		List<Tab> tabs = new ArrayList<Tab>();
+		for(String delivery : deliverys) {
+			Tab tab = new Tab();
+			tab.setNumorder(userorderRepo.countAllBystatusAndNamedelivery("tracking", delivery));
+			tab.setNametab(delivery);
+			tabs.add(tab);
+		}
+		int Allorder = userorderRepo.countAllBystatus("tracking");
 		int index = 1;
+		model.addAttribute("tabs", tabs);
+		model.addAttribute("Allorder", Allorder);
 		model.addAttribute("index", index);
 		model.addAttribute("deliverys", deliverys);
 		model.addAttribute("daylist", daylist);
@@ -303,7 +313,17 @@ public class OrderController {
 		}
 		List<String> deliverys = new ArrayList<String>();
 		deliverys = deliRepo.getAllNamedelivery();
+		List<Tab> tabs = new ArrayList<Tab>();
+		for(String delivery : deliverys) {
+			Tab tab = new Tab();
+			tab.setNumorder(userorderRepo.countAllBystatusAndNamedelivery("tracking", delivery));
+			tab.setNametab(delivery);
+			tabs.add(tab);
+		}
+		int Allorder = userorderRepo.countAllBystatus("tracking");
 		int index = 2;
+		model.addAttribute("tabs", tabs);
+		model.addAttribute("Allorder", Allorder);
 		model.addAttribute("index", index);
 		model.addAttribute("deliverys", deliverys);
 		model.addAttribute("daylist", daylist);

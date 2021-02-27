@@ -182,15 +182,17 @@ function ondetail(orderId) {
 		<td>
 			<a href="/tracking" class="sidetab" id="idcat">
 				ทั้งหมด
+				<span th:if="${Allorder>0}" th:text="${Allorder}"></span>
 			</a>
 		</td>
 	</tr>
-	<tr class="center" th:each="delivery: ${deliverys}">
+	<tr class="center" th:each="tab: ${tabs}">
 		<td>
-			<a th:href="@{'/tracking/' + ${delivery}}" 
-			th:text="${delivery}"
-			class="sidetab" th:id="${delivery}">
+			<a th:href="@{'/tracking/' + ${tab.getNametab()}}" 
+			th:text="${tab.getNametab()}"
+			class="sidetab" th:id="${tab.getNametab()}">
 			</a>
+			<span th:if="${tab.getNumorder()}>0" th:text="${tab.getNumorder()}"></span>
 		</td>
 	</tr>
 </table>
