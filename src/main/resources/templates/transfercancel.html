@@ -129,6 +129,7 @@ function ondetail(orderId) {
 		<td>
 			<a href="/cancel/cancel" class="sidetab" id="idcat">
 				ต้องติดต่อ
+				<span th:if="${numorders.get(0)>0}" th:text="${numorders.get(0)}"></span>
 			</a>
 		</td>
 	</tr>
@@ -136,6 +137,7 @@ function ondetail(orderId) {
 		<td>
 			<a href="/cancel/contact" class="sidetab" id="idcat">
 				รอโอนเงินคืน
+				<span th:if="${numorders.get(1)>0}" th:text="${numorders.get(1)}"></span>
 			</a>
 		</td>
 	</tr>
@@ -143,6 +145,7 @@ function ondetail(orderId) {
 		<td>
 			<a href="/cancel/transferred" class="sidetab" id="idcat">
 				เสร็จสิ้นแล้ว
+				<span th:if="${numorders.get(2)>0}" th:text="${numorders.get(2)}"></span>
 			</a>
 		</td>
 	</tr>
@@ -154,11 +157,11 @@ function ondetail(orderId) {
 	<tr class="tableheader">
 		<th style="height:30pt; width: 10%" > รหัสสั่งซื้อ </th>
 		<th style="height:30pt; width: 15%" > ชื่อผู้ซื้อ </th>
-		<th style="height:30pt; width: 40%">  รายการ </th>
+		<th style="height:30pt; width: 35%">  รายการ </th>
 		<th style="height:30pt; width: 25%" > ช่องทางติดต่อ </th>
-		<th style="height:30pt; width: 10%" th:if="${status.equalsIgnoreCase('cancel')}"> ติดต่อ </th>
-		<th style="height:30pt; width: 10%" th:if="${status.equalsIgnoreCase('contact')}"> โอนเงิน </th>
-		<th style="height:30pt; width: 10%" th:if="${status.equalsIgnoreCase('transferred')}"> โอนเงินแล้ว </th>
+		<th style="height:30pt; width: 15%" th:if="${status.equalsIgnoreCase('cancel')}"> ติดต่อ </th>
+		<th style="height:30pt; width: 15%" th:if="${status.equalsIgnoreCase('contact')}"> โอนเงิน </th>
+		<th style="height:30pt; width: 15%" th:if="${status.equalsIgnoreCase('transferred')}"> โอนเงินแล้ว </th>
 	</tr>
 	<tr th:each="userorder: ${userorders}" th:if="${userorder.getPayTime().toLocalDate().isEqual(day.getLocaldate())}">
 		<td th:text="${'#'+ userorder.getIdOrder()}"></td>
@@ -184,7 +187,7 @@ function ondetail(orderId) {
 		<td style="text-align: center;">
 			<div th:if="${status.equalsIgnoreCase('cancel')}">
 				<form action="#" th:action="@{'/trantocontact/' + ${userorder.getIdOrder()}}" method="post">
-					<textarea rows="3" cols="50" name="detailcancel" placeholder="รายละเอียดการติดต่อ เช่น ชื่อธนาคาร เลขบัญชีของผู้ซื้อ"></textarea>
+					<textarea rows="3" cols="50" name="detailcancel" placeholder="รายละเอียดการติดต่อ เช่น ชื่อธนาคาร เลขบัญชีของผู้ซื้อ ชื่อบัญชี"></textarea>
 					<input type="submit" value="ติดต่อแล้ว"
 					th:data-confirm-submit="|ต้องการยืนยันดำเนินการรายการ #${userorder.getIdOrder()}?|"
 					onclick="if (!confirm(this.getAttribute('data-confirm-submit'))) return false">

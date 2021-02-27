@@ -119,17 +119,26 @@ function off() {
 <table class="sidetab-container">
 	<tr class="center">
 		<td>
-			<a class="sidetab" id="1" href="/buytrack/1">กำลังดำเนินการ</a>
+			<a class="sidetab" id="1" href="/buytrack/1">
+			กำลังดำเนินการ
+			<span th:if="${numorders.get(0)>0}" th:text="${numorders.get(0)}"></span>
+			</a>
 		</td>
 	</tr>
 	<tr class="center">
 		<td>
-			<a class="sidetab" id="2" href="/buytrack/2">จัดส่งแล้ว</a>
+			<a class="sidetab" id="2" href="/buytrack/2">
+			จัดส่งแล้ว
+			<span th:if="${numorders.get(1)>0}" th:text="${numorders.get(1)}"></span>
+			</a>
 		</td>
 	</tr>
 	<tr class="center">
 		<td>
-			<a class="sidetab" id="3" href="/buytrack/3">ถูกยกเลิก</a>
+			<a class="sidetab" id="3" href="/buytrack/3">
+			ถูกยกเลิก
+			<span th:if="${numorders.get(2)>0}" th:text="${numorders.get(2)}"></span>
+			</a>
 		</td>
 	</tr>
 </table>

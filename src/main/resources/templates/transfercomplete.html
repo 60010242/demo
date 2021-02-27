@@ -129,6 +129,7 @@ function ondetail(orderId) {
 		<td>
 			<a href="/complete/shipping" class="sidetab" id="idcat">
 				กำลังขนส่ง
+				<span th:if="${numorders.get(0)>0}" th:text="${numorders.get(0)}"></span>
 			</a>
 		</td>
 	</tr>
@@ -136,6 +137,7 @@ function ondetail(orderId) {
 		<td>
 			<a href="/complete/complete" class="sidetab" id="idcat">
 				ได้รับแล้ว
+				<span th:if="${numorders.get(1)>0}" th:text="${numorders.get(1)}"></span>
 			</a>
 		</td>
 	</tr>

@@ -373,6 +373,12 @@ public class OrderController {
 			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
 			orderlists.addAll(orderdetails);
 		}
+		List<Integer> numorders = new ArrayList<Integer>();
+		int numship = userorderRepo.countAllBystatus("shipping");
+		numorders.add(numship);
+		int numcom = userorderRepo.countAllBystatus("complete");
+		numorders.add(numcom);
+		model.addAttribute("numorders", numorders);
 		model.addAttribute("userlist", ul);
 		model.addAttribute("monthlist", monthlist);
 		model.addAttribute("orderlists", orderlists);
@@ -416,6 +422,14 @@ public class OrderController {
 			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
 			orderlists.addAll(orderdetails);
 		}
+		List<Integer> numorders = new ArrayList<Integer>();
+		int numcancel = userorderRepo.countAllBystatus("cancel");
+		numorders.add(numcancel);
+		int numcon = userorderRepo.countAllBystatus("contact");
+		numorders.add(numcon);
+		int numtran = userorderRepo.countAllBystatus("transferred");
+		numorders.add(numtran);
+		model.addAttribute("numorders", numorders);
 		model.addAttribute("status",status);
 		model.addAttribute("daylist", daylist);
 		model.addAttribute("orderlists", orderlists);
@@ -574,6 +588,14 @@ public class OrderController {
 			orderdetails = orderdetailRepo.getByIdorder(userorder.getIdOrder());
 			orderlists.addAll(orderdetails);
 		}
+		List<Integer> numorders = new ArrayList<Integer>();
+		int num1 = userorderRepo.countAllBystatus("checking")+userorderRepo.countAllBystatus("tracking");
+		numorders.add(num1);
+		int num2 = userorderRepo.countAllBystatus("shipping")+userorderRepo.countAllBystatus("complete");
+		numorders.add(num2);
+		int num3 = userorderRepo.countAllBystatus("transferred")+userorderRepo.countAllBystatus("cancel")+userorderRepo.countAllBystatus("contact");
+		numorders.add(num3);
+		model.addAttribute("numorders", numorders);
 		model.addAttribute("state", state);
 		model.addAttribute("userlist", ul);
 		model.addAttribute("monthlist", monthlist);
