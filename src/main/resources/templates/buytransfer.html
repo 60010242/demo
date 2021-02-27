@@ -98,7 +98,11 @@ function onaddslip(orderId) {
 	    		  });
 	      });
 }
+function onsellaccount(){
+	document.getElementById("overlaysellaccount").style.visibility = "visible";
+}
 function off() {
+	document.getElementById("overlaysellaccount").style.visibility = "hidden";
 	document.getElementById("overlaydetail").style.visibility = "hidden";
 	document.getElementById("overlay").style.visibility = "hidden";
 }
@@ -211,11 +215,22 @@ function off() {
 		<div class="overlaybg" onclick="off()"></div>
 	</div>
 	
+	<div class="center" id="overlaysellaccount">
+	<div class="checked">
+		<div class="overlayheader center">บัญชีธนาคารผู้ขายทั้งหมด</div>
+		<iframe src="/sellaccount"></iframe>
+		<close onclick="off()">X</close>
+	</div>
+	<div class="overlaybg" onclick="off()"></div>
+</div>
+	 
+	
 	
 <!-- Main Page -->
-<div class="tabheadersecond">
-	<a href="/sellaccount">บัญชีธนาคารร้านค้า</a>
+<div class="allselleraccount">
+	<a onclick="onsellaccount()">ดูบัญชีธนาคารร้านค้า</a>
 </div>
+
 <div th:replace="navtab :: navheadbuyer"></div>
 <div th:replace="navtab :: tabbuyer"></div>
 

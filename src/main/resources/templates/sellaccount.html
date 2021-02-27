@@ -2,15 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<style type="text/css">
+	table {
+		width: 90%;
+		margin: 0 5%;
+	}
+</style>
 </head>
-<body>
-	<a href="/buytransfer">back</a>
+<body class="overlaypage">
 	<table>
 		<tr>
-				<td>ธนาคาร</td>
-				<td>เลขบัญชี</td>
-				<td>ชื่อบัญชี</td>
+				<th>ธนาคาร</th>
+				<th>เลขบัญชี</th>
+				<th>ชื่อบัญชี</th>
 		</tr>
 		<tr th:each="acc: ${accounts}">
 				<td><p th:text="${#strings.substringAfter(acc.getNameBank(), 'ธนาคาร')}"></p></td>

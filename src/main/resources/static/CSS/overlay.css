@@ -11,7 +11,8 @@
 #overlayeditproduct,
 #overlayaddcat,
 #overlayeditcat,
-#overlayaddslip{
+#overlayaddslip,
+#overlaysellaccount{
   position: fixed;
   visibility: hidden;
   width: 100%;

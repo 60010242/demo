@@ -11,15 +11,18 @@
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	var idcat = window.location.href.split('/').pop();
 	var tablinks = document.getElementsByClassName("tablinks");
+	var tabcats = document.getElementsByClassName("sidetab");
 	
 	$('a.tablinks:nth-child(3)').addClass("active");
-	$('.sidetab-container tr:first-child a').addClass("active");
-	/*for (i = 0; i < tabcats.length; i++) {
+	console.log(idcat);
+	
+	for (i = 0; i < tabcats.length; i++) {
 	    if(tabcats[i].id == idcat){
-	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
+	    	$('.sidetab-container tr:nth-child('+(i+1)+') a').addClass("active");
 	    }
-	}*/
+	}
 })
 
 function ondetail(orderId) {
@@ -116,17 +119,17 @@ function off() {
 <table class="sidetab-container">
 	<tr class="center">
 		<td>
-			<a class="tabcat" id="idcat" href="/buytrack/1">กำลังดำเนินการ</a>
+			<a class="sidetab" id="1" href="/buytrack/1">กำลังดำเนินการ</a>
 		</td>
 	</tr>
 	<tr class="center">
 		<td>
-			<a class="tabcat" id="idcat" href="/buytrack/2">จัดส่งแล้ว</a>
+			<a class="sidetab" id="2" href="/buytrack/2">จัดส่งแล้ว</a>
 		</td>
 	</tr>
 	<tr class="center">
 		<td>
-			<a class="tabcat" id="idcat" href="/buytrack/3">ถูกยกเลิก</a>
+			<a class="sidetab" id="3" href="/buytrack/3">ถูกยกเลิก</a>
 		</td>
 	</tr>
 </table>

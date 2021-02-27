@@ -88,3 +88,20 @@ useraddress div div:last-child{
 useraddress tr td{
 	padding: 2%;
 }
+
+/* buy transfer */
+.allselleraccount{
+	position: fixed;
+	top: 120px;
+	left: 20px;
+	z-index: 10;
+}
+.allselleraccount a{
+	padding: 10px;
+	border-radius: 5px;
+	text-decoration: none;
+	color: white;
+	background-color: var(--blue);
+	box-shadow: 2px 2px 4px gray;
+	cursor: pointer;
+}
