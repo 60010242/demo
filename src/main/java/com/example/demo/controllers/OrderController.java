@@ -512,6 +512,27 @@ public class OrderController {
 		userorderRepo.save(userorder);
 		return "redirect:/buytransfer";
 	}
+
+	@GetMapping("/trantonotpay/{idorder}")
+	public String trantonotpay(@PathVariable("idorder") Integer idorder) {
+		userorder order = new userorder(); 
+		order = userorderRepo.findById(idorder).get();
+		order.setStatus("notpay");
+		order.setPayTime(LocalDateTime.now());
+		order.setCratedOrder(LocalDateTime.now());
+		userorderRepo.save(order);
+		return "redirect:/buytransfer";
+	}
+	
+	@GetMapping("/trantopaying/{idorder}")
+	public String trantopaying(@PathVariable("idorder") Integer idorder) {
+		userorder order = new userorder(); 
+		order = userorderRepo.findById(idorder).get();
+		order.setStatus("paying");
+		order.setCratedOrder(LocalDateTime.now());
+		userorderRepo.save(order);
+		return "redirect:/buytransfer";
+	}
 	
 	@GetMapping("/buytrack/{state}")
 	public String buytrack(@SessionAttribute("user") userprofile userprofile
@@ -550,9 +571,9 @@ public class OrderController {
 			Alluserorders.addAll(userorders);
 			userorders = userorderRepo.getByStatusAndIduser("transferred", userprofile.getIdUser());
 			Alluserorders.addAll(userorders);
+			userorders = userorderRepo.getByStatusAndIduser("notpay", userprofile.getIdUser());
+			Alluserorders.addAll(userorders);
 		}
-		
-		
 		
 		LocalDate localDate = LocalDate.now();
 		int month = localDate.getMonthValue();
@@ -593,7 +614,7 @@ public class OrderController {
 		numorders.add(num1);
 		int num2 = userorderRepo.countAllBystatus("shipping")+userorderRepo.countAllBystatus("complete");
 		numorders.add(num2);
-		int num3 = userorderRepo.countAllBystatus("transferred")+userorderRepo.countAllBystatus("cancel")+userorderRepo.countAllBystatus("contact");
+		int num3 = userorderRepo.countAllBystatus("transferred")+userorderRepo.countAllBystatus("cancel")+userorderRepo.countAllBystatus("contact")+userorderRepo.countAllBystatus("notpay");
 		numorders.add(num3);
 		model.addAttribute("numorders", numorders);
 		model.addAttribute("state", state);

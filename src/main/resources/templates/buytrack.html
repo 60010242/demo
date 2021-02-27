@@ -166,6 +166,9 @@ function off() {
 							<span th:text="${'  x'+ orderlist.getNumber()}"></span>
 			  			</li>
 					</ul>
+					<a th:href="@{'/trantopaying/' + ${userorder.getIdOrder()}}" id="tocancel" th:if="${userorder.getStatus().equalsIgnoreCase('notpay')}" 
+			th:data-confirm-delete="|ต้องการซื้อ  #${userorder.getIdOrder()} อีกครั้ง ?|"
+					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ซื้ออีกครั้ง</a>
 					<a th:attr="onclick=|ondetail('${userorder.getIdOrder()}')|" id="detaildata">รายละเอียด </a>
 				</td>
 				<td th:if="${userorder.getStatus().equalsIgnoreCase('checking')}">รอตรวจสอบ</td>
@@ -175,6 +178,7 @@ function off() {
 				<td th:if="${userorder.getStatus().equalsIgnoreCase('cancel')}">คำสั่งซื้อถูกยกเลิก</td>
 				<td th:if="${userorder.getStatus().equalsIgnoreCase('contact')}">ผู้ขายติดต่อแล้ว</td>
 				<td th:if="${userorder.getStatus().equalsIgnoreCase('transferred')}">ผู้ขายโอนเงินแล้ว</td>
+				<td th:if="${userorder.getStatus().equalsIgnoreCase('notpay')}">ยกเลิกจากหน้าชำระเงิน</td>
 				
 				<td th:if="${userorder.getStatus().equalsIgnoreCase('complete')||userorder.getStatus().equalsIgnoreCase('shipping')}" th:text="${userorder.getTrack()}"></td>
 				

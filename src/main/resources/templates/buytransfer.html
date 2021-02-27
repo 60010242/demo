@@ -77,17 +77,15 @@ function onaddslip(orderId) {
 	sel.setAttribute("id", "MySelect");
 	sel.setAttribute("name", "sellbank"); 
 	$.ajax({
-	      url:origin +"/userajax?id="+orderId,
+	      url:origin + "/userajax?id="+orderId,
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
-		    		document.getElementById("headslip").innerHTML = 'ORDER #' + val.id;
-		    		document.getElementById("hiddenid").setAttribute("value", val.id);
 		    		document.getElementById("paytotal").setAttribute("value", val.total);
 	    		  });
 	      });
 	$.ajax({
-	      url:origin +"/accountajax",
+	      url:origin + "/accountajax",
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
@@ -193,7 +191,7 @@ function off() {
 						<td>จำนวนเงินที่โอน: <red>*</red></td>
 					</tr>
 					<tr>
-						<td><input name="pay" type="number" id="paytotal" required></td>
+						<td><input id="paytotal" name="pay" type="number"></td>
 					</tr>
 					<tr>
 						<td>วัน-เวลาที่โอน: <red>*</red></td>
@@ -237,6 +235,7 @@ function off() {
 <div th:replace="navtab :: tabbuyer"></div>
 
 <!-- Loop order -->
+	<!-- <red>หมายเหตุ*: คำสั่งซื้อจะถูกยกเลิก หากไม่โอนเงินภายใน 2 วัน</red> -->
 	<div class="whitebg">
 		<table style="width: 100%;" th:each="tran: ${transgroup}">
 			<tr>
@@ -246,13 +245,18 @@ function off() {
 						<img class="imgproduct" th:if="${tran.getImage() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${tran.getImage()}}">
 					</div>
 				</td>
-				<td style="width: 60%;">
+				<td style="width: 50%;">
 					<div><p th:text="${'order #'+ tran.getUserorder().getIdOrder()}"></p></div>
 					<a th:attr="onclick=|ondetail('${tran.getUserorder().getIdOrder()}')|" id="slip">รายละเอียด</a><br><br>
 					<div><p th:text="${'สั่งเมื่อ  '+ tran.getUserorder().getCratedOrder()}"></p></div>
 				</td>
 				<td style="width: 20%;">
 					<a th:attr="onclick=|onaddslip('${tran.getUserorder().getIdOrder()}')|" id="slip">เพิ่มรูปสลิป</a>
+				</td>
+				<td style="width: 10%;">
+					<a th:href="@{'/trantonotpay/'+${tran.getUserorder().getIdOrder()}}" id="slip"
+					th:data-confirm-delete="|ต้องการยกเลิก  #${tran.getUserorder().getIdOrder()} ?|"
+					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ยกเลิก</a>
 				</td>
 			</tr>
 			<tr><td colspan="3"><hr style="margin: 2% 10%;"/></td></tr>
