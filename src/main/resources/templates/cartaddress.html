@@ -4,11 +4,20 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/overlay.css}">
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<style type="text/css">
+	h3, table {
+		width: 80%;
+		margin: 10px 10%;
+	}
+	td{
+		padding: 10px 0;
+	}
+</style>
 </head>
-<body>
-<a  th:href="@{'/cartconfirm/' + ${id}}">back</a>
+<body class="overlaypage">
 	<h3>เลือกที่อยู่</h3>
 	<div class="setprofile" th:if="${count==0}">
 		<span style="color:red">ไม่มีที่อยู่ของผู้ขาย กรุณาเพิ่มที่อยู่</span>
@@ -21,7 +30,7 @@
 		    	<td><a th:href="@{'/deleteaddress/'+ ${id} + '/' +${address.getIdAddress()}}">ลบ</a></td>
 		    </tr>
 		    <tr>
-	    		<td colspan="3" align="right"><input type="submit" value="Submit" name="button"></td>
+	    		<td colspan="3" align="right"><input class="overlayconfirm" type="submit" value="Submit" name="button"></td>
 		    </tr>
 		</table>
 	</form>

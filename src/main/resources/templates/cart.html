@@ -34,27 +34,9 @@
 	$(document).ready(function(){
 		$('#tst').text($('#num').text());
 	})
-	
-	function oncartconfirm() {
-	  document.getElementById("overlaycartconfirm").style.visibility = "visible";
-	}
-	function off() {
-		  document.getElementById("overlaycartconfirm").style.visibility = "hidden";
-	}
 </script>
 </head>
 <body>
-<!-- Overlay -->
-<div class="center" id="overlaycartconfirm">
-	<div class="checked">
-		<div class="overlayheader center">ยืนยันซื้อสินค้า</div>
-		<iframe th:src="@{'/cartconfirm/' + ${id}}"></iframe>
-		<close onclick="off()">X</close>
-	</div>
-	<div class="overlaybg" onclick="off()"></div>
-</div>
-
-
 <!-- Main Page -->
 <div th:replace="navtab :: navheadbuyer"></div>
 
@@ -105,7 +87,7 @@
 		</tr>
 		<tr>
 			<td colspan="4"></td>
-			<td><a onclick="oncartconfirm()" class="btnsubmit">ซื้อสินค้า</a></td>
+			<td><a th:href="@{'/cartconfirm/' + ${id}}" class="btnsubmit">ต่อไป ></a></td>
 		</tr>
 		<tr>
 			<td colspan="2"><red style="font-size: 12px; font-style: italic;">หมายเหตุ : ไม่สามารถเพื่มจำนวนได้ หากท่านใส่ตะกร้าครบจำนวนคลังแล้ว</red></td>

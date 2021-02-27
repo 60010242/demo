@@ -4,43 +4,90 @@
 <head>
 <meta charset="UTF-8">
 <title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/overlay.css}">
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link rel="stylesheet" th:href="@{/CSS/buysellproduct.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+	
+	function chooseaddress(){
+		$.ajax({url: "/cartaddress/"+document.getElementById("idcat").value, success: function(result){
+		      $("#choosedatapage").html(result);
+		}});
+		document.getElementById("overlaycartconfirm").style.visibility = "visible";
+	}
+	
+	function choosedelivery(){
+		$.ajax({url: "/cartdelivery/"+document.getElementById("idcat").value, success: function(result){
+		      $("#choosedatapage").html(result);
+		}});
+		document.getElementById("overlaycartconfirm").style.visibility = "visible";
+	}
+	function off() {
+		document.getElementById("overlaycartconfirm").style.visibility = "hidden";
+	}
+</script>
+
+
 </head>
-<body class="overlaypage">
-<a th:href="@{'/cart/' + ${id}}">back</a>
-	<div style="margin: 2%;">
-		<a th:href="@{'/cartaddress/' + ${id}}">เลือกที่อยู่</a> <span th:if="${userorder.getUserAddress()!=null}" th:text="${userorder.getUserAddress()}"></span> <br/>
-		<a th:href="@{'/cartdelivery/' + ${id}}">เลือกขนส่ง</a> <span th:if="${userorder.getNameDelivery()!=null}" th:text="${userorder.getNameDelivery()}"></span>
+<body class="center">
+<!-- Overlay -->
+<div class="center" id="overlaycartconfirm">
+	<div class="checked">
+		<div class="overlayheader center">ยืนยันซื้อสินค้า</div>
+		<div id="choosedatapage"></div>
+		<close onclick="off()">X</close>
+	</div>
+	<div class="overlaybg" onclick="off()"></div>
+</div>
+
+
+<!-- Main Page -->
+<div th:replace="navtab :: navheadbuyer"></div>
+
+<div class="tabsecond">
+	<a th:href="@{'/cart/' + ${id}}" class="back"><</a>
+	ยืนยันซื้อสินค้า
+</div>
+
+	<div class="usercartchoose whitebg" style="width: 80%; margin: 0 10%;">
+	<div style="width: 50%; margin: 0 25% 50px 25%;">
+		<div><a onclick="chooseaddress()">เลือกที่อยู่</a> <span th:if="${userorder.getUserAddress()!=null}" th:text="${userorder.getUserAddress()}"></span></div>
+		<div><a onclick="choosedelivery()">เลือกขนส่ง</a> <span th:if="${userorder.getNameDelivery()!=null}" th:text="${userorder.getNameDelivery()}"></span></div>
 	</div>
 	
-	<table style="border: 1px black solid; width: 50%;">
+	<table class="cartconfirmtable">
  		<tr>
     		<th style="width: 60%;">รายการ</th>
     		<th style="width: 20%;">จำนวน</th>
     		<th style="width: 20%;">ราคา</th>
+  		</tr>
+  		<tr>
+  			<td colspan="3"><hr style="background: gray;"/></td>
   		</tr>
   		<tr th:each="order: ${orders}">
     		<td>
     			<span th:text="${order.getProductdetail().getNameProduct()}"></span>
 				<span th:text="${' '+order.getSize().toUpperCase()}" th:if="${order.getSize()!=null}"></span>
     		</td>
-    		<td th:text="${order.getNumber()}"></td>
-    		<td th:text="${order.getRealPrice()}"></td>
+    		<td align="center" th:text="${order.getNumber()}"></td>
+    		<td align="center" th:text="${order.getRealPrice()*order.getNumber()}"></td>
   		</tr>
   		<tr th:if="${userorder.getNameDelivery()!=null && sendcost!=0}">
     		<td colspan="2">ค่าส่ง</td>
-    		<td th:text="${sendcost}"></td>
+    		<td align="center" th:text="${sendcost}"></td>
   		</tr>
   		<tr>
   			<td colspan="3"><hr style="background: gray;"/></td>
   		</tr>
   		<tr>
     		<td colspan="2" align="right">รวม</td>
-    		<td th:text="${userorder.getTotalOrder()}">ราคารวม</td>
+    		<td align="center" th:text="${userorder.getTotalOrder()}">ราคารวม</td>
   		</tr>
 	</table>
-	<a th:href="@{'/confirmorder/' + ${id}}">ยืนยัน</a>
-	
+	<input id="idcat" type="hidden" th:value="${id}">
+	<a th:href="@{'/confirmorder/' + ${id}}" class="btnsubmit">ยืนยัน</a>
+	</div>
 </body>
 </html>

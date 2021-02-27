@@ -171,3 +171,25 @@ product table td:last-of-type{
 	border: none;
 	background-color: transparent;
 }
+
+.usercartchoose div a{
+	color: blue;
+	font-style: italic;
+	cursor: pointer;
+}
+
+.usercartchoose div div{
+	margin: 20px 0;
+}
+
+.cartconfirmtable{
+	border: 1px black solid;
+	width: 50%;
+	margin: 0 25%;
+	padding: 20px;
+	background-color: white;
+}
+.cartconfirmtable hr{
+	margin: 20px 5%;
+	width: 90%;
+}
