@@ -12,10 +12,10 @@
 	
 		<div th:if="${count<3}">
 		<form action="#" th:action="@{/saveaddress}" method="post">
-			<textarea name="newaddress" placeholder="ที่อยู่" required></textarea>
+			<textarea  rows="3" cols="50" name="newaddress" placeholder="ที่อยู่" required></textarea>
 			<input class="btnsubmit"
 				type="submit"
-				value="Submit"
+				value="เพิ่มที่อยู่"
 				name="button"
 				style="margin-right: 0;">
 		</form>
