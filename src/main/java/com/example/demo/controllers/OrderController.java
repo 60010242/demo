@@ -393,11 +393,13 @@ public class OrderController {
 		return "redirect:/tracking";
 	}
 	
-	@GetMapping("/trantocontact/{idorder}")
-	public String trantocontact(@PathVariable("idorder") Integer idorder) {
+	@PostMapping("/trantocontact/{idorder}")
+	public String trantocontact(@PathVariable("idorder") Integer idorder
+			,@RequestParam("detailcancel") String detailcancel) {
 		userorder order = new userorder(); 
 		order = userorderRepo.findById(idorder).get();
 		order.setStatus("contact");
+		order.setDetailcancel(detailcancel);
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
 		return "redirect:/cancel/cancel";
@@ -683,6 +685,9 @@ public class OrderController {
 		user.setTotal(userorder.getTotalOrder());
 		user.setAddress(userorder.getUserAddress());
 		user.setTrack(userorder.getTrack());
+		if(userorder.getDetailcancel()!=null) {
+			user.setDetailcancel(userorder.getDetailcancel());
+		}
 		
 		List<orderdetail> orders = new ArrayList<orderdetail>();
 		orders = orderdetailRepo.getByIdorder(id);
