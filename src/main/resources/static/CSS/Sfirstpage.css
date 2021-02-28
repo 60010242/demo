@@ -23,7 +23,9 @@ body{
 	align-items: center;
 	justify-content: center;
 }
-
+.flow-column{
+	flex-flow: column;
+}
 .white{
 	background-color: white;
 }

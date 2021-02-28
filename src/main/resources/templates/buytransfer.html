@@ -109,7 +109,7 @@ function off() {
 </script>
 </head>
 
-<body class="center">
+<body class="center flow-column">
 <!-- overlay -->
 <div class="center" id="overlaydetail">
 		<div class="checked">
@@ -236,7 +236,7 @@ function off() {
 <div th:replace="navtab :: tabbuyer"></div>
 
 <!-- Loop order -->
-	<red>หมายเหตุ*: คำสั่งซื้อจะถูกยกเลิก หากไม่โอนเงินภายใน 2 วัน คำสั่งซื้อที่ถูกยกเลิกสามารถกดซื้ออีกครั้งได้ในหน้า ติดตามคำสั่งซื้อ > ถูกยกเลิก</red>
+	<red class="topnote">หมายเหตุ*: คำสั่งซื้อจะถูกยกเลิก หากไม่โอนเงินภายใน 2 วัน คำสั่งซื้อที่ถูกยกเลิกสามารถกดซื้ออีกครั้งได้ในหน้า ติดตามคำสั่งซื้อ > ถูกยกเลิก</red>
 	<div class="whitebg">
 		<table style="width: 100%;" th:each="tran: ${transgroup}">
 			<tr>
