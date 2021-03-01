@@ -198,9 +198,18 @@ public class ProductController {
 	}
 	
 	@GetMapping("/deletecategory/{idcategory}")
-	public String deleteaccount(@PathVariable("idcategory") int idcategory) {
+	public String deletecategory(@PathVariable("idcategory") int idcategory) {
 		categoryRepo.deleteByIdCategory(idcategory);
 		return "redirect:/firstpage";
+	}
+	
+	@GetMapping("/deletephotocat/{idcategory}")
+	public String deletephotocat(@PathVariable("idcategory") String idcategory) {
+		category cat = new category();
+		cat = categoryRepo.findById(idcategory).get();
+		cat.setPhotoCat(null);
+		categoryRepo.save(cat);
+		return "redirect:/editproduct/"+idcategory;
 	}
 	
 }

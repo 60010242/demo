@@ -168,9 +168,9 @@ $(document).ready(function(){
 				
 				<div class="img-cat-container center">
 					<img style="width: 100%;" alt="can't download"
-					th:src="@{'data:image/jpeg;base64,'+${cat.getPhotoCat()}}"><br>
+					th:src="@{'data:image/jpeg;base64,'+${cat.getPhotoCat()}}" th:if="${cat.getPhotoCat()!=null}"><br>
 					<input type="file" accept="image/*" name="imageFile">
-					<a class="removeimgcat" href="#deletecatimg"><img th:src="@{/Icon/removeminus.png}"></a>
+					<a th:href="@{'/deletephotocat/'+${cat.getIdCategory()}}" class="removeimgcat" th:if="${cat.getPhotoCat()!=null}"><img th:src="@{/Icon/removeminus.png}"></a>
 				</div>
 				</div>
 				
