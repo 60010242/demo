@@ -1,9 +1,10 @@
 $(document).ready(function(){
-	var count = document.getElementById("overdetail").childElementCount;
-	if (count == 0){
-		document.getElementById("overdetail").style.height="60vh";
+	if(document.getElementById("overdetail") != null){
+		var count = document.getElementById("overdetail").childElementCount;
+		if (count <2) document.getElementById("overdetail").style.height="60vh";
+		console.log(count);
 	}
-	console.log(count);
+	
 })
 
 

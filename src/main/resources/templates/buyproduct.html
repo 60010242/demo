@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" th:src="@{/JS/notification.js}"></script>
 <script>
 $(document).ready(function(){
 	var idcat = document.getElementById("idcat").innerText;
@@ -114,7 +115,19 @@ function setstock(idproduct){
 	</div>
 
 
+<div id="notification" class="notification">
+	<div class="headnotification"><h3 style="margin: 0;">การแจ้งเตือน</h3></div>
+	<bodynotification>
+		<div>
+			<a href="#"><div>รายละเอียดข้อมูลบลาๆๆ</div></a>
+			<div style="width: 50px;"><a style="color: var(--blue); font-size: 14px;" href="#read">อ่านแล้ว</a></div>
+			<hr/>
+		</div>
+	</bodynotification>
+</div>
+
 <!-- Main Page -->
+<div class="bellnoti"><img class="bellimg" th:src="@{/Icon/bell.png}" onclick="showNoti()"></div>
 <div th:replace="navtab :: navheadbuyer"></div>
 <div th:replace="navtab :: tabbuyer"></div>
 

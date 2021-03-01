@@ -8,35 +8,9 @@
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link rel="stylesheet" th:href="@{/CSS/overlay.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
-<style>
-	.outoforder{
-	text-align: center;
-	font-size: 40px;
-	font-weight: bold;
-	font-style: italic;
-	line-height: 80vh;
-	text-shadow: 2px 2px 2px gray;
-	color: var(--grey);
-}
-</style>
 </head>
-
-<body class="center">
-
-<div id="notification" class="notification">
-	<div class="headnotification"><h3 style="margin: 0;">การแจ้งเตือน</h3></div>
-	<bodynotification>
-		<div>
-			<a href="#"><div>รายละเอียดข้อมูลบลาๆๆ</div></a>
-			<div style="width: 50px;"><a style="color: var(--blue); font-size: 14px;" href="#read">อ่านแล้ว</a></div>
-			<hr/>
-		</div>
-	</bodynotification>
-</div>
-
-<!-- Main Page -->
-<div class="bellnoti"><img class="bellimg" th:src="@{/Icon/bell.png}" onclick="showNoti()"></div>
-	<p hidden="true" th:text="${session.user.getType()}"></p>
+<body>
+<p hidden="true" th:text="${session.user.getType()}"></p>
 	<div th:if="${session.user.getType() == 'Customer'}">
 		<ul th:replace="navtab :: navheadbuyer"></ul>
 	</div>
@@ -50,6 +24,11 @@
 		<table>
 				<tr>
 					<td style="text-align: center;" colspan="4" th:text="${'รายการคำสั่งซื้อ order #'+userorder.getIdOrder()}"> </td>
+				</tr>
+				<!-- แก้สถานะของรายการด้วย -->
+				<tr>
+					<td>สถานะรายการ</td>
+					<td colspan="3">สถานะรายการ</td>
 				</tr>
 				<tr>
 					<td>ชื่อผู้ซื้อ</td>
@@ -98,30 +77,5 @@
 				</tr>
 			</table>
 	</div>
-	
-	<div th:if="${type.equalsIgnoreCase('namebuyer')}" class="whitebg">
-		<a href="/firstpage" class="back"><</a>
-		<p class="outoforder" th:text="${text}" th:if="${search == false}"></p>
-			<table style="width: 100%;" th:each="user: ${users}">
-			<tr>
-				<td style="width: 20%;">
-					<div class="imgproduct">
-						<img class="imgproduct" style="width: 100px; border-radius: 40px;" th:if="${user.getPhotoUser() == null}" alt="can't download" th:src="@{'/Icon/no-image.png'}">
-						<img class="imgproduct" style="width: 100px; border-radius: 40px;" th:if="${user.getPhotoUser() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${user.getPhotoUser()}}">
-					</div>
-				</td>
-				<td style="width: 60%;">
-				<div><p th:text="${'User #'+user.getIdUser()}"></p></div>
-					<div><p th:text="${user.getName()}"></p></div>
-					<div><p th:text="${user.getEmail()+' , '+user.getTel()}"></p></div>
-				</td>
-				<td style="width: 20%;">
-					<a th:href="@{'/showordersearch/' + ${user.getIdUser()}}"  target="_blank">></a>
-				</td>
-			</tr>
-			<tr><td colspan="3"><hr style="margin: 2% 10%;"/></td></tr>
-		</table>
-		</div>
-	
 </body>
 </html>
