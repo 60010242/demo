@@ -529,22 +529,32 @@ public class OrderController {
 
 	@GetMapping("/trantonotpay/{idorder}")
 	public String trantonotpay(@PathVariable("idorder") Integer idorder) {
-		userorder order = new userorder(); 
-		order = userorderRepo.findById(idorder).get();
-		order.setStatus("notpay");
-		order.setPayTime(LocalDateTime.now());
-		order.setCratedOrder(LocalDateTime.now());
-		userorderRepo.save(order);
-		return "redirect:/buytransfer";
-	}
-	
-	@GetMapping("/trantopaying/{idorder}")
-	public String trantopaying(@PathVariable("idorder") Integer idorder) {
-		userorder order = new userorder(); 
-		order = userorderRepo.findById(idorder).get();
-		order.setStatus("paying");
-		order.setCratedOrder(LocalDateTime.now());
-		userorderRepo.save(order);
+		userorder uorder = new userorder(); 
+		uorder = userorderRepo.findById(idorder).get();
+		uorder.setStatus("notpay");
+		uorder.setPayTime(LocalDateTime.now());
+		uorder.setCratedOrder(LocalDateTime.now());
+		userorderRepo.save(uorder);
+		List<orderdetail> orders = new ArrayList<orderdetail>();
+		orders = orderdetailRepo.getByIdorder(idorder); 
+		for(orderdetail order : orders) {
+			productdetail product = new productdetail();
+			product = productRepo.findById(order.getProductdetail().getIdProduct()).get();
+			if(order.getSize()!=null) {
+				if(order.getSize().equalsIgnoreCase("s")) {
+					product.setS(product.getS()+order.getNumber());
+				}else if(order.getSize().equalsIgnoreCase("m")) {
+					product.setM(product.getM()+order.getNumber());
+				}else if(order.getSize().equalsIgnoreCase("l")) {
+					product.setL(product.getL()+order.getNumber());
+				}else if(order.getSize().equalsIgnoreCase("xl")) {
+					product.setXl(product.getXl()+order.getNumber());
+				}
+			}else {
+				product.setNumberStock((product.getNumberStock()+order.getNumber()));
+			}
+			productRepo.save(product);
+		}
 		return "redirect:/buytransfer";
 	}
 	

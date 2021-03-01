@@ -103,7 +103,8 @@ $(document).ready(function(){
   		</tr>
 	</table>
 	<input id="idcat" type="hidden" th:value="${id}">
-	<a th:href="@{'/confirmorder/' + ${id}}" class="btnsubmit">ยืนยัน</a>
+	<div style="text-align: right;"><red style="font-size: 12px; font-style: italic;" th:if="${userorder.getUserAddress()==null||userorder.getNameDelivery()==null}">กรุณาเพิ่มที่อยู่ และ ขนส่ง</red></div>
+	<a th:href="@{'/confirmorder/' + ${id}}" class="btnsubmit" th:if="${userorder.getUserAddress()!=null&&userorder.getNameDelivery()!=null}">ยืนยัน</a>
 	</div>
 </body>
 </html>

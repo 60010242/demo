@@ -247,18 +247,171 @@ public class BuyproductController {
 		return "redirect:/buyproduct/"+ idcategory +"/"+ Sorderid.getOrderid();
 	}
 	
+	@GetMapping("/trantopaying/{idorder}")
+	public String trantopaying(@PathVariable("idorder") Integer oldidorder
+			,@ModelAttribute("orderid") OrderId Sorderid
+			,@SessionAttribute("user") userprofile user) {
+		boolean save = false;
+		List<orderdetail> oldorders = new ArrayList<orderdetail>();
+		oldorders = orderdetailRepo.getByIdorder(oldidorder);
+		if(Sorderid.getOrderid().equalsIgnoreCase("noid")) {
+			userorder userorder = new userorder();
+			userorder.setIdUser(user.getIdUser());
+			userorder = userorderRepo.save(userorder);
+			for(orderdetail oldorder : oldorders) {
+				orderdetail order = new orderdetail();
+				order.setIdOrder(userorder.getIdOrder());
+				order.setNoOrder(oldorder.getNoOrder());
+				order.setNumber(oldorder.getNumber());
+				order.setIdProduct(oldorder.getIdProduct());
+				order.setRealPrice(oldorder.getRealPrice());
+				if(oldorder.getSize()!=null) {
+					order.setSize(oldorder.getSize());
+				}
+				orderdetailRepo.save(order);
+			}
+			Sorderid.setOrderid(Integer.toString(userorder.getIdOrder()));
+		}else {
+			List<orderdetail> orderlist = new ArrayList<orderdetail>();
+			orderlist = orderdetailRepo.getByIdorder(Integer.parseInt(Sorderid.getOrderid()));
+			for(orderdetail orderdetail : orderlist) {								//กดเพิ่มซ้ำรายการเดิม
+				for(orderdetail oldorder : oldorders) {
+					productdetail product = new productdetail();
+					product = productRepo.getByIdproduct(oldorder.getProductdetail().getIdProduct());
+					if(oldorder.getIdProduct() == orderdetail.getIdProduct()) {
+						if(oldorder.getSize()!=null) {
+							if(oldorder.getSize().equalsIgnoreCase(orderdetail.getSize())) {
+								orderdetail order = new orderdetail();
+								orderdetailid orderid = new orderdetailid();
+								orderid.setIdOrder(orderdetail.getIdOrder());
+								orderid.setNoOrder(orderdetail.getNoOrder());
+								order = orderdetailRepo.findById(orderid).get();
+								int number = order.getNumber()+oldorder.getNumber();
+								if(oldorder.getSize().equalsIgnoreCase("s")) {
+									if(number > product.getS()) {
+										number = product.getS();
+									}
+								}else if(oldorder.getSize().equalsIgnoreCase("m")) {
+									if(number > product.getM()) {
+										number = product.getM();
+									}
+								}else if(oldorder.getSize().equalsIgnoreCase("l")) {
+									if(number > product.getL()) {
+										number = product.getL();
+									}
+								}else if(oldorder.getSize().equalsIgnoreCase("xl")) {
+									if(number > product.getXl()) {
+										number = product.getXl();
+									}
+								}
+								order.setNumber(number);
+								orderdetailRepo.save(order);
+								save = true;
+								System.out.println("2");
+							}
+						}else {
+							orderdetail order = new orderdetail();
+							orderdetailid orderid = new orderdetailid();
+							orderid.setIdOrder(orderdetail.getIdOrder());
+							orderid.setNoOrder(orderdetail.getNoOrder());
+							order = orderdetailRepo.findById(orderid).get();
+							int number = order.getNumber()+oldorder.getNumber();
+							if(number > product.getNumberStock()) {
+								number = product.getNumberStock();
+							}
+							order.setNumber(number);
+							orderdetailRepo.save(order);
+							save = true;
+							System.out.println("2");
+						}
+					}
+				}
+			}
+			if(!save) {												//ออเดอร์ใหม่แต่มีidorderแล้ว
+				for(orderdetail oldorder : oldorders) {
+					int maxNo = 0; 
+					if(orderdetailRepo.countNoOrderbyId(Integer.parseInt(Sorderid.getOrderid()))>0) {
+						maxNo = orderdetailRepo.findMaxNoOrder(Integer.parseInt(Sorderid.getOrderid())); 
+					}
+					orderdetail order = new orderdetail();
+					order.setIdOrder(Integer.parseInt(Sorderid.getOrderid()));
+					order.setNoOrder(maxNo+1);
+					order.setNumber(oldorder.getNumber());
+					order.setIdProduct(oldorder.getIdProduct());
+					order.setRealPrice(oldorder.getRealPrice());
+					if(oldorder.getSize()!=null) {
+						order.setSize(oldorder.getSize());
+					}
+					orderdetailRepo.save(order);
+					System.out.println("3");
+				}
+				
+			}
+		}
+		return "redirect:/cart/"+Sorderid.getOrderid();
+	}
+	
 	@GetMapping("/cart/{idorder}")
 	public String cart(@PathVariable("idorder") String idorder
 			,@ModelAttribute("orderid") OrderId Sorderid
 			,Model model) {
+		boolean next = true;
+		int number = 1;
 		List<orderdetail> orders = new ArrayList<orderdetail>();
 		int totalOrder = 0;
 		if(!(Sorderid.getOrderid().equalsIgnoreCase("noid"))) {
 			orders = orderdetailRepo.getByIdorder(Integer.parseInt(Sorderid.getOrderid()));
 			for(orderdetail order : orders) {
 				totalOrder = totalOrder + (order.getRealPrice()*order.getNumber());
+				productdetail product = new productdetail();
+				product = productdetailRepo.findById(order.getProductdetail().getIdProduct()).get();
+				if(order.getSize()!=null) {
+					orderdetail orderdetail = new orderdetail();
+					orderdetailid orderid = new orderdetailid();
+					orderid.setIdOrder(order.getIdOrder());
+					orderid.setNoOrder(order.getNoOrder());
+					orderdetail = orderdetailRepo.findById(orderid).get();
+					if(order.getNumber()>0) {
+						number = order.getNumber();
+					}
+					if(order.getSize().equalsIgnoreCase("s")) {
+						if(number > product.getS()) {
+							number = product.getS();
+						}
+					}else if(order.getSize().equalsIgnoreCase("m")) {
+						if(number > product.getM()) {
+							number = product.getM();
+						}
+					}else if(order.getSize().equalsIgnoreCase("l")) {
+						if(number > product.getL()) {
+							number = product.getL();
+						}
+					}else if(order.getSize().equalsIgnoreCase("xl")) {
+						if(number > product.getXl()) {
+							number = product.getXl();
+						}
+					}
+					order.setNumber(number);
+					orderdetailRepo.save(order);
+				}else {
+					orderdetail orderdetail = new orderdetail();
+					orderdetailid orderid = new orderdetailid();
+					orderid.setIdOrder(order.getIdOrder());
+					orderid.setNoOrder(order.getNoOrder());
+					orderdetail = orderdetailRepo.findById(orderid).get();
+					number = order.getNumber();
+					if(number > product.getNumberStock()) {
+						number = product.getNumberStock();
+					}
+					order.setNumber(number);
+					orderdetailRepo.save(order);
+				}
+				if(number==0) {
+					next = false;
+				}
 			}
 		}
+		model.addAttribute("next", next);
 		model.addAttribute("total", totalOrder);
 		model.addAttribute("orders", orders);
 		model.addAttribute("id", Sorderid.getOrderid());
@@ -327,6 +480,7 @@ public class BuyproductController {
 	
 	@GetMapping("/cartconfirm/{idorder}")
 	public String cartconfirm(@PathVariable("idorder") String idorder
+			,@ModelAttribute("orderid") OrderId Sorderid
 			,Model model) {
 		userorder userorder = new userorder();
 		userorder = userorderRepo.findById(Integer.parseInt(idorder)).get();
@@ -335,9 +489,38 @@ public class BuyproductController {
 		int totalOrder = 0;
 		int totalWeight = 0;
 		int sendcost = 0;
+		boolean next = true;
 		for(orderdetail order : orders) {
 			totalOrder = totalOrder + (order.getRealPrice()*order.getNumber());
 			totalWeight = totalWeight + (order.getProductdetail().getWeight()*order.getNumber());
+			productdetail product = new productdetail();
+			product = productdetailRepo.findById(order.getProductdetail().getIdProduct()).get();
+			if(order.getSize()!=null) {
+				if(order.getSize().equalsIgnoreCase("s")) {
+					if(product.getS()==0) {
+						next = false;
+					}
+				}else if(order.getSize().equalsIgnoreCase("m")) {
+					if(product.getM()==0) {
+						next = false;
+					}
+				}else if(order.getSize().equalsIgnoreCase("l")) {
+					if(product.getL()==0) {
+						next = false;
+					}
+				}else if(order.getSize().equalsIgnoreCase("xl")) {
+					if(product.getXl()==0) {
+						next = false;
+					}
+				}
+			}else {
+				if(product.getNumberStock()==0) {
+					next = false;
+				}
+			}
+			if(next==false) {
+				return "redirect:/cart/"+idorder; 
+			}
 		}
 		if(userorder.getNameDelivery()==null) {
 			userorder.setTotalOrder(totalOrder);
