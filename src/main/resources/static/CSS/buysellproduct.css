@@ -61,6 +61,21 @@ product table td:last-of-type{
 	right: 2%;
 	filter: invert(18%) sepia(92%) saturate(7486%) hue-rotate(359deg) brightness(106%) contrast(109%);
 }
+.removeproduct img, .removeimgcat img{
+	width: 30px;
+	height: 30px;
+}
+.img-cat-container{
+	position: relative;
+	width: 80%;
+	margin: 0 10%;
+}
+.removeimgcat{
+	position: absolute;
+	top: 0;
+	right: 0;
+	filter: invert(18%) sepia(92%) saturate(7486%) hue-rotate(359deg) brightness(106%) contrast(109%);
+}
 .addcart{
 	font-size: 12px;
 	height: 20px;
@@ -160,7 +175,6 @@ product table td:last-of-type{
 	height: 100pt;
 	border-radius: 100pt;
 }
-
 .addtocart{
 	color: var(--blue);
 	font-family: 'Bai Jamjuree', sans-serif;
