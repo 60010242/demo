@@ -10,7 +10,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function(){
+	var urlredirect = document.getElementById("urlredirect").innerText;
+	var overlayshow = document.getElementById("overlayshow").innerText;
+	if(urlredirect != "" && overlayshow !=""){
+		$.ajax({url: urlredirect, success: function(result){
+	      $("#choosedatapage").html(result);
+	      	document.getElementById("overlaycartconfirm").style.visibility = overlayshow;
+		}});
+	}
 	
+	console.log(overlayshow.innerText);
+	
+
+})
+
 	function chooseaddress(){
 		$.ajax({url: "/cartaddress/"+document.getElementById("idcat").value, success: function(result){
 		      $("#choosedatapage").html(result);
@@ -52,6 +66,8 @@
 </div>
 
 	<div class="usercartchoose whitebg" style="width: 80%; margin: 0 10%;">
+	<p id="overlayshow" th:text="${overlayshow}" hidden></input>
+	<p id="urlredirect" th:text="${urlredirect}" hidden></input>
 	<div style="width: 50%; margin: 0 25% 50px 25%;">
 		<div><a onclick="chooseaddress()">เลือกที่อยู่</a> <span th:if="${userorder.getUserAddress()!=null}" th:text="${userorder.getUserAddress()}"></span></div>
 		<div><a onclick="choosedelivery()">เลือกขนส่ง</a> <span th:if="${userorder.getNameDelivery()!=null}" th:text="${userorder.getNameDelivery()}"></span></div>

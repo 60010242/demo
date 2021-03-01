@@ -8,9 +8,14 @@
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <style type="text/css">
-	h3, table {
+	h3, table ,.addaddress{
 		width: 80%;
 		margin: 10px 10%;
+	}
+	.addaddress textarea{
+		resize: none;
+		width: 100%;
+		background-color: var(--lightgrey);
 	}
 	td{
 		padding: 10px 0;
@@ -23,7 +28,7 @@
 		<span style="color:red">ไม่มีที่อยู่ของผู้ขาย กรุณาเพิ่มที่อยู่</span>
 	</div>
 	<form action="#" th:action="@{'/savecartaddress/' + ${id}}" method="post" th:if="${count>0}">
-		<table style="width: 50%;">
+		<table>
 	  		<tr th:each="address : ${addresses}">
 	    		<td style="width: 13px;"><input type="radio" th:id="${address.getIdAddress()}" name="address" th:value="${address.getAddress()}" required></td>
 	    		<td align="left"><label th:for="${address.getIdAddress()}" th:text="${address.getAddress()}"></label></td>
@@ -34,7 +39,7 @@
 		    </tr>
 		</table>
 	</form>
-	<div th:if="${count<3}">
+	<div class="addaddress" th:if="${count<3}">
 		<p>เพิ่มที่อยู่ใหม่</p>
 		<form action="#" th:action="@{'/saveaddress2/' + ${id}}" method="post">
 			<textarea  rows="3" cols="50" name="newaddress" placeholder="ที่อยู่" required></textarea>

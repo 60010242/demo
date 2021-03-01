@@ -111,3 +111,7 @@ useraddress tr td{
 	font-size: 14px;
 	padding: 10px 0;
 }
+#choosedatapage{
+	height: 100%;
+	overflow-y: scroll;
+}

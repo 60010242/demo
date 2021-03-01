@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.CreateFile;
 import com.example.demo.Sellinfo;
@@ -176,21 +179,30 @@ public class UserController {					// about user and user tables
 	}
 	
 	@PostMapping("/saveaddress2/{idorder}")
-	public String saveaddress(@RequestParam(name = "newaddress") String newaddress
+	public ModelAndView saveaddress(@RequestParam(name = "newaddress") String newaddress
 			,@PathVariable("idorder") String idorder
-			,@SessionAttribute("user") userprofile user) {
+			,@SessionAttribute("user") userprofile user
+			,RedirectAttributes model) {
 		useraddress address = new useraddress();
 		address.setAddress(newaddress);
 		address.setIdUser(user.getIdUser());
 		useraddressRepo.save(address);
-		return "redirect:/cartaddress/"+idorder;
+
+		String str = "/cartaddress/"+idorder;
+		model.addFlashAttribute("urlredirect", str);
+		model.addFlashAttribute("overlayshow", "visible");
+		return new ModelAndView("redirect:/cartconfirm/"+idorder);
 	}
 	
 	@GetMapping("/deleteaddress/{idorder}/{idaddress}")
-	public String deleteaddress(@PathVariable("idaddress") Integer idaddress
-			,@PathVariable("idorder") String idorder) {
+	public ModelAndView deleteaddress(@PathVariable("idaddress") Integer idaddress
+			,@PathVariable("idorder") String idorder, RedirectAttributes model) {
 		useraddressRepo.deleteByIdAddress(idaddress);
-		return "redirect:/cartaddress/"+idorder;
+		
+		String str = "/cartaddress/"+idorder;
+		model.addFlashAttribute("urlredirect", str);
+		model.addFlashAttribute("overlayshow", "visible");
+		return new ModelAndView("redirect:/cartconfirm/"+idorder);
 	}
 	
 	@PostMapping("/search")

@@ -98,6 +98,7 @@
 }
 #overlaydetail .checked{
 	font-size: 14px;
+	display: block;
 }
 #overlaydetail .checked hr{
 	margin: 12px 5%;

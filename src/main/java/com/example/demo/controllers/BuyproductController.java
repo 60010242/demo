@@ -360,6 +360,7 @@ public class BuyproductController {
 		model.addAttribute("id", idorder);
 		model.addAttribute("userorder", userorder);
 		model.addAttribute("orders", orders);
+
 		return "cartconfirm";
 	}
 	
@@ -383,6 +384,7 @@ public class BuyproductController {
 		userorder = userorderRepo.findById(Integer.parseInt(idorder)).get();
 		userorder.setUserAddress(address);
 		userorderRepo.save(userorder);
+		
 		return "redirect:/cartconfirm/"+idorder;
 	}
 	
