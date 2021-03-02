@@ -9,16 +9,40 @@
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body class="overlaypage">
-	
-	<form class="smtpform center">
+	<form th:if="${smtpcount != 0}" th:action="@{/savesmtp}" th:object="${smtp}" enctype="multipart/form-data" class="smtpform center">
 		<looktutorial onclick="onsmtp()">< ดู Tutorial</looktutorial>
 		<table>
 			<tr><td>G-mail</td></tr>
-			<tr><td><input type="email" required></td></tr>
+			<tr><td>
+				<input type="email" th:value="${smtp.getGmail()}" name="gmail" required>
+			</td></tr>
+			
 			<tr><td>Password Generate</td></tr>
-			<tr><td><input type="password" required></td></tr>
+			<tr><td>
+				<input type="text" th:value="${smtp.getPasswordgen()}" name="passwordgen" required>
+			</td></tr>
 		</table>
-		<input class="overlayconfirm" type="submit" value="ยืนยัน">
+		<input class="overlayconfirm-half" type="submit" value="ยืนยัน"
+			onclick="if(!confirm('ยืนยันการแก้ไข Gmail สำหรับส่งข้อความอัตโนมัตินี้ ?')) return false">
+		<a href="/deletesmtp" class="overlaydelete-half"
+			onclick="if(!confirm('ต้องการลบ Gmail สำหรับส่งข้อความอัตโนมัตินี้ ?')) return false">ลบ</a>
+	</form>
+	
+	<form th:if="${smtpcount == 0}" th:action="@{/savesmtp}" th:object="${smtp}" enctype="multipart/form-data" class="smtpform center">
+		<looktutorial onclick="onsmtp()">< ดู Tutorial</looktutorial>
+		<table>
+			<tr><td>G-mail</td></tr>
+			<tr><td>
+				<input type="email" name="gmail" required>
+			</td></tr>
+			
+			<tr><td>Password Generate</td></tr>
+			<tr><td>
+				<input type="text" name="passwordgen" required>
+			</td></tr>
+		</table>
+		<input class="overlayconfirm" type="submit" value="ยืนยัน"
+			onclick="if(!confirm('ยืนยันลงทะเบียน Gmail สำหรับส่งข้อความอัตโนมัตินี้ ?')) return false">
 	</form>
 </body>
 </html>

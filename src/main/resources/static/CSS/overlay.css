@@ -74,19 +74,32 @@
 	color: white;
 	box-shadow: 2px 2px 2px gray;
 }
-.overlayconfirm{
+.overlayconfirm, .overlayconfirm-half, .overlaydelete-half{
 	position: absolute;
 	bottom: 0;
-	left: 0;
 	font-size: 16pt;
 	text-align: center;
+	text-decoration: none;
 	padding: 2% 0 2% 0;
-	width: 100%;
-	background-color:  var(--green);
 	border: none;
 	color: white;
 	box-shadow: 2px -2px 2px gray;
 	cursor: pointer;
+}
+.overlayconfirm{
+	width: 100%;
+	left: 0;
+	background-color:  var(--green);
+}
+.overlayconfirm-half{
+	width: 50%;
+	left: 0;
+	background-color:  var(--green);
+}
+.overlaydelete-half{
+	width: 50%;
+	left: 50%;
+	background-color:  red;
 }
 
 /* more detail overlay */
@@ -193,7 +206,7 @@ after {
 	padding-bottom: 10%;
 }
 .smtpform input[type="email"],
-.smtpform input[type="password"]{
+.smtpform input[type="text"]{
 	height: 30px;
 	width: 250px;
 	border-radius: 30px;

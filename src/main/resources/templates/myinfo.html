@@ -101,6 +101,10 @@ function off() {
 	</bodynotification>
 </div>
 
+<div th:if="${message != null}">
+	<p th:text="${message}" style="color:green; position: fixed; bottom: 0;"></p>
+</div>
+
 <!-- Main Page -->
 <div class="bellnoti"><img class="bellimg" th:src="@{/Icon/bell.png}" onclick="showNoti()"></div>
 	<p hidden="true" th:text="${session.user.getType()}"></p>
@@ -113,7 +117,7 @@ function off() {
 	<div th:if="${session.user.getType() == 'Seller'}">
 		<a class="editaccount" onclick="onaccount()">แก้ไขบัญชีผู้ขาย </a>
 		<a class="editdelivery" onclick="ondelivery()">แก้ไขราคาค่าจัดส่ง </a>
-		<a class="smtptutorial" onclick="onsmtp()">ส่งเมลอัตโนมัติ </a>
+		<a class="smtptutorial" onclick="onsmtp()">การส่งเมลอัตโนมัติ </a>
 	</div>
 	<div class="brownbg center">
 	<a href="/firstpage" class="back"><</a>

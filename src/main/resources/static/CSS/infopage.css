@@ -41,19 +41,20 @@
 	position: fixed;
 	right: 20px;
 	color: red;
-	font-size: 18px;
+	font-size: 16px;
 	cursor: pointer;
 	text-decoration: underline;
+	z-index: 2;
 }
 .editaccount{
 	top: 80px;
 }
 .editdelivery{
-	top: 120px;
+	top: 110px;
 }
 .smtptutorial{
 	position: fixed;
-	top: 160px;
+	top: 140px;
 	right: 20px;
 	padding: 5px;
 	border-radius: 4px;
@@ -62,6 +63,7 @@
 	color: white;
 	font-size: 16px;
 	cursor: pointer;
+	z-index: 2;
 }
 .smtptutorial:hover{
 	background-color: blue;
