@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ร้านขายของน้องหมา </title>
+<link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".smtp-tutorial-container div p").text("1. เข้าสู่ระบบบัญชี g-mail ที่ท่านต้องการใช้สำหรับส่งข้อความอัตโนมัติ");
+		$(".smtp-tutorial-container div img").attr('src', "/Img/smtpsetup1-1.png");
+		
+		for(i=0; i<7; i++){
+			$(".choosetutorial").append("<dot class='dot' onclick='tutorialnext("+i+")'/>");
+		}
+		
+		$('.choosetutorial dot:first-child').addClass("active");
+		
+		/*var dot = document.getElementsByClassName("dot");
+		for (i = 0; i < dot.length; i++) {
+			dot[i].addEventListener("click", function() {
+				var current = document.getElementsByClassName("active");
+				current[0].className = current[0].className.replace(" active", "");
+				this.className += " active";
+			})
+		}*/
+	})
+	
+	function tutorialnext(state){
+		var text = ["1. เข้าสู่ระบบบัญชี g-mail ที่ท่านต้องการใช้สำหรับส่งข้อความอัตโนมัติ",
+					"2. ตั้งค่า 2-Step Verification โดยเข้า Manage your Google Account > Security",
+					"3. เลือก 2-Step Verification แล้วทำการเปิดใช้งานและตั้งค่าเบอร์โทรศัพท์ให้เรียบร้อย",
+					"4. จากนั้นจะเข้าสู่หน้าขอ Password App",
+					"5. Select app เลือก Mail",
+					"6. Select device เลือก Windows computer แล้วกด Generate",
+					"7. ก้อปปี้ password ของท่านมาใช้งาน"];
+		var img = ["/Img/smtpsetup1-1.png", "/Img/smtpsetup2-1.png", "/Img/smtpsetup2-2.png",
+					"/Img/smtpsetup3-1.png","/Img/smtpsetup3-2.png", "/Img/smtpsetup3-3.png",
+					"/Img/smtpsetup3-4.png"];
+		var index = 0;
+		var dot = document.getElementsByClassName("dot");
+		var current = document.getElementsByClassName("active");
+		
+		for(i=0 ; i<text.length; i++){
+			if(state == 'before'){
+				if($(".smtp-tutorial-container div p").text() == text[i]){
+					index = i;
+					if(index > 0){ index--; }
+					else{ index = 0; }
+					
+					if(index == 0) {
+						$(".smtp-tutorial-container div img").css('width','auto');
+						$(".smtp-tutorial-container div img").css('height','400px');
+					}
+					else if(index < 3) {
+						$(".smtp-tutorial-container div img").css('width','600px');
+						$(".smtp-tutorial-container div img").css('height','auto');
+					}
+					else{
+						$(".smtp-tutorial-container div img").css('width','400px');
+						$(".smtp-tutorial-container div img").css('height','auto');
+					}
+					
+					$(".smtp-tutorial-container div p").text(text[index]);
+					$(".smtp-tutorial-container div img").attr('src', img[index]);
+					current[0].className = current[0].className.replace(" active", "");
+					dot[index].className += " active";
+					break;
+				}
+			}
+			else if(state == 'after'){
+				if($(".smtp-tutorial-container div p").text() == text[i]){
+					index = i;
+					if(index < text.length-1){ index++;}
+					else{ 
+						$.ajax({url: "/smtpform", success: function(result){
+					      $("#smtptutorialpage").html(result);
+						}}); 
+					}
+
+					if(index == 0) {
+						$(".smtp-tutorial-container div img").css('width','auto');
+						$(".smtp-tutorial-container div img").css('height','400px');
+					}
+					else if(index < 3) {
+						$(".smtp-tutorial-container div img").css('width','600px');
+						$(".smtp-tutorial-container div img").css('height','auto');
+					}
+					else{
+						$(".smtp-tutorial-container div img").css('width','400px');
+						$(".smtp-tutorial-container div img").css('height','auto');
+					}
+					$(".smtp-tutorial-container div p").text(text[index]);
+					$(".smtp-tutorial-container div img").attr('src', img[index]);
+					current[0].className = current[0].className.replace(" active", "");
+					dot[index].className += " active";
+					break;
+				}
+			}
+			else{
+				index = state;
+				current[0].className = current[0].className.replace(" active", "");
+				dot[index].className += " active";
+				if(index == 0) {
+					$(".smtp-tutorial-container div img").css('width','auto');
+					$(".smtp-tutorial-container div img").css('height','400px');
+				}
+				else if(index < 3) {
+					$(".smtp-tutorial-container div img").css('width','600px');
+					$(".smtp-tutorial-container div img").css('height','auto');
+				}
+				else{
+					$(".smtp-tutorial-container div img").css('width','400px');
+					$(".smtp-tutorial-container div img").css('height','auto');
+				}
+				$(".smtp-tutorial-container div p").text(text[index]);
+				$(".smtp-tutorial-container div img").attr('src', img[index]);
+				break;
+			}
+		}
+	}
+		
+</script>
+</head>
+<body class="overlaypage center">
+	<div class="smtp-tutorial-container">
+		<div class="center flow-column">
+			<p style="position: absolute; top: 0;"></p>
+			<img style="height: 400px;">
+		</div>
+		<before onclick="tutorialnext('before')"><</before>
+		<after onclick="tutorialnext('after')">></after>
+		<skip onclick="onsmtpform()">ข้าม Tutorial</skip>
+	</div>
+	<div class="choosetutorial" style="display: flex; justify-content: center;"></div>
+</body>
+</html>

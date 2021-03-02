@@ -12,6 +12,7 @@
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" th:src="@{/JS/notification.js}"></script>
 <script type="text/javascript">
+
 function togglePW() {
 	  var x = document.getElementById("password");
 	  if (x.type === "password") {
@@ -29,10 +30,23 @@ function onaddress() {
 function ondelivery() {
 	  document.getElementById("overlaydelivery").style.visibility = "visible";
 }
+function onsmtp() {
+	$.ajax({url: "/smtp", success: function(result){
+	      $("#smtptutorialpage").html(result);
+	}});
+	document.getElementById("overlaysmtptutorial").style.visibility = "visible";
+}
+function onsmtpform() {
+	$.ajax({url: "/smtpform", success: function(result){
+	      $("#smtptutorialpage").html(result);
+	}});
+	  document.getElementById("overlaysmtptutorial").style.visibility = "visible";
+}
 function off() {
 	  document.getElementById("overlayaccount").style.visibility = "hidden";
 	  document.getElementById("overlayaddress").style.visibility = "hidden";
 	  document.getElementById("overlaydelivery").style.visibility = "hidden";
+	  document.getElementById("overlaysmtptutorial").style.visibility = "hidden";
 }
 </script>
 </head>
@@ -58,7 +72,7 @@ function off() {
 	<div class="overlaybg" onclick="off()"></div>
 </div>
 
-<div class="center" id="overlaydelivery" onclick="off()">
+<div class="center" id="overlaydelivery">
 	<div class="checked">
 		<div class="overlayheader center">เพิ่มราคาบริการขนส่งสินค้า </div>
 		<iframe th:src="@{/editdelivery}" src="adddeliveryprice.html"></iframe>
@@ -67,6 +81,13 @@ function off() {
 	<div class="overlaybg" onclick="off()"></div>
 </div>
 
+<div class="center" id="overlaysmtptutorial">
+	<div class="smtp-overlay-container">
+		<div id="smtptutorialpage"></div>
+		<close onclick="off()">X</close>
+	</div>
+	<div class="overlaybg" onclick="off()"></div>
+</div>
 
 
 <div id="notification" class="notification">
@@ -92,6 +113,7 @@ function off() {
 	<div th:if="${session.user.getType() == 'Seller'}">
 		<a class="editaccount" onclick="onaccount()">แก้ไขบัญชีผู้ขาย </a>
 		<a class="editdelivery" onclick="ondelivery()">แก้ไขราคาค่าจัดส่ง </a>
+		<a class="smtptutorial" onclick="onsmtp()">ส่งเมลอัตโนมัติ </a>
 	</div>
 	<div class="brownbg center">
 	<a href="/firstpage" class="back"><</a>

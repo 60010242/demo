@@ -48,7 +48,14 @@ public class GeneralController {
 
         return editproductpage;
     }
-	
+	@GetMapping("/smtp")
+	public String smtp() {
+		return "smtptutorial";
+	}
+	@GetMapping("/smtpform")
+	public String smtpform() {
+		return "smtpform";
+	}
 	
 	@Autowired
 	private OrderDetailRepository orderdetailRepo;

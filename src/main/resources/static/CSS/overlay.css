@@ -12,7 +12,8 @@
 #overlayaddcat,
 #overlayeditcat,
 #overlayaddslip,
-#overlaysellaccount{
+#overlaysellaccount,
+#overlaysmtptutorial{
   position: fixed;
   visibility: hidden;
   width: 100%;
@@ -129,4 +130,89 @@
 track{
 	font-style: italic;
 	font-weight: bold;	
+}
+
+
+/* smtp */
+dot {
+	display: block;
+	height: 10px;
+	width: 10px;
+	border: 2px solid gray;
+	border-radius: 10px;
+	margin: 5px;
+}
+
+dot.active {
+	background-color: gray;
+}
+
+before, after {
+	position: absolute;
+	top: 50%;
+	cursor: pointer;
+	font-size: 60px;
+	width: 80px;
+	height: 80px;
+	border-radius: 80px;
+	background-color: rgba(0, 0, 0, 0.2);
+	color: white;
+	text-align: center;
+	line-height: 80px;
+}
+
+before:hover, after:hover, dot:hover {
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+before {
+	left: -40px;
+}
+
+after {
+	right: -40px;
+}
+.smtp-overlay-container{
+	position: relative;
+	background-color: white;
+	width: 700px;
+	height: 500px;
+	cursor: default;
+	flex-flow: column;
+	z-index: 9999;
+}
+.smtp-overlay-container close{ color: red;}
+.smtp-tutorial-container{
+	padding: 10px 50px;
+	position: relative;
+}
+.smtp-tutorial-container div, .smtpform{
+	height: 450px;
+}
+.smtpform table tr:nth-child(2) td{
+	padding-bottom: 10%;
+}
+.smtpform input[type="email"],
+.smtpform input[type="password"]{
+	height: 30px;
+	width: 250px;
+	border-radius: 30px;
+	border: 1px solid gray;
+}
+
+skip, looktutorial {
+	position: absolute;
+	font-size: 20px;
+	color: blue;
+	text-decoration: underline;
+	font-style: italic;
+	cursor: pointer;
+}
+skip{
+	bottom: -20px;
+	right: 20px;
+}
+looktutorial{
+	top: 20px;
+	left: 20px;
 }

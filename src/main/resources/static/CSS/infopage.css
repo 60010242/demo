@@ -37,23 +37,34 @@
 	cursor: pointer;
 }
 
-.editaccount{
+.editaccount, .editdelivery{
 	position: fixed;
-	top: 80px;
 	right: 20px;
 	color: red;
 	font-size: 18px;
 	cursor: pointer;
 	text-decoration: underline;
 }
+.editaccount{
+	top: 80px;
+}
 .editdelivery{
-	position: fixed;
 	top: 120px;
+}
+.smtptutorial{
+	position: fixed;
+	top: 160px;
 	right: 20px;
-	color: red;
-	font-size: 18px;
+	padding: 5px;
+	border-radius: 4px;
+	background-color: var(--blue);
+	box-shadow: 2px 2px 6px gray;
+	color: white;
+	font-size: 16px;
 	cursor: pointer;
-	text-decoration: underline;
+}
+.smtptutorial:hover{
+	background-color: blue;
 }
 .editaddress{
 	color: blue;
