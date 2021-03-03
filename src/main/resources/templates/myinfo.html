@@ -11,7 +11,29 @@
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" th:src="@{/JS/notification.js}"></script>
+
+<style type="text/css">
+#resultmsg{
+	color: white;
+	position: fixed;
+	top: 10px;
+	left: 0;
+	width: 40%;
+	margin: 0 30%;
+	padding: 20px 0;
+	border-radius: 10px;
+	background-color: rgba(0,0,0,0.2);
+	overflow-wrap: break-word;
+	text-align: center;
+	z-index: 10000;
+ }
+ </style>
 <script type="text/javascript">
+
+$(document).ready(function(){
+	$('#loading').hide();
+	$('#resultmsg').fadeOut(3000);
+})
 
 function togglePW() {
 	  var x = document.getElementById("password");
@@ -21,6 +43,12 @@ function togglePW() {
 	    x.type = "password";
 	  }
 }
+
+function confirmandwait(confirmtxt){
+	if(!confirm(confirmtxt)) return false
+	$('#loading').show();
+}
+
 function onaccount() {
 	  document.getElementById("overlayaccount").style.visibility = "visible";
 }
@@ -54,6 +82,12 @@ function off() {
 <body class="center">
 
 <!-- Overlay -->
+<div id="loading"></div>
+
+<msg th:if="${message != null}">
+	<p id="resultmsg" th:text="${message}"></p>
+</msg>
+	
 <div class="center" id="overlayaddress">
 	<div class="checked">
 		<div class="overlayheader center">แก้ไขอยู่ผู้ใช้ </div>
@@ -101,9 +135,6 @@ function off() {
 	</bodynotification>
 </div>
 
-<div th:if="${message != null}">
-	<p th:text="${message}" style="color:green; position: fixed; bottom: 0;"></p>
-</div>
 
 <!-- Main Page -->
 <div class="bellnoti"><img class="bellimg" th:src="@{/Icon/bell.png}" onclick="showNoti()"></div>

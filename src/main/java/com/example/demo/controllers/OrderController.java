@@ -60,6 +60,7 @@ import com.example.demo.services.CreatePDF;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 @Controller
 public class OrderController {
@@ -870,7 +871,7 @@ public class OrderController {
 	/* ======================================== SMTP ======================================== */
 	
 	
-	public void toSendMail(Integer msg_type, Integer idorder, String target_mail, String origin) {
+	public String toSendMail(Integer msg_type, Integer idorder, String target_mail, String origin) {
 		/* msg_type
 		 * 0 = ผู้ขาย มีรายการคำสั่งซื้อใหม่
 		 * 1 = ผู้ขาย ทำการยกเลิกสินค้า
@@ -885,17 +886,18 @@ public class OrderController {
 		
 		System.out.println(msg_subject +"\n\n"+ msg_body);
 		
-		sendEmail(target_mail, msg_subject, msg_body);
+		return sendEmail(target_mail, msg_subject, msg_body);
 	}
 	
 	
-	void sendEmail(String target_mail, String subject, String body_text) {
+	String sendEmail(String target_mail, String subject, String body_text) {
 		
 		// seller session ..will use from database
 		smtp smtp_have = new smtp();
 		smtp_have = smtpRepo.findById(smtpRepo.findAll().get(0).getIdSmtp()).get();
 		
-		String username = smtp_have.getGmail(),
+		String resulttxt = "",
+				username = smtp_have.getGmail(),
 				password = smtp_have.getPasswordgen(); //fmrftkyefqyonglu
 		
 		
@@ -932,13 +934,17 @@ public class OrderController {
 
 			Transport.send(msg);
 			
-			System.out.println("Success");
+			resulttxt = "Success";
+			System.out.println(resulttxt);
 			
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Unsuccess");
+			resulttxt = "Fail";
+			System.out.println(resulttxt);
 		}
+        
+        return resulttxt;
 	}
 	
 	
@@ -947,13 +953,15 @@ public class OrderController {
 		
 		
 		/* msg_type
-		 * 0 = ผู้ขาย มีรายการคำสั่งซื้อใหม่, ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
-		 * 1 = ผู้ขาย ทำการยกเลิกสินค้า, ผู้ซื้อ ถูกยกเลิกสินค้า
-		 * 2 = ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
-		 * 3 = ผู้ซื้อ ถูกยกเลิกสินค้า*/
+		 * 0 = ผู้ขายลงทะเบียน Auto send mail
+		 * 1 = ผู้ขาย มีรายการคำสั่งซื้อใหม่, ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
+		 * 2 = ผู้ขาย ทำการยกเลิกสินค้า, ผู้ซื้อ ถูกยกเลิกสินค้า
+		 * 3 = ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
+		 * 4 = ผู้ซื้อ ถูกยกเลิกสินค้า*/
 		
 		String[] subject_list = {
 				//seller
+				"การลงทะเบียนส่ง Gmail อัตโนมัติเสร็จสิ้น",
 				"ท่านได้รับคำสั่งซื้อใหม่ ออเดอร์ #", "ท่านได้ทำการยกเลิกออเดอร์ #",
 				//customer
 				"รายการคำสั่งซื้อของท่าน ออเดอร์ #", "แจ้งเตือนถูกยกเลิกออเดอร์ #"};
@@ -966,6 +974,7 @@ public class OrderController {
 		
 		String[] footer_list = {
 				//seller
+				"",
 				"\n\nราคารวมทั้งสิ้น ",
 				"\n\nต้องคืนเงินรวมทั้งสิ้น ",
 				//customer
@@ -973,6 +982,7 @@ public class OrderController {
 				"\n\nท่านจะได้รับเงินคืนจำนวน "};
 		
 		String[] url_list = {
+				"",
 				base_url +"/checking",
 				base_url +"/cancel/cancel",
 				base_url +"/buytransfer",
@@ -1017,10 +1027,19 @@ public class OrderController {
 	    myorder += "\n<tr><td colspan='3'>รวม</td>\n<td>"+ totalprice +".-</td></tr></table>\n<br/>";
 	    myorder += footer_list[msg_type] + totalprice +" บาท\n\n<br/><br/>"+ url_list[msg_type];
 	   	
-		String[] datasend = {
+	    String[] datasend;
+	    
+		if(idorder != 0 && base_url != "") {
+			datasend = new String[]{
 				subject_list[msg_type] + idorder,
 				css+"<body>"+header_list[msg_type] + idorder + myorder+"</body>"};
 
+		}
+		else {
+			datasend = new String[]{
+					subject_list[msg_type],
+					css+"<body>"+header_list[msg_type]+"</body>"};
+		}
 		return datasend;
 	}
 }
