@@ -75,7 +75,9 @@ $(document).ready(function(){
 	    	$('.sidetab-container tr:first-child a').addClass("active");
 	    }
 	}
+
 	$('#loading').hide();
+	$('#resultmsg').fadeOut(3000);
 })
 
 function confirmandwait(confirmtxt){
@@ -141,6 +143,11 @@ function ondetail(orderId) {
 
 <!-- overlay -->
 <div id="loading"></div>
+
+<msg th:if="${message != null}">
+	<p id="resultmsg" th:text="${message}"></p>
+</msg>
+
 	<div class="center" id="overlaydetail">
 		<div class="checked">
 			<close onclick="off()">X</close>

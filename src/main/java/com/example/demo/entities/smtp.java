@@ -14,6 +14,7 @@ public class smtp {
 	private int idSmtp;
 	private String gmail;
 	private String passwordgen;
+	private boolean usable;
 	
 	public int getIdSmtp() {
 		return idSmtp;
@@ -33,4 +34,11 @@ public class smtp {
 	public void setPasswordgen(String passwordgen) {
 		this.passwordgen = passwordgen;
 	}
+	public boolean isUsable() {
+		return usable;
+	}
+	public void setUsable(boolean usable) {
+		this.usable = usable;
+	}
+	
 }

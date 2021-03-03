@@ -374,6 +374,21 @@ bodynotification div div{
 	background-color: var(--lightgrey);
 }
 
+#resultmsg{
+	color: white;
+	position: fixed;
+	top: 10px;
+	left: 0;
+	width: 40%;
+	margin: 0 30%;
+	padding: 20px 0;
+	border-radius: 10px;
+	background-color: rgba(0,0,0,0.2);
+	overflow-wrap: break-word;
+	text-align: center;
+	z-index: 10000;
+ }
+
 /* details */
 .overdetail{
 	flex-flow: row;

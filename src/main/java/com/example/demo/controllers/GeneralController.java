@@ -89,6 +89,7 @@ public class GeneralController {
 			smtp smtp_dont = new smtp();
 			smtp_dont.setGmail(gmail);
 			smtp_dont.setPasswordgen(passwordgen);
+			smtp_dont.setUsable(false);
 			smtpRepo.save(smtp_dont);
 		}
 		else {
@@ -96,6 +97,7 @@ public class GeneralController {
 			smtp_have = smtpRepo.findById(smtpRepo.findAll().get(0).getIdSmtp()).get();
 			smtp_have.setGmail(gmail);
 			smtp_have.setPasswordgen(passwordgen);
+			smtp_have.setUsable(false);
 			smtpRepo.save(smtp_have);
 		}
 		modelfl.addFlashAttribute("message", toSendMail(0, 0, gmail, ""));
@@ -125,10 +127,11 @@ public class GeneralController {
 	
 	public String toSendMail(Integer msg_type, Integer idorder, String target_mail, String origin) {
 		/* msg_type
-		 * 0 = ผู้ขาย มีรายการคำสั่งซื้อใหม่
-		 * 1 = ผู้ขาย ทำการยกเลิกสินค้า
-		 * 2 = ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
-		 * 3 = ผู้ซื้อ ถูกยกเลิกสินค้า*/
+		 * 0
+		 * 1 = ผู้ขาย มีรายการคำสั่งซื้อใหม่
+		 * 2 = ผู้ขาย ทำการยกเลิกสินค้า
+		 * 3 = ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
+		 * 4 = ผู้ซื้อ ถูกยกเลิกสินค้า*/
 		
 		String base_url = "http://" +origin+ ":7070";
 		String msg_subject, msg_body;
@@ -186,12 +189,19 @@ public class GeneralController {
 
 			Transport.send(msg);
 			
-			resulttxt = "Successful to send message.";
+			smtp smtp = smtpRepo.findById(smtpRepo.findAll().get(0).getIdSmtp()).get();
+			smtp.setUsable(true);
+			smtpRepo.save(smtp);
+			resulttxt = "Message sent successful.";
 			System.out.println(resulttxt);
 			
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+			smtp smtp = smtpRepo.findById(smtpRepo.findAll().get(0).getIdSmtp()).get();
+			smtp.setUsable(false);
+			smtpRepo.save(smtp);
 			resulttxt = "Something went wrong, Message can't sent.";
 			System.out.println(resulttxt);
 		}

@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.Checkjason;
 import com.example.demo.CreateFile;
@@ -453,7 +455,9 @@ public class OrderController {
 	}
 	
 	@GetMapping("/trantocancel/{idorder}")
-	public String trantocancel(@PathVariable("idorder") Integer idorder, HttpServletRequest request) {
+	public ModelAndView trantocancel(@PathVariable("idorder") Integer idorder
+				, HttpServletRequest request
+				, RedirectAttributes modelfl) {
 		userorder order = new userorder(); 
 		order = userorderRepo.findById(idorder).get();
 		order.setStatus("cancel");
@@ -461,12 +465,15 @@ public class OrderController {
 		userorderRepo.save(order);
 		
 		if(smtpRepo.count() != 0) {
-			String customermail = userprofileRepo.findById(userorderRepo.findById(idorder).get().getIdUser()).get().getEmail(),
+			if(smtpRepo.findById(smtpRepo.findAll().get(0).getIdSmtp()).get().isUsable() == true) {
+				String customermail = userprofileRepo.findById(userorderRepo.findById(idorder).get().getIdUser()).get().getEmail(),
 					sellermail = smtpRepo.findAll().get(0).getGmail();
-			toSendMail(1, idorder, sellermail, request.getLocalName());
-			toSendMail(3, idorder, customermail, request.getLocalName());
+				toSendMail(2, idorder, sellermail, request.getLocalName());
+				toSendMail(4, idorder, customermail, request.getLocalName());
+				modelfl.addFlashAttribute("message", "ส่งข้อความการยกเลิกออเดอร์เข้าสู่ Gmail ของท่านแล้ว");
+			}
 		}
-		return "redirect:/tracking";
+		return new ModelAndView("redirect:/tracking");
 	}
 	
 	@PostMapping("/trantocontact/{idorder}")
@@ -526,13 +533,14 @@ public class OrderController {
 	}
 	
 	@PostMapping("/savetransfer")
-	public String savetransfer(@RequestParam(name = "sendid") int sendid
+	public ModelAndView savetransfer(@RequestParam(name = "sendid") int sendid
 			,@RequestParam(name = "userbank") String userbank
 			,@RequestParam(name = "sellbank") String sellbank
 			,@RequestParam(name = "pay") int pay
 			,@RequestParam(name = "paydatetime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime paydatetime
-			,@RequestParam("imageFile") MultipartFile file,
-			HttpServletRequest request) throws IOException {
+			,@RequestParam("imageFile") MultipartFile file
+			, RedirectAttributes modelfl
+			, HttpServletRequest request) throws IOException {
 		userorder userorder = new userorder();
 		userorder = userorderRepo.findById(sendid).get();
 		userorder.setCratedOrder(LocalDateTime.now());
@@ -549,12 +557,16 @@ public class OrderController {
 		userorderRepo.save(userorder);
 		System.out.println(smtpRepo.count());
 		if(smtpRepo.count() != 0) {
-			String customermail = userprofileRepo.findById(userorderRepo.findById(sendid).get().getIdUser()).get().getEmail(),
+			if(smtpRepo.findById(smtpRepo.findAll().get(0).getIdSmtp()).get().isUsable() == true) {
+				String customermail = userprofileRepo.findById(userorderRepo.findById(sendid).get().getIdUser()).get().getEmail(),
 					sellermail = smtpRepo.findAll().get(0).getGmail();
-			toSendMail(0, sendid, sellermail, request.getLocalName());
-			toSendMail(2, sendid, customermail, request.getLocalName());
+				toSendMail(1, sendid, sellermail, request.getLocalName());
+				toSendMail(3, sendid, customermail, request.getLocalName());
+				modelfl.addFlashAttribute("message", "ส่งรายการคำสั่งซื้อเข้าสู่ E-mail ของท่านแล้ว");
+			}
+			
 		}
-		return "redirect:/buytransfer";
+		return new ModelAndView("redirect:/buytransfer");
 	}
 
 	@GetMapping("/trantonotpay/{idorder}")
@@ -873,10 +885,12 @@ public class OrderController {
 	
 	public String toSendMail(Integer msg_type, Integer idorder, String target_mail, String origin) {
 		/* msg_type
-		 * 0 = ผู้ขาย มีรายการคำสั่งซื้อใหม่
-		 * 1 = ผู้ขาย ทำการยกเลิกสินค้า
-		 * 2 = ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
-		 * 3 = ผู้ซื้อ ถูกยกเลิกสินค้า*/
+		 * 0 = ผู้ขายลงทะเบียน Auto send mail
+		 * 1 = ผู้ขาย มีรายการคำสั่งซื้อใหม่
+		 * 2 = ผู้ขาย ทำการยกเลิกสินค้า
+		 * 3 = ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
+		 * 4 = ผู้ซื้อ ถูกยกเลิกสินค้า*/
+		
 		
 		String base_url = "http://" +origin+ ":7070";
 		String msg_subject, msg_body;
@@ -967,6 +981,7 @@ public class OrderController {
 				"รายการคำสั่งซื้อของท่าน ออเดอร์ #", "แจ้งเตือนถูกยกเลิกออเดอร์ #"};
 		
 		String[] header_list = {
+				"การลงทะเบียนส่งข้อความอัตโนมัติของท่านเสร็จสิ้น",
 				//seller
 				"ออเดอร์ #", "ทำการยกเลิกออเดอร์ #",
 				//customer
