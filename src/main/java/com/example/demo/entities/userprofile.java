@@ -59,6 +59,18 @@ public class userprofile {
 		}
 	}
 	
+	@OneToMany
+	private Set<notification> notifications = new HashSet<notification>();
+	public Set<notification> getNotifications() {
+		return notifications;
+	}
+	public void setNotifications(Set<notification> notifications) {
+		this.notifications = notifications;
+		for(notification notification :notifications) {
+			notification.setUserprofile(this);
+		}
+	}
+	
 	public int getIdUser() {
 		return idUser;
 	}

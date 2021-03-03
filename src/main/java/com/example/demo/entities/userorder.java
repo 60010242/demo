@@ -41,6 +41,9 @@ public class userorder {
 	
 	@OneToMany
 	private Set<payment> payments = new HashSet<payment>();
+
+	@OneToMany
+	private Set<notification> notifications = new HashSet<notification>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUser", referencedColumnName = "idUser",insertable = false, updatable = false)
@@ -62,6 +65,15 @@ public class userorder {
 		this.payments = payments;
 		for(payment payment :payments) {
 			payment.setUserorder(this);
+		}
+	}
+	public Set<notification> getNotifications() {
+		return notifications;
+	}
+	public void setNotifications(Set<notification> notifications) {
+		this.notifications = notifications;
+		for(notification notification :notifications) {
+			notification.setUserorder(this);
 		}
 	}
 	public userprofile getUserprofile() {

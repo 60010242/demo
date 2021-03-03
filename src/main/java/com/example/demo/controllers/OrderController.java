@@ -44,6 +44,7 @@ import com.example.demo.Orderjson;
 import com.example.demo.Tab;
 import com.example.demo.Transgroup;
 import com.example.demo.Userjson;
+import com.example.demo.entities.notification;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
 import com.example.demo.entities.smtp;
@@ -52,6 +53,7 @@ import com.example.demo.entities.userorder;
 import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.AccountRepository;
 import com.example.demo.repositories.DeliveryRepository;
+import com.example.demo.repositories.NotificationRepository;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.ProductDetailRepository;
 import com.example.demo.repositories.SmtpRepository;
@@ -62,7 +64,6 @@ import com.example.demo.services.CreatePDF;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 @Controller
 public class OrderController {
@@ -92,6 +93,9 @@ public class OrderController {
 	
 	@Autowired
 	private AccountRepository accountRepo;
+	
+	@Autowired
+	private NotificationRepository notiRepo;
 	
 	@GetMapping("/checking")
 	public String findchecking(Model model) {
@@ -205,12 +209,37 @@ public class OrderController {
 	}
 	
 	@GetMapping("/trantotracking/{idorder}")
-	public String trantotracking(@PathVariable("idorder") Integer idorder) {
+	public String trantotracking(@PathVariable("idorder") Integer idorder
+			,@SessionAttribute("user") userprofile user) {
+
+		notification noti = new notification();
+		notification setnoti = new notification();
+		System.out.println("1");
+		if(notiRepo.getByIdorder(idorder)!=null) {
+			System.out.println("2");
+			noti = notiRepo.getByIdorder(idorder);
+			setnoti = notiRepo.findById(noti.getIdNoti()).get();
+		}else {
+			System.out.println("else");
+			setnoti.setIdOrder(idorder);
+			userorder notiorder = new userorder();
+			notiorder = userorderRepo.getByIdOrder(idorder);
+			setnoti.setIdUser(notiorder.getUserprofile().getIdUser());
+		}
+		System.out.println("3");
+		setnoti.setSubject("การชำระเงินสำเร็จแล้ว");
+		setnoti.setMessage("ผู้ขายยืนยันการชำระเงินของคำสั่งซื้อ "+idorder+" แล้ว");
+		setnoti.setUserread(0);
+		setnoti.setCreatedNoti(LocalDateTime.now());
+		System.out.println("4");
+		notiRepo.save(setnoti);
+		
 		userorder order = new userorder(); 
 		order = userorderRepo.findById(idorder).get();
 		order.setStatus("tracking");
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
+		
 		return "redirect:/checking";
 	}
 	
@@ -221,6 +250,22 @@ public class OrderController {
 		order.setStatus("tracking");
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
+		notification noti = new notification();
+		notification setnoti = new notification();
+		if(notiRepo.getByIdorder(idorder)!=null) {
+			noti = notiRepo.getByIdorder(idorder);
+			setnoti = notiRepo.findById(noti.getIdNoti()).get();
+		}else {
+			setnoti.setIdOrder(idorder);
+			userorder notiorder = new userorder();
+			notiorder = userorderRepo.getByIdOrder(idorder);
+			setnoti.setIdUser(notiorder.getUserprofile().getIdUser());
+		}
+		setnoti.setSubject("การชำระเงินสำเร็จแล้ว");
+		setnoti.setMessage("ผู้ขายยืนยันการชำระเงินของคำสั่งซื้อ "+idorder+" แล้ว");
+		setnoti.setUserread(0);
+		setnoti.setCreatedNoti(LocalDateTime.now());
+		notiRepo.save(setnoti);
 		return "redirect:/cancel";
 	}
 	
@@ -233,6 +278,22 @@ public class OrderController {
 		order.setStatus("shipping");
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
+		notification noti = new notification();
+		notification setnoti = new notification();
+		if(notiRepo.getByIdorder(idorder)!=null) {
+			noti = notiRepo.getByIdorder(idorder);
+			setnoti = notiRepo.findById(noti.getIdNoti()).get();
+		}else {
+			setnoti.setIdOrder(idorder);
+			userorder notiorder = new userorder();
+			notiorder = userorderRepo.getByIdOrder(idorder);
+			setnoti.setIdUser(notiorder.getUserprofile().getIdUser());
+		}
+		setnoti.setSubject("สินค้าถูกจัดส่งแล้ว");
+		setnoti.setMessage("พัสดุหมายเลข "+numtrack+" ของคำสั่งซื้อ "+idorder+" จัดส่งแล้ว");
+		setnoti.setUserread(0);
+		setnoti.setCreatedNoti(LocalDateTime.now());
+		notiRepo.save(setnoti);
 		return "redirect:/tracking";
 	}
 	
@@ -456,6 +517,7 @@ public class OrderController {
 	
 	@GetMapping("/trantocancel/{idorder}")
 	public ModelAndView trantocancel(@PathVariable("idorder") Integer idorder
+			,@SessionAttribute("user") userprofile user
 				, HttpServletRequest request
 				, RedirectAttributes modelfl) {
 		userorder order = new userorder(); 
@@ -463,6 +525,23 @@ public class OrderController {
 		order.setStatus("cancel");
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
+		
+		notification noti = new notification();
+		notification setnoti = new notification();
+		if(notiRepo.getByIdorder(idorder)!=null) {
+			noti = notiRepo.getByIdorder(idorder);
+			setnoti = notiRepo.findById(noti.getIdNoti()).get();
+		}else {
+			setnoti.setIdOrder(idorder);
+			userorder notiorder = new userorder();
+			notiorder = userorderRepo.getByIdOrder(idorder);
+			setnoti.setIdUser(notiorder.getUserprofile().getIdUser());
+		}
+		setnoti.setSubject("คำสั่งซื้อถูกยกเลิก");
+		setnoti.setMessage("คำสั่งซื้อ "+idorder+" ถูกยกเลิก");
+		setnoti.setUserread(0);
+		setnoti.setCreatedNoti(LocalDateTime.now());
+		notiRepo.save(setnoti);
 		
 		if(smtpRepo.count() != 0) {
 			if(smtpRepo.findById(smtpRepo.findAll().get(0).getIdSmtp()).get().isUsable() == true) {
@@ -473,6 +552,7 @@ public class OrderController {
 				modelfl.addFlashAttribute("message", "ส่งข้อความการยกเลิกออเดอร์เข้าสู่ Gmail ของท่านแล้ว");
 			}
 		}
+		
 		return new ModelAndView("redirect:/tracking");
 	}
 	
@@ -485,6 +565,22 @@ public class OrderController {
 		order.setDetailcancel(detailcancel);
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
+		notification noti = new notification();
+		notification setnoti = new notification();
+		if(notiRepo.getByIdorder(idorder)!=null) {
+			noti = notiRepo.getByIdorder(idorder);
+			setnoti = notiRepo.findById(noti.getIdNoti()).get();
+		}else {
+			setnoti.setIdOrder(idorder);
+			userorder notiorder = new userorder();
+			notiorder = userorderRepo.getByIdOrder(idorder);
+			setnoti.setIdUser(notiorder.getUserprofile().getIdUser());
+		}
+		setnoti.setSubject("ผู้ขายติดต่อแล้ว");
+		setnoti.setMessage("ผู้ขายติดต่อเผื่อโอนเงินของคำสั่งซื้อ "+idorder+" คืน");
+		setnoti.setUserread(0);
+		setnoti.setCreatedNoti(LocalDateTime.now());
+		notiRepo.save(setnoti);
 		return "redirect:/cancel/cancel";
 	}
 	
@@ -495,6 +591,22 @@ public class OrderController {
 		order.setStatus("transferred");
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
+		notification noti = new notification();
+		notification setnoti = new notification();
+		if(notiRepo.getByIdorder(idorder)!=null) {
+			noti = notiRepo.getByIdorder(idorder);
+			setnoti = notiRepo.findById(noti.getIdNoti()).get();
+		}else {
+			setnoti.setIdOrder(idorder);
+			userorder notiorder = new userorder();
+			notiorder = userorderRepo.getByIdOrder(idorder);
+			setnoti.setIdUser(notiorder.getUserprofile().getIdUser());
+		}
+		setnoti.setSubject("ผู้ขายโอนเงินคืนแล้ว");
+		setnoti.setMessage("ผู้ขายโอนเงินของคำสั่งซื้อ "+idorder+" คืนแล้ว");
+		setnoti.setUserread(0);
+		setnoti.setCreatedNoti(LocalDateTime.now());
+		notiRepo.save(setnoti);
 		return "redirect:/cancel/contact";
 	}
 	
@@ -539,6 +651,7 @@ public class OrderController {
 			,@RequestParam(name = "pay") int pay
 			,@RequestParam(name = "paydatetime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime paydatetime
 			,@RequestParam("imageFile") MultipartFile file
+			,@SessionAttribute("user") userprofile user
 			, RedirectAttributes modelfl
 			, HttpServletRequest request) throws IOException {
 		userorder userorder = new userorder();
@@ -555,6 +668,16 @@ public class OrderController {
 			userorder.setPhotoPay(image);
 		}
 		userorderRepo.save(userorder);
+		
+		notification noti = new notification();
+		noti.setSubject("ตรวจสอบการชำระเงิน ");
+		noti.setMessage("กรุณาตรวจสอบการชำระเงินของคำสั่งซื้อ "+sendid);
+		noti.setUserread(0);
+		noti.setCreatedNoti(LocalDateTime.now());
+		noti.setIdOrder(sendid);
+		noti.setIdUser(user.getIdUser());
+		notiRepo.save(noti);
+		
 		System.out.println(smtpRepo.count());
 		if(smtpRepo.count() != 0) {
 			if(smtpRepo.findById(smtpRepo.findAll().get(0).getIdSmtp()).get().isUsable() == true) {
@@ -698,7 +821,24 @@ public class OrderController {
 		order.setStatus("complete");
 		order.setCratedOrder(LocalDateTime.now());
 		userorderRepo.save(order);
-		return "redirect:/buytrack";
+		
+		notification noti = new notification();
+		notification setnoti = new notification();
+		if(notiRepo.getByIdorder(idorder)!=null) {
+			noti = notiRepo.getByIdorder(idorder);
+			setnoti = notiRepo.findById(noti.getIdNoti()).get();
+		}else {
+			setnoti.setIdOrder(idorder);
+			userorder notiorder = new userorder();
+			notiorder = userorderRepo.getByIdOrder(idorder);
+			setnoti.setIdUser(notiorder.getUserprofile().getIdUser());
+		}
+		setnoti.setSubject("จัดส่งสำเร็จ");
+		setnoti.setMessage("คำสั่งซื้อ "+idorder+" จัดส่งสำเร็จแล้ว");
+		setnoti.setUserread(0);
+		setnoti.setCreatedNoti(LocalDateTime.now());
+		notiRepo.save(setnoti);
+		return "redirect:/buytrack/2";
 	}
 	
 	@GetMapping("/createPDF")
