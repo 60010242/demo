@@ -13,6 +13,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	var tablinks = document.getElementsByClassName("tablinks");
+	$('#loading').hide();
 	$('a.tablinks:nth-child(2)').addClass("active");
 	$('.whitebg table:last-child hr').remove();
 })
@@ -99,6 +100,10 @@ function onaddslip(orderId) {
 	    		  });
 	      });
 }
+
+function wait(){
+	$('#loading').show();
+}
 function onsellaccount(){
 	document.getElementById("overlaysellaccount").style.visibility = "visible";
 }
@@ -112,6 +117,8 @@ function off() {
 
 <body class="center flow-column">
 <!-- overlay -->
+<div id="loading"></div>
+	
 <div class="center" id="overlaydetail">
 		<div class="checked">
 			<close style="color: red;" onclick="off()">X</close>
@@ -208,11 +215,15 @@ function off() {
 						<td><input type="file" name="imageFile" required></td>
 					</tr>
 					<tr>
-						<td><input class="overlayconfirm" style="float: right;" type="submit" value="Submit" name="button"></td>
+						<td><input class="overlayconfirm"
+								style="float: right;"
+								type="submit"
+								value="Submit"
+								name="button"
+								onclick="wait()"></td>
 					</tr>
 				</table>
 			</form>
-			<!-- <iframe src="addslip.html"></iframe> -->
 		</div>
 		<div class="overlaybg" onclick="off()"></div>
 	</div>

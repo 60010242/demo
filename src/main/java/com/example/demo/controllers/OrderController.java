@@ -546,6 +546,7 @@ public class OrderController {
 			userorder.setPhotoPay(image);
 		}
 		userorderRepo.save(userorder);
+		System.out.println(smtpRepo.count());
 		if(smtpRepo.count() != 0) {
 			String customermail = userprofileRepo.findById(userorderRepo.findById(sendid).get().getIdUser()).get().getEmail(),
 					sellermail = smtpRepo.findAll().get(0).getGmail();

@@ -75,7 +75,13 @@ $(document).ready(function(){
 	    	$('.sidetab-container tr:first-child a').addClass("active");
 	    }
 	}
+	$('#loading').hide();
 })
+
+function confirmandwait(confirmtxt){
+	if(!confirm(confirmtxt)) return false
+	$('#loading').show();
+}
 
 function on() {
 	  document.getElementById("overlay").style.visibility = "visible";
@@ -134,6 +140,7 @@ function ondetail(orderId) {
 <body>
 
 <!-- overlay -->
+<div id="loading"></div>
 	<div class="center" id="overlaydetail">
 		<div class="checked">
 			<close onclick="off()">X</close>
@@ -234,7 +241,7 @@ function ondetail(orderId) {
 					</ul>
 					<a th:href="@{'/trantocancel/' + ${userorder.getIdOrder()}}" id="tocancel"
 					th:data-confirm-delete="|ต้องการยกเลิกรายการ #${userorder.getIdOrder()}?|"
-					onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">ยกเลิกรายการ </a>
+					onclick="confirmandwait(this.getAttribute('data-confirm-delete'))">ยกเลิกรายการ </a>
 					<a id="detaildata" th:attr="onclick=|ondetail('${userorder.getIdOrder()}')|">รายละเอียด </a>
 				</td>
 				<td th:text="${userorder.getNameDelivery()}" th:if="${index == 1}"></td>

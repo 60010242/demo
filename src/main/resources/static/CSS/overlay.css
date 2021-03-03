@@ -209,6 +209,7 @@ after {
 .smtpform input[type="text"]{
 	height: 30px;
 	width: 250px;
+	padding: 0 10px;
 	border-radius: 30px;
 	border: 1px solid gray;
 }
