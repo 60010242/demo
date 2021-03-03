@@ -266,7 +266,7 @@ public class OrderController {
 		setnoti.setUserread(0);
 		setnoti.setCreatedNoti(LocalDateTime.now());
 		notiRepo.save(setnoti);
-		return "redirect:/cancel";
+		return "redirect:/cancel/cancel";
 	}
 	
 	@PostMapping("/trantoshipping/{idorder}")
