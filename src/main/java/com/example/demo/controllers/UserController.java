@@ -1,10 +1,13 @@
 package com.example.demo.controllers;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -23,11 +26,13 @@ import com.example.demo.CreateFile;
 import com.example.demo.Sellinfo;
 import com.example.demo.Transgroup;
 import com.example.demo.entities.account;
+import com.example.demo.entities.notification;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.useraddress;
 import com.example.demo.entities.userorder;
 import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.AccountRepository;
+import com.example.demo.repositories.NotificationRepository;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.UserAddressRepository;
 import com.example.demo.repositories.UserOrderRepository;
@@ -49,6 +54,9 @@ public class UserController {					// about user and user tables
 	
 	@Autowired
 	private OrderDetailRepository orderdetailRepo;
+	
+	@Autowired
+	private NotificationRepository notiRepo;
 	
 	@GetMapping("/signup")
 	public String greeting(Model model) {
@@ -81,12 +89,25 @@ public class UserController {					// about user and user tables
 	}
 	
 	@GetMapping("/myinfo")
-	public String myinfo() {
+	public String myinfo(@SessionAttribute("user") userprofile user, Model model) {
+		int countnoti = 0;
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		if(user.getType().equalsIgnoreCase("Seller")) {
+			countnoti = notiRepo.countAllBysubjectSeller();
+			notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		}else {
+			countnoti = notiRepo.countAllBysubjectCustomer(user.getIdUser());
+			notilist = notiRepo.getBysubjectCustomer(user.getIdUser(), PageWithnineElements);
+		}
+		model.addAttribute("sourceweb", "/myinfo");
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		return "myinfo";
 	}
 	
 	@GetMapping("/sellinfo")
-	public String sellinfo(Model model) {
+	public String sellinfo(@SessionAttribute("user") userprofile user, Model model) {
 		List<userprofile> sellerlist = new ArrayList<userprofile>();
 		userprofile seller = new userprofile();
 		sellerlist = userprofileRepo.findOneByType("Seller");
@@ -102,6 +123,13 @@ public class UserController {					// about user and user tables
 			addresses.add(s);
 			i++;
 		}
+		int countnoti = notiRepo.countAllBysubjectCustomer(user.getIdUser());
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectCustomer(user.getIdUser(), PageWithnineElements);
+		model.addAttribute("sourceweb", "/sellinfo");
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("seller", seller);
 		model.addAttribute("addresses", addresses);
 		return "sellinfo";
@@ -118,6 +146,19 @@ public class UserController {					// about user and user tables
 	@GetMapping("/edit")
 	public String editProfile(@SessionAttribute("user") userprofile user, Model model) {
 		System.out.println("Edit id:"+ user.getIdUser());
+		int countnoti = 0;
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		if(user.getType().equalsIgnoreCase("Seller")) {
+			countnoti = notiRepo.countAllBysubjectSeller();
+			notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		}else {
+			countnoti = notiRepo.countAllBysubjectCustomer(user.getIdUser());
+			notilist = notiRepo.getBysubjectCustomer(user.getIdUser(), PageWithnineElements);
+		}
+		model.addAttribute("sourceweb", "/edit");
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("mem",userprofileRepo.getOne(user.getIdUser()));
 		return "changeinfo";
 	}
@@ -235,6 +276,13 @@ public class UserController {					// about user and user tables
 			}
 			text = "ชื่อผู้ซื้อ";
 		}
+		int countnoti = notiRepo.countAllBysubjectSeller();
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		model.addAttribute("sourceweb", "/firstpage");
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("userorder", userorder);
 		model.addAttribute("orders", orders);
 		model.addAttribute("users", users);
@@ -264,5 +312,59 @@ public class UserController {					// about user and user tables
 		}
 		model.addAttribute("transgroup", transgroup);
 		return "/showordersearch";
+	}
+	
+	@GetMapping("/trantotracking4/{idorder}")
+	public String trantotracking3(@PathVariable("idorder") Integer idorder) {
+		userorder order = new userorder(); 
+		order = userorderRepo.findById(idorder).get();
+		order.setStatus("tracking");
+		order.setCratedOrder(LocalDateTime.now());
+		userorderRepo.save(order);
+		notification noti = new notification();
+		notification setnoti = new notification();
+		if(notiRepo.getByIdorder(idorder)!=null) {
+			noti = notiRepo.getByIdorder(idorder);
+			setnoti = notiRepo.findById(noti.getIdNoti()).get();
+		}else {
+			setnoti.setIdOrder(idorder);
+			userorder notiorder = new userorder();
+			notiorder = userorderRepo.getByIdOrder(idorder);
+			setnoti.setIdUser(notiorder.getUserprofile().getIdUser());
+		}
+		setnoti.setSubject("การชำระเงินสำเร็จแล้ว");
+		setnoti.setMessage("ผู้ขายยืนยันการชำระเงินของคำสั่งซื้อ "+idorder+" แล้ว");
+		setnoti.setUserread(0);
+		setnoti.setCreatedNoti(LocalDateTime.now());
+		notiRepo.save(setnoti);
+		return "redirect:/firstpage";
+	}
+	
+	@PostMapping("/trantoshipping2/{idorder}")
+	public String trantocomplete(@PathVariable("idorder") Integer idorder
+			,@RequestParam("numtrack") String numtrack) {
+		userorder order = new userorder(); 
+		order = userorderRepo.findById(idorder).get();
+		order.setTrack(numtrack);
+		order.setStatus("shipping");
+		order.setCratedOrder(LocalDateTime.now());
+		userorderRepo.save(order);
+		notification noti = new notification();
+		notification setnoti = new notification();
+		if(notiRepo.getByIdorder(idorder)!=null) {
+			noti = notiRepo.getByIdorder(idorder);
+			setnoti = notiRepo.findById(noti.getIdNoti()).get();
+		}else {
+			setnoti.setIdOrder(idorder);
+			userorder notiorder = new userorder();
+			notiorder = userorderRepo.getByIdOrder(idorder);
+			setnoti.setIdUser(notiorder.getUserprofile().getIdUser());
+		}
+		setnoti.setSubject("สินค้าถูกจัดส่งแล้ว");
+		setnoti.setMessage("พัสดุหมายเลข "+numtrack+" ของคำสั่งซื้อ "+idorder+" จัดส่งแล้ว");
+		setnoti.setUserread(0);
+		setnoti.setCreatedNoti(LocalDateTime.now());
+		notiRepo.save(setnoti);
+		return "redirect:/firstpage";
 	}
 }

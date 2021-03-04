@@ -111,9 +111,10 @@ function off() {
 <div id="notification" class="notification">
 	<div class="headnotification"><h3 style="margin: 0;">การแจ้งเตือน</h3></div>
 	<bodynotification>
-		<div>
-			<a href="#"><div>รายละเอียดข้อมูลบลาๆๆ</div></a>
-			<div style="width: 50px;"><a style="color: var(--blue); font-size: 14px;" href="#read">อ่านแล้ว</a></div>
+		<div th:each="noti : ${notilist}">
+			<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getSubject()}" target="_blank"></a><br>
+			<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getMessage()}" target="_blank"></a>
+			<div style="width: 50px;" th:if="${noti.getUserread()==0}"><a style="color: var(--blue); font-size: 14px;" th:href="@{'/readnoti'+${sourceweb}+'/'+${noti.getIdNoti()}}">อ่านแล้ว</a></div>
 			<hr/>
 		</div>
 	</bodynotification>
@@ -121,7 +122,10 @@ function off() {
 
 
 <!-- Main Page -->
-<div class="bellnoti"><img class="bellimg" th:src="@{/Icon/bell.png}" onclick="showNoti()"></div>
+<div class="bellnoti">
+	<img class="bellimg" th:src="@{/Icon/bell.png}" onclick="showNoti()">
+	<span th:if="${countnoti!=null&&countnoti>0}" th:text="${countnoti}"></span>
+</div>
 	<p hidden="true" th:text="${session.user.getType()}"></p>
 	<div th:if="${session.user.getType() == 'Customer'}">
 		<ul th:replace="navtab :: navheadbuyer"></ul>

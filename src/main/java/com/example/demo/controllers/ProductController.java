@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.CreateFile;
 import com.example.demo.entities.category;
+import com.example.demo.entities.notification;
 import com.example.demo.entities.productdetail;
 import com.example.demo.repositories.CategoryRepository;
+import com.example.demo.repositories.NotificationRepository;
 import com.example.demo.repositories.ProductDetailRepository;
 
 @Controller
@@ -29,6 +33,9 @@ public class ProductController {
 	@Autowired
 	private ProductDetailRepository productdetailRepo;
 	
+	@Autowired
+	private NotificationRepository notiRepo;
+	
 	@GetMapping("/editproduct/{idcat}")
 	public String editproduct(@PathVariable("idcat") String idcat
 			,Model model) {
@@ -38,6 +45,13 @@ public class ProductController {
 		cat = categoryRepo.getOne(idcat);
 		List<productdetail> products = new ArrayList<productdetail>();
 		products = productdetailRepo.getByCategory(cat.getNameCat());
+		int countnoti = notiRepo.countAllBysubjectSeller();
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		model.addAttribute("sourceweb", "/editproduct/"+idcat);
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("products", products);
 		model.addAttribute("cat", cat);
 		model.addAttribute("catlist", catlist);
@@ -57,6 +71,13 @@ public class ProductController {
 		}else {
 			cat = null;
 		}
+		int countnoti = notiRepo.countAllBysubjectSeller();
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		model.addAttribute("sourceweb", "/editproduct");
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("products", products);
 		model.addAttribute("cat", cat);
 		model.addAttribute("catlist", catlist);

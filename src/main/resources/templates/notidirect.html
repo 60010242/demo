@@ -3,13 +3,86 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>ร้านขายของน้องหมา </title>
 <link rel="stylesheet" th:href="@{/CSS/infopage.css}">
 <link rel="stylesheet" th:href="@{/CSS/Sfirstpage.css}">
 <link rel="stylesheet" th:href="@{/CSS/overlay.css}">
+<link rel="stylesheet" th:href="@{/CSS/addeditoneproduct.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" th:src="@{/JS/sellerjs.js}"></script>
+<script>
+
+function on(orderId) {
+	var origin = window.location.origin;
+	var idnoti = document.getElementById("idnoti").textContent;
+  	document.getElementById("overlay").style.visibility = "visible";
+  	$.ajax({
+	      url: origin + "/checkajax?id=" + orderId,
+	    })
+	      .done(function( data ) {
+	    	  $.each( data, function(key,val) {
+		    		document.getElementById("overlaytableTD1").innerHTML = '#' + val.id;
+		    	  	document.getElementById("overlaytableTD2").innerHTML = val.username;
+		    	  	document.getElementById("overlaytableTD3").innerHTML = val.total;
+		    	  	document.getElementById("overlaytableTD4").innerHTML = val.pay;
+		    	  	document.getElementById("overlaytableTD5").innerHTML = val.userbank;
+		    	  	document.getElementById("overlaytableTD6").innerHTML = val.sellerbank;
+		    	  	document.getElementById("overlaytableTD7").innerHTML = val.paytime;
+		    	  	document.getElementById("overlayIMG").innerHTML = "<img width='200' alt='can't download' src='data:image/jpeg;base64,"+ val.image +"'>";
+		    	  	document.getElementById("overlayconfirm").href="/trantotracking3/"+idnoti+"/"+ val.id;
+	    		  });
+	      });
+}
+
+</script>
 </head>
-<body>
+<body class="center">
+<!-- overlay -->
+	<div class="center" id="overlay">
+		<div class="checked">
+			<close onclick="off()">X</close>
+			<div class="overlayheader center">ตรวจสอบ </div>
+			<table style="width: 100%; height: 100%; padding: 10px 0 50px 0;">
+				<tr style="height: 6%;">
+						<th>รหัสสั่งซื้อ</th>
+						<td id="overlaytableTD1"></td>
+					</tr>
+					<tr style="height: 6%;">
+						<th>ชื่อ-สกุล</th>
+						<td id="overlaytableTD2"></td>
+					</tr>
+					<tr style="height: 6%;">
+						<th>จำนวนเงินที่ต้องโอน</th>
+						<td id="overlaytableTD3"></td>
+					</tr>
+					<tr style="height: 6%;">
+						<th>จำนวนเงินที่โอนมา</th>
+						<td id="overlaytableTD4"></td>
+					</tr>
+					<tr style="height: 6%;">
+						<th>จากธนาคาร</th>
+						<td id="overlaytableTD5"></td>
+					</tr>
+					<tr style="height: 6%;">
+						<th>เข้าธนาคาร</th>
+						<td id="overlaytableTD6"></td>
+					</tr>
+					<tr style="height: 6%;">
+						<th>วันเวลาที่โอน</th>
+						<td id="overlaytableTD7"></td>
+					</tr>
+					<tr style="height: 58%;">
+						<td colspan="2" class="center" style="height: 100%;">
+							<div class="img" id="overlayIMG"></div>
+						</td>
+					</tr>
+			</table>
+				<a href="" class="overlayconfirm" id="overlayconfirm">ยืนยัน </a>
+			</div>
+		<div class="overlaybg" onclick="off()"></div>
+	</div>
 <p hidden="true" th:text="${session.user.getType()}"></p>
 	<div th:if="${session.user.getType() == 'Customer'}">
 		<ul th:replace="navtab :: navheadbuyer"></ul>
@@ -18,17 +91,12 @@
 		<ul th:replace="navtab :: navheadseller"></ul>
 	</div>
 	
-	<div class="brownbg center"  th:if="${type.equalsIgnoreCase('ordernum')}">
+	<div class="brownbg center">
 		<a href="/firstpage" class="back"><</a>
-		<p class="outoforder" th:text="${text}" th:if="${search == false}"></p>
+		<p id="idnoti" th:text="${idnoti}" hidden></p>
 		<table>
 				<tr>
 					<td style="text-align: center;" colspan="4" th:text="${'รายการคำสั่งซื้อ order #'+userorder.getIdOrder()}"> </td>
-				</tr>
-				<!-- แก้สถานะของรายการด้วย -->
-				<tr>
-					<td>สถานะรายการ</td>
-					<td colspan="3">สถานะรายการ</td>
 				</tr>
 				<tr>
 					<td>ชื่อผู้ซื้อ</td>
@@ -43,6 +111,21 @@
 					<td th:if="${userorder.getUserprofile().getTel()!=null}" th:text="${'เบอร์โทร :'+userorder.getUserprofile().getTel()}"></td>
 					<td th:if="${userorder.getUserprofile().getEmail()!=null}" th:text="${'e-mail :'+userorder.getUserprofile().getEmail()}"></td>
 					<td th:if="${userorder.getUserprofile().getLine()!=null}" th:text="${'Line :'+userorder.getUserprofile().getLine()}"></td>
+				</tr>
+				<tr>
+					<td>สถานะรายการ</td>
+					<td colspan="3" th:if="${userorder.getStatus().equalsIgnoreCase('checking')}">รอตรวจสอบ</td>
+					<td colspan="3" th:if="${userorder.getStatus().equalsIgnoreCase('tracking')}">รอจัดส่ง</td>
+					<td colspan="3" th:if="${userorder.getStatus().equalsIgnoreCase('shipping')}">จัดส่งแล้ว</td>
+					<td colspan="3" th:if="${userorder.getStatus().equalsIgnoreCase('complete')}">ได้รับของแล้ว</td>
+					<td colspan="3" th:if="${userorder.getStatus().equalsIgnoreCase('cancel')}">คำสั่งซื้อถูกยกเลิก</td>
+					<td colspan="3" th:if="${userorder.getStatus().equalsIgnoreCase('contact')}">ผู้ขายติดต่อแล้ว</td>
+					<td colspan="3" th:if="${userorder.getStatus().equalsIgnoreCase('transferred')}">ผู้ขายโอนเงินแล้ว</td>
+					<td colspan="3" th:if="${userorder.getStatus().equalsIgnoreCase('notpay')}">ยกเลิกจากหน้าชำระเงิน</td>
+				</tr>
+				<tr>
+					<td>ขนส่ง</td>
+					<td colspan="3" th:text="${userorder.getNameDelivery()}"></td>
 				</tr>
 				<tr>
 					<td colspan="4"><hr></td>
@@ -74,6 +157,19 @@
 					<td colspan="2"><p></p></td>
 					<td>ยอดรวม </td>
 					<td align="right" id="total" th:text="${userorder.getTotalOrder()}"></td>
+				</tr>
+				<tr>
+					<td colspan="4" align="right" th:if="${session.user.getType() == 'Seller'&&userorder.getStatus().equalsIgnoreCase('checking')}">
+						<button class="btncheck" th:attr="onclick=|on('${userorder.getIdOrder()}')|">ตรวจสอบ </button>
+					</td>
+					<td colspan="4" th:if="${session.user.getType() == 'Seller'&&userorder.getStatus().equalsIgnoreCase('tracking')}">
+						<form action="#" th:action="@{'/trantoshipping/'+${idnoti}+'/'+ ${userorder.getIdOrder()}}" method="post">
+							<input style="width: 100pt;" type="text" name="numtrack" id="numtrack">
+							<input type="submit" value="ยืนยัน"
+							th:data-confirm-submit="|ยืนยันเลข track ของออเดอร์ #${userorder.getIdOrder()}?|"
+							onclick="if (!confirm(this.getAttribute('data-confirm-submit'))) return false">
+						</form>
+					</td>
 				</tr>
 			</table>
 	</div>

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import com.example.demo.OrderId;
 import com.example.demo.Productjson;
 import com.example.demo.entities.category;
 import com.example.demo.entities.delivery;
+import com.example.demo.entities.notification;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.orderdetailid;
 import com.example.demo.entities.productdetail;
@@ -29,6 +32,7 @@ import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.AccountRepository;
 import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.repositories.DeliveryRepository;
+import com.example.demo.repositories.NotificationRepository;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.ProductDetailRepository;
 import com.example.demo.repositories.UserAddressRepository;
@@ -61,6 +65,9 @@ public class BuyproductController {
 	@Autowired
 	private DeliveryRepository deliveryRepo;
 	
+	@Autowired
+	private NotificationRepository notiRepo;
+	
 	@ModelAttribute("orderid")
 	public OrderId setUporderid() {
 		return new OrderId();
@@ -68,6 +75,7 @@ public class BuyproductController {
 	
 	@GetMapping("/buyproduct")
 	public String buyproduct(@ModelAttribute("orderid") OrderId Sorderid
+			,@SessionAttribute("user") userprofile user
 			,Model model) {
 		List<category> catlist = new ArrayList<category>();
 		catlist = categoryRepo.findAll();
@@ -88,6 +96,13 @@ public class BuyproductController {
 		if(!(Sorderid.getOrderid().equalsIgnoreCase("noid"))) {
 			numcart = orderdetailRepo.countNoOrderbyId(Integer.parseInt(Sorderid.getOrderid()));
 		}
+		int countnoti = notiRepo.countAllBysubjectCustomer(user.getIdUser());
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectCustomer(user.getIdUser(), PageWithnineElements);
+		model.addAttribute("sourceweb", "/buyproduct");
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("numcart", numcart);
 		model.addAttribute("id", Sorderid.getOrderid());
 		model.addAttribute("products", products);
@@ -98,6 +113,7 @@ public class BuyproductController {
 	
 	@GetMapping("/buyproduct/{idorder}")
 	public String buyproduct(@PathVariable("idorder") String idorder
+			,@SessionAttribute("user") userprofile user
 			,@ModelAttribute("orderid") OrderId Sorderid
 			,Model model) {
 		List<category> catlist = new ArrayList<category>();
@@ -115,6 +131,13 @@ public class BuyproductController {
 		if(!(Sorderid.getOrderid().equalsIgnoreCase("noid"))) {
 			numcart = orderdetailRepo.countNoOrderbyId(Integer.parseInt(Sorderid.getOrderid()));
 		}
+		int countnoti = notiRepo.countAllBysubjectCustomer(user.getIdUser());
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectCustomer(user.getIdUser(), PageWithnineElements);
+		model.addAttribute("sourceweb", "/buyproduct/"+idorder);
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("numcart", numcart);
 		model.addAttribute("id", Sorderid.getOrderid());
 		model.addAttribute("products", products);
@@ -127,6 +150,7 @@ public class BuyproductController {
 	public String buyproduct(@PathVariable("idcat") String idcat
 			,@ModelAttribute("orderid") OrderId Sorderid
 			,@PathVariable("idorder") String idorder
+			,@SessionAttribute("user") userprofile user
 			,Model model) {
 		List<category> catlist = new ArrayList<category>();
 		catlist = categoryRepo.findAll();
@@ -138,6 +162,13 @@ public class BuyproductController {
 		if(!(Sorderid.getOrderid().equalsIgnoreCase("noid"))) {
 			numcart = orderdetailRepo.countNoOrderbyId(Integer.parseInt(Sorderid.getOrderid()));
 		}
+		int countnoti = notiRepo.countAllBysubjectCustomer(user.getIdUser());
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectCustomer(user.getIdUser(), PageWithnineElements);
+		model.addAttribute("sourceweb", "/buyproduct/"+idcat+"/"+idorder);
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("numcart", numcart);
 		model.addAttribute("id", Sorderid.getOrderid());
 		model.addAttribute("products", products);
@@ -354,6 +385,7 @@ public class BuyproductController {
 	@GetMapping("/cart/{idorder}")
 	public String cart(@PathVariable("idorder") String idorder
 			,@ModelAttribute("orderid") OrderId Sorderid
+			,@SessionAttribute("user") userprofile user
 			,Model model) {
 		boolean next = true;
 		int number = 1;
@@ -411,6 +443,13 @@ public class BuyproductController {
 				}
 			}
 		}
+		int countnoti = notiRepo.countAllBysubjectCustomer(user.getIdUser());
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectCustomer(user.getIdUser(), PageWithnineElements);
+		model.addAttribute("sourceweb", "/cart/"+idorder);
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("next", next);
 		model.addAttribute("total", totalOrder);
 		model.addAttribute("orders", orders);

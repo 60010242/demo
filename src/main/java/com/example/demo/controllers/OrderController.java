@@ -23,6 +23,8 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -142,6 +144,13 @@ public class OrderController {
 		}
 		int Allorder = userorderRepo.countAllBystatus("checking");
 		int index = 1;
+		int countnoti = notiRepo.countAllBysubjectSeller();
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		model.addAttribute("sourceweb", "/checking");
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("tabs", tabs);
 		model.addAttribute("Allorder", Allorder);
 		model.addAttribute("index", index);
@@ -198,6 +207,13 @@ public class OrderController {
 		}
 		int Allorder = userorderRepo.countAllBystatus("checking");
 		int index = 2;
+		int countnoti = notiRepo.countAllBysubjectSeller();
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		model.addAttribute("sourceweb", "/checking/"+namebank);
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("tabs", tabs);
 		model.addAttribute("Allorder", Allorder);
 		model.addAttribute("index", index);
@@ -214,24 +230,19 @@ public class OrderController {
 
 		notification noti = new notification();
 		notification setnoti = new notification();
-		System.out.println("1");
 		if(notiRepo.getByIdorder(idorder)!=null) {
-			System.out.println("2");
 			noti = notiRepo.getByIdorder(idorder);
 			setnoti = notiRepo.findById(noti.getIdNoti()).get();
 		}else {
-			System.out.println("else");
 			setnoti.setIdOrder(idorder);
 			userorder notiorder = new userorder();
 			notiorder = userorderRepo.getByIdOrder(idorder);
 			setnoti.setIdUser(notiorder.getUserprofile().getIdUser());
 		}
-		System.out.println("3");
 		setnoti.setSubject("การชำระเงินสำเร็จแล้ว");
 		setnoti.setMessage("ผู้ขายยืนยันการชำระเงินของคำสั่งซื้อ "+idorder+" แล้ว");
 		setnoti.setUserread(0);
 		setnoti.setCreatedNoti(LocalDateTime.now());
-		System.out.println("4");
 		notiRepo.save(setnoti);
 		
 		userorder order = new userorder(); 
@@ -343,6 +354,13 @@ public class OrderController {
 		}
 		int Allorder = userorderRepo.countAllBystatus("tracking");
 		int index = 1;
+		int countnoti = notiRepo.countAllBysubjectSeller();
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		model.addAttribute("sourceweb", "/tracking");
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("tabs", tabs);
 		model.addAttribute("Allorder", Allorder);
 		model.addAttribute("index", index);
@@ -400,6 +418,13 @@ public class OrderController {
 		}
 		int Allorder = userorderRepo.countAllBystatus("tracking");
 		int index = 2;
+		int countnoti = notiRepo.countAllBysubjectSeller();
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		model.addAttribute("sourceweb", "/tracking/"+namedeli);
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("tabs", tabs);
 		model.addAttribute("Allorder", Allorder);
 		model.addAttribute("index", index);
@@ -456,6 +481,13 @@ public class OrderController {
 		numorders.add(numship);
 		int numcom = userorderRepo.countAllBystatus("complete");
 		numorders.add(numcom);
+		int countnoti = notiRepo.countAllBysubjectSeller();
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		model.addAttribute("sourceweb", "/complete/"+status);
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("numorders", numorders);
 		model.addAttribute("userlist", ul);
 		model.addAttribute("monthlist", monthlist);
@@ -507,6 +539,13 @@ public class OrderController {
 		numorders.add(numcon);
 		int numtran = userorderRepo.countAllBystatus("transferred");
 		numorders.add(numtran);
+		int countnoti = notiRepo.countAllBysubjectSeller();
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectSeller(PageWithnineElements);
+		model.addAttribute("sourceweb", "/cancel/"+status);
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("numorders", numorders);
 		model.addAttribute("status",status);
 		model.addAttribute("daylist", daylist);
@@ -640,6 +679,13 @@ public class OrderController {
 			//tran.getImage()
 			transgroup.add(tran);
 		}
+		int countnoti = notiRepo.countAllBysubjectCustomer(user.getIdUser());
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectCustomer(user.getIdUser(), PageWithnineElements);
+		model.addAttribute("sourceweb", "/buytransfer");
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("transgroup", transgroup);
 		return "buytransfer";
 	}
@@ -670,7 +716,7 @@ public class OrderController {
 		userorderRepo.save(userorder);
 		
 		notification noti = new notification();
-		noti.setSubject("ตรวจสอบการชำระเงิน ");
+		noti.setSubject("ตรวจสอบการชำระเงิน");
 		noti.setMessage("กรุณาตรวจสอบการชำระเงินของคำสั่งซื้อ "+sendid);
 		noti.setUserread(0);
 		noti.setCreatedNoti(LocalDateTime.now());
@@ -805,6 +851,13 @@ public class OrderController {
 		numorders.add(num2);
 		int num3 = userorderRepo.countAllBystatus("transferred")+userorderRepo.countAllBystatus("cancel")+userorderRepo.countAllBystatus("contact")+userorderRepo.countAllBystatus("notpay");
 		numorders.add(num3);
+		int countnoti = notiRepo.countAllBysubjectCustomer(userprofile.getIdUser());
+		List<notification> notilist = new ArrayList<notification>();
+		Pageable PageWithnineElements = PageRequest.of(0, 15);
+		notilist = notiRepo.getBysubjectCustomer(userprofile.getIdUser(), PageWithnineElements);
+		model.addAttribute("sourceweb", "/buytrack/"+state);
+		model.addAttribute("notilist", notilist);
+		model.addAttribute("countnoti", countnoti);
 		model.addAttribute("numorders", numorders);
 		model.addAttribute("state", state);
 		model.addAttribute("userlist", ul);
