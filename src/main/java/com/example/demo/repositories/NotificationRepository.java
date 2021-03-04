@@ -26,4 +26,10 @@ public interface NotificationRepository extends JpaRepository<notification, Inte
 	
 	@Query("from notification n where n.idUser = :idUser and (n.subject = 'การชำระเงินสำเร็จแล้ว' or n.subject = 'สินค้าถูกจัดส่งแล้ว' or n.subject = 'คำสั่งซื้อถูกยกเลิก' or n.subject = 'ผู้ขายติดต่อแล้ว' or n.subject = 'ผู้ขายโอนเงินคืนแล้ว') order by n.createdNoti desc")
 	List<notification> getBysubjectCustomer(@Param("idUser")int idUser,Pageable pageable);
+	
+	@Query("from notification n where n.subject = 'ตรวจสอบการชำระเงิน' or n.subject = 'จัดส่งสำเร็จ' order by n.createdNoti desc")
+	List<notification> getAllBysubjectSeller();
+	
+	@Query("from notification n where n.idUser = :idUser and (n.subject = 'การชำระเงินสำเร็จแล้ว' or n.subject = 'สินค้าถูกจัดส่งแล้ว' or n.subject = 'คำสั่งซื้อถูกยกเลิก' or n.subject = 'ผู้ขายติดต่อแล้ว' or n.subject = 'ผู้ขายโอนเงินคืนแล้ว') order by n.createdNoti desc")
+	List<notification> getAllBysubjectCustomer(@Param("idUser")int idUser);
 }

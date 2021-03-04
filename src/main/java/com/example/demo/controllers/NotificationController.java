@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.example.demo.entities.notification;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.userorder;
+import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.NotificationRepository;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.UserOrderRepository;
@@ -88,6 +90,66 @@ public class NotificationController {
 		noti = notiRepo.findById(idnoti).get();
 		noti.setUserread(1);
 		notiRepo.save(noti);
+		return "redirect:/"+sourceweb+"/"+state+"/"+state2;
+	}
+	
+	@GetMapping("/readall/{sourceweb}")
+	public String readall(@PathVariable("sourceweb") String sourceweb
+			,@SessionAttribute("user") userprofile user) {
+		System.out.println(sourceweb);
+		List<notification> notilist = new ArrayList<notification>();
+		if(user.getType().equalsIgnoreCase("Seller")) {
+			notilist = notiRepo.getAllBysubjectSeller();
+		}else {
+			notilist = notiRepo.getAllBysubjectCustomer(user.getIdUser());
+		}
+		for(notification fornoti :notilist) {
+			notification noti = new notification();
+			noti = notiRepo.findById(fornoti.getIdNoti()).get();
+			noti.setUserread(1);
+			notiRepo.save(noti);
+		}
+		return "redirect:/"+sourceweb;
+	}
+	
+	@GetMapping("/readall/{sourceweb}/{state}")
+	public String readreadall(@PathVariable("sourceweb") String sourceweb
+			,@PathVariable("state") String state
+			,@SessionAttribute("user") userprofile user) {
+		System.out.println(sourceweb+" "+state);
+		List<notification> notilist = new ArrayList<notification>();
+		if(user.getType().equalsIgnoreCase("Seller")) {
+			notilist = notiRepo.getAllBysubjectSeller();
+		}else {
+			notilist = notiRepo.getAllBysubjectCustomer(user.getIdUser());
+		}
+		for(notification fornoti :notilist) {
+			notification noti = new notification();
+			noti = notiRepo.findById(fornoti.getIdNoti()).get();
+			noti.setUserread(1);
+			notiRepo.save(noti);
+		}
+		return "redirect:/"+sourceweb+"/"+state;
+	}
+	
+	@GetMapping("/readall/{sourceweb}/{state}/{state2}")
+	public String readreadall(@PathVariable("sourceweb") String sourceweb
+			,@PathVariable("state") String state
+			,@PathVariable("state2") String state2
+			,@SessionAttribute("user") userprofile user) {
+		System.out.println(sourceweb+" "+state+" "+state2);
+		List<notification> notilist = new ArrayList<notification>();
+		if(user.getType().equalsIgnoreCase("Seller")) {
+			notilist = notiRepo.getAllBysubjectSeller();
+		}else {
+			notilist = notiRepo.getAllBysubjectCustomer(user.getIdUser());
+		}
+		for(notification fornoti :notilist) {
+			notification noti = new notification();
+			noti = notiRepo.findById(fornoti.getIdNoti()).get();
+			noti.setUserread(1);
+			notiRepo.save(noti);
+		}
 		return "redirect:/"+sourceweb+"/"+state+"/"+state2;
 	}
 	

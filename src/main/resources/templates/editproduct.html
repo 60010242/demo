@@ -108,6 +108,7 @@ $(document).ready(function(){
 
 <div id="notification" class="notification">
 	<div class="headnotification"><h3 style="margin: 0;">การแจ้งเตือน</h3></div>
+	<a th:href="@{'/readall'+${sourceweb}}">อ่านทั้งหมด</a>
 	<bodynotification>
 		<div th:each="noti : ${notilist}">
 			<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getSubject()}" target="_blank"></a><br>
