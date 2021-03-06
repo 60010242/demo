@@ -439,6 +439,19 @@ public class OrderController {
 	public String findcomplete(@PathVariable("status") String status
 			,Model model) {
 		List<userorder> userorders = new ArrayList<userorder>();
+		userorders = userorderRepo.getByStatus("shipping");
+		for(userorder u : userorders) {
+			LocalDateTime to = LocalDateTime.now();
+			long days = ChronoUnit.DAYS.between(u.getCratedOrder(), to);
+			System.out.println(days);
+			if(days>14) {
+				userorder user = new userorder();
+				user = userorderRepo.findById(u.getIdOrder()).get();
+				user.setStatus("complete");
+				user.setCratedOrder(LocalDateTime.now());
+				userorderRepo.save(user);
+			}
+		}
 		List<orderdetail> orderlists = new ArrayList<orderdetail>();
 		userorders = userorderRepo.getByStatus(status);
 		//"shipping", "complete"
@@ -773,15 +786,15 @@ public class OrderController {
 	public String buytrack(@SessionAttribute("user") userprofile userprofile
 			,@PathVariable("state") Integer state
 			,Model model) {
-		List<userorder> userorders = new ArrayList<userorder>();
 		List<userorder> Alluserorders = new ArrayList<userorder>();
 		List<orderdetail> orderlists = new ArrayList<orderdetail>();
+		List<userorder> userorders = new ArrayList<userorder>();
 		userorders = userorderRepo.getByStatusAndIduser("shipping", userprofile.getIdUser());
 		for(userorder u : userorders) {
 			LocalDateTime to = LocalDateTime.now();
 			long days = ChronoUnit.DAYS.between(u.getCratedOrder(), to);
 			System.out.println(days);
-			if(days>10) {
+			if(days>14) {
 				userorder user = new userorder();
 				user = userorderRepo.findById(u.getIdOrder()).get();
 				user.setStatus("complete");
