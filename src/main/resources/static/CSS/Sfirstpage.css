@@ -134,16 +134,6 @@ close{
 	width: 50px;
 	height: 50px;
 }
-.bellimg{
-	position: fixed;
-	top: 0;
-	right: 0px;
-	margin: 15px 10px;
-	width: 30px;
-	height: 30px;
-	cursor: pointer;
-	z-index: 1000;
-}
 .logout{
 	position: fixed;
 	top: 35px;
@@ -373,6 +363,43 @@ bodynotification div div{
 	border-radius: 4px;
 	background-color: var(--lightgrey);
 }
+.bellimg{
+	position: fixed;
+	top: 0;
+	right: 0px;
+	margin: 15px 10px;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	z-index: 1000;
+}
+.bellnoti span{
+	position: fixed;
+	top: 0;
+	right: 0px;
+	margin: 6px;
+	padding: 2px 5px;
+	font-size: 12px;
+	border-radius: 5px;
+	background-color: red;
+	color: white;
+	z-index: 1001;
+}
+.readallnoti{
+	position: fixed;
+	right: 0;
+	top: 60px;
+	color: blue;
+	text-decoration: none;
+	margin: 20px;
+}
+.notimsg a:first-child{
+	font-size: 14px;
+	font-weight: bold;
+}
+.notimsg a:last-child{
+	font-size: 12px;
+}
 
 #resultmsg{
 	color: white;
@@ -429,15 +456,13 @@ bodynotification div div{
 .btncheck{
 	background-color: var(--green);
 	color: white;
-	width: 60pt;
-	height: 22pt;
+	border-radius: 5pt;
+	text-align: center;
+	color: white;
 	border: none;
-	border-radius: 22px;
-	box-shadow: 2px 2px 5px gray;
-	cursor: pointer;
-}
-.btncheck a{
+	padding: 10px;
 	text-decoration: none;
+	cursor: pointer;
 }
 
 .btnsubmit{
@@ -455,11 +480,8 @@ bodynotification div div{
 	text-decoration: none;
 	cursor: pointer;
 }
-.btnsubmit:hover{
+.btnsubmit:hover, .btncheck:hover{
 	background-color: darkgreen;
-	width: 50pt;
-	height: 20pt;
-	line-height: 20pt;
 	font-weight: bolder;
 	border: outset 1pt white;
 }

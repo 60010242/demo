@@ -14,7 +14,7 @@ public interface NotificationRepository extends JpaRepository<notification, Inte
 	@Query("from notification n where n.idOrder = :idOrder")
 	notification getByIdorder(@Param("idOrder")int idOrder);
 	
-	@Query("select COUNT(*) from notification n where n.subject = 'ตรวจสอบการชำระเงิน' or n.subject = 'จัดส่งสำเร็จ' and n.userread = 0")
+	@Query("select COUNT(*) from notification n where (n.subject = 'ตรวจสอบการชำระเงิน' or n.subject = 'จัดส่งสำเร็จ') and n.userread = 0")
 	int countAllBysubjectSeller();
 	
 	@Query("select COUNT(*) from notification n where n.userread = 0 and n.idUser = :idUser and (n.subject = 'การชำระเงินสำเร็จแล้ว' or n.subject = 'สินค้าถูกจัดส่งแล้ว' or n.subject = 'คำสั่งซื้อถูกยกเลิก' or n.subject = 'ผู้ขายติดต่อแล้ว' or n.subject = 'ผู้ขายโอนเงินคืนแล้ว')")
