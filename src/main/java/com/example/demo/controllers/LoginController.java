@@ -73,4 +73,10 @@ public class LoginController {
 		
 		return "forgotpassword";
 	}
+	
+	@GetMapping("/newpassword")
+	public String newpassword() {
+		
+		return "newpassword";
+	}
 }
