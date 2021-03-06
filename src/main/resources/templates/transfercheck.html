@@ -130,11 +130,14 @@ function on(orderId) {
 
 <div id="notification" class="notification">
 	<div class="headnotification"><h3 style="margin: 0;">การแจ้งเตือน</h3></div>
-	<a th:href="@{'/readall'+${sourceweb}}">อ่านทั้งหมด</a>
+	<a class="readallnoti" th:href="@{'/readall'+${sourceweb}}">อ่านทั้งหมด</a>
 	<bodynotification>
 		<div th:each="noti : ${notilist}">
-			<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getSubject()}" target="_blank"></a><br>
-			<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getMessage()}" target="_blank"></a>
+			<div class="notimsg">
+				<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getSubject()}" target="_blank"></a><br>
+				<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getMessage()}" target="_blank"></a>
+			</div>
+			
 			<div style="width: 50px;" th:if="${noti.getUserread()==0}"><a style="color: var(--blue); font-size: 14px;" th:href="@{'/readnoti'+${sourceweb}+'/'+${noti.getIdNoti()}}">อ่านแล้ว</a></div>
 			<hr/>
 		</div>
