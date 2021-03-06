@@ -78,21 +78,22 @@ public class UserController {					// about user and user tables
 			if(usercheck.getEmail().equalsIgnoreCase(user.getEmail())) {
 				pass = false;
 				message = "This email is already registered. Please use another email.";
-			}else {
-				userprofile profile = new userprofile();
-				if(!file.isEmpty()) {
-					CreateFile bFile = new CreateFile();
-					String image = bFile.invertfile(file);
-					user.setPhotoUser(image);
-				}
-				user.setType("Customer");				//Customer
-				user.setCoin(0);
-				profile = userprofileRepo.save(user);
-				useraddress address = new useraddress();
-				address.setAddress(newaddress);
-				address.setIdUser(profile.getIdUser());
-				useraddressRepo.save(address);
 			}
+		}
+		if(pass) {
+			userprofile profile = new userprofile();
+			if(!file.isEmpty()) {
+				CreateFile bFile = new CreateFile();
+				String image = bFile.invertfile(file);
+				user.setPhotoUser(image);
+			}
+			user.setType("Customer");				//Customer
+			user.setCoin(0);
+			profile = userprofileRepo.save(user);
+			useraddress address = new useraddress();
+			address.setAddress(newaddress);
+			address.setIdUser(profile.getIdUser());
+			useraddressRepo.save(address);
 		}
 		model.addAttribute("pass", pass);
 		model.addAttribute("message", message);
