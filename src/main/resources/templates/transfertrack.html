@@ -9,6 +9,7 @@
 <link rel="stylesheet" th:href="@{/CSS/overlay.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" th:src="@{/JS/general.js}"></script>
 <script type="text/javascript" th:src="@{/JS/sellerjs.js}"></script>
 <script type="text/javascript" th:src="@{/JS/notification.js}"></script>
 
@@ -76,14 +77,7 @@ $(document).ready(function(){
 	    }
 	}
 
-	$('#loading').hide();
-	$('#resultmsg').fadeOut(3000);
 })
-
-function confirmandwait(confirmtxt){
-	if(!confirm(confirmtxt)) return false
-	$('#loading').show();
-}
 
 function on() {
 	  document.getElementById("overlay").style.visibility = "visible";

@@ -9,6 +9,7 @@
 <link rel="stylesheet" th:href="@{/CSS/buyerside.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" th:src="@{/JS/general.js}"></script>
 <script type="text/javascript" th:src="@{/JS/notification.js}"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -17,8 +18,6 @@ $(document).ready(function(){
 	$('a.tablinks:nth-child(2)').addClass("active");
 	$('.whitebg table:last-child hr').remove();
 	
-	$('#loading').hide();
-	$('#resultmsg').fadeOut(3000);
 })
 
 function ondetail(orderId) {
@@ -104,9 +103,6 @@ function onaddslip(orderId) {
 	      });
 }
 
-function wait(){
-	$('#loading').show();
-}
 function onsellaccount(){
 	document.getElementById("overlaysellaccount").style.visibility = "visible";
 }

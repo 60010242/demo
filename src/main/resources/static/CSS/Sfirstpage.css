@@ -415,6 +415,12 @@ bodynotification div div{
 	text-align: center;
 	z-index: 10000;
  }
+ #resultmsg.red{
+ 	background-color: rgba(255,0,0,0.4);
+ }
+ #resultmsg.green{
+ 	background-color: rgba(0,150,0,0.4);
+ }
 
 /* details */
 .overdetail{
