@@ -8,8 +8,16 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap"
 	rel="stylesheet">
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" th:src="@{/JS/general.js}"></script>
 </head>
+
 <body class="center">
+
+	<msg th:if="${message != null}">
+		<p id="resultmsg" th:text="${message}"></p>
+	</msg>
 
 	<!-- Main Page -->
 	<div th:replace="navtab :: navheadlogin"></div>
@@ -44,7 +52,6 @@
 				<a href="/forgotpassword" class="forgotpw">ลืมรหัสผ่าน </a>
 				<div class="center newuser-container">
 					<p>ผู้ใช้งานใหม่?... <a href="/signup" class="signup">สร้างบัญชี </a></p>
-					<p th:if="${message == true}" style="color: red;">อีเมล์หรือรหัสผ่านของคุณไม่ถูกต้อง</p>
 				</div>
 			</form>
 

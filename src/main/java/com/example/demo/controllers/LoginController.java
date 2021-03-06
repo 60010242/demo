@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
@@ -73,7 +75,7 @@ public class LoginController {
 					web = "redirect:/firstpage";
 			}else {
 				message = true;
-				model.addAttribute("message", message);
+				model.addAttribute("message", "อีเมล์หรือรหัสผ่านของคุณไม่ถูกต้อง");
 			}
 		}
 		return web;
@@ -119,7 +121,8 @@ public class LoginController {
 	}
 	
 	@PostMapping("/savenewpw")
-	public String savenewpw(Model model
+	public ModelAndView savenewpw(Model model
+			,RedirectAttributes modelfl
 			,@RequestParam(name = "pw") String pw
 			,@RequestParam(name = "iduser") Integer iduser) {
 		userprofile user = new userprofile();
@@ -128,8 +131,8 @@ public class LoginController {
 		userprofileRepo.save(user);
 		String message = "A new password has been set.";
 		model.addAttribute("iduser", iduser);
-		model.addAttribute("message", message);
-		return "newpassword";
+		modelfl.addFlashAttribute("message", message);
+		return new ModelAndView("redirect:/");
 	}
 	
 /* ======================================== SMTP ======================================== */
