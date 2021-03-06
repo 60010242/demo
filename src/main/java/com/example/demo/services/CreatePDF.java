@@ -44,7 +44,7 @@ public class CreatePDF {
 	private UserAddressRepository useraddressRepo;
 	
 	public void printOrder(Document document,String transport,userprofile seller)throws DocumentException {
-		FontFactory.register("D:\\front\\THSarabunNew.ttf", "sarabun");	//D:\\front\\THSarabunNew.ttf
+		FontFactory.register("THSarabunNew.ttf", "sarabun");	//D:\\front\\THSarabunNew.ttf
 		Font boldFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.BOLD);
 		Font textFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.NORMAL);
 		Font headFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.BOLD);
