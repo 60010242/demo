@@ -17,4 +17,7 @@ public interface UserProfileRepository extends JpaRepository<userprofile, Intege
 	
 	@Query("from userprofile o where o.name = :name")
 	List<userprofile> findByname(@Param("name")String name);
+	
+	@Query("from userprofile o where o.email = :email")
+	userprofile findOneByEmail(@Param("email")String email);
 }

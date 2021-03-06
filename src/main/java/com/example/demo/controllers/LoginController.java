@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -74,9 +76,42 @@ public class LoginController {
 		return "forgotpassword";
 	}
 	
-	@GetMapping("/newpassword")
-	public String newpassword() {
-		
+	@PostMapping("/sendforgot")
+	public String sendforgot(Model model
+			,@RequestParam(name = "email") String email) {
+		String message = "Check your E-mail to set a new password.";
+		boolean pass = true;
+		userprofile user = new userprofile();
+		if(userprofileRepo.findOneByEmail(email)!=null) {
+			user = userprofileRepo.findOneByEmail(email);
+			//ส่งเมลส่งลิงค์ ...../setpassword/user.getIdUser()
+		}else {
+			pass = false;
+			message = "Email is incorrect.";
+		}
+		model.addAttribute("pass", pass);
+		model.addAttribute("message", message);
+		return "forgotpassword";
+	}
+	
+	@GetMapping("/setpassword/{iduser}")
+	public String setpassword(Model model
+			,@PathVariable("iduser") Integer iduser) {
+		model.addAttribute("iduser", iduser);
+		return "newpassword"; //หน้าแก้password
+	}
+	
+	@PostMapping("/savenewpw")
+	public String savenewpw(Model model
+			,@RequestParam(name = "pw") String pw
+			,@RequestParam(name = "iduser") Integer iduser) {
+		userprofile user = new userprofile();
+		user = userprofileRepo.findById(iduser).get();
+		user.setPassword(pw);
+		userprofileRepo.save(user);
+		String message = "A new password has been set.";
+		model.addAttribute("iduser", iduser);
+		model.addAttribute("message", message);
 		return "newpassword";
 	}
 }

@@ -67,7 +67,8 @@
 				<td><input style="float: right;" type="submit" value="Submit" name="button"></td>
 			</tr>
 			<tr th:if="${message != null}">
-					<td colspan="2" th:text="${message}" style="color:green"></td>
+					<td colspan="2" th:text="${message}" style="color:green" th:if="${pass}"></td>
+					<td colspan="2" th:text="${message}" style="color:red" th:if="${!pass}"></td>
 			</tr>
 		</table>
 	</form>

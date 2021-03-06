@@ -70,20 +70,32 @@ public class UserController {					// about user and user tables
 			, BindingResult errors
 			, Model model
 			,@RequestParam("imageFile") MultipartFile file) throws IOException  {
-		userprofile profile = new userprofile();
-		if(!file.isEmpty()) {
-			CreateFile bFile = new CreateFile();
-			String image = bFile.invertfile(file);
-			user.setPhotoUser(image);
+		List<userprofile> userlist = new ArrayList<userprofile>();
+		userlist = userprofileRepo.findAll();
+		String message = "You have already signed.";
+		boolean pass = true;
+		for(userprofile usercheck : userlist) {
+			if(usercheck.getEmail().equalsIgnoreCase(user.getEmail())) {
+				pass = false;
+				message = "This email is already registered. Please use another email.";
+			}else {
+				userprofile profile = new userprofile();
+				if(!file.isEmpty()) {
+					CreateFile bFile = new CreateFile();
+					String image = bFile.invertfile(file);
+					user.setPhotoUser(image);
+				}
+				user.setType("Customer");				//Customer
+				user.setCoin(0);
+				profile = userprofileRepo.save(user);
+				useraddress address = new useraddress();
+				address.setAddress(newaddress);
+				address.setIdUser(profile.getIdUser());
+				useraddressRepo.save(address);
+			}
 		}
-		user.setType("Customer");				//Customer
-		user.setCoin(0);
-		profile = userprofileRepo.save(user);
-		useraddress address = new useraddress();
-		address.setAddress(newaddress);
-		address.setIdUser(profile.getIdUser());
-		useraddressRepo.save(address);
-		model.addAttribute("message", "You have already signed.");
+		model.addAttribute("pass", pass);
+		model.addAttribute("message", message);
 		model.addAttribute("user", new userprofile());
 		return "signup";
 	}
