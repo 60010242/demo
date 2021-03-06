@@ -895,7 +895,8 @@ public class OrderController {
 	}
 	
 	@GetMapping("/createPDF")
-	public String createPDF(Model model) throws IOException {
+	public String createPDF(Model model
+			,@SessionAttribute("user") userprofile user) throws IOException {
 		List<String> deliverylist = new ArrayList<String>();
 		deliverylist = deliRepo.getAllNamedelivery();
 		String transport = deliverylist.get(0);
@@ -909,7 +910,7 @@ public class OrderController {
 				Document document = new Document(PageSize.A4);
 				PdfWriter.getInstance(document, new FileOutputStream(filepath));
 				document.open();
-				pdf.printOrder(document, transport);
+				pdf.printOrder(document, transport,user);
 				document.close();
 				byte[] inFileBytes = Files.readAllBytes(Paths.get(filepath)); 
 				encoded = Base64.getEncoder().encodeToString(inFileBytes);
@@ -922,14 +923,11 @@ public class OrderController {
 			check = 0;
 			encoded = "OUT OF ORDER";
 		}
-		List<userprofile> sellerlist = new ArrayList<userprofile>();
-		userprofile seller = new userprofile();
-		sellerlist = userprofileRepo.findOneByType("Seller");
-		seller = sellerlist.get(0);
+		
 		List<useraddress> selladdress = new ArrayList<useraddress>();
-		selladdress = useraddressRepo.getByIdUser(seller.getIdUser());
+		selladdress = useraddressRepo.getByIdUser(user.getIdUser());
 		boolean address = false;
-		if(selladdress.get(0)!=null) {
+		if(selladdress!=null) {
 			address = true;
 		}
 		model.addAttribute("address", address);
@@ -941,7 +939,8 @@ public class OrderController {
 	
 	@GetMapping("/createPDF/{transport}")
 	public String createPDF2(@PathVariable("transport") String transport
-			,Model model) throws IOException {
+			,Model model
+			,@SessionAttribute("user") userprofile user) throws IOException {
 		String filepath = "Desktop" + transport + ".pdf";
 		List<String> deliverylist = new ArrayList<String>();
 		deliverylist = deliRepo.getAllNamedelivery();
@@ -954,7 +953,7 @@ public class OrderController {
 				Document document = new Document(PageSize.A4);
 				PdfWriter.getInstance(document, new FileOutputStream(filepath));
 				document.open();
-				pdf.printOrder(document, transport);
+				pdf.printOrder(document, transport,user);
 				document.close();
 				byte[] inFileBytes = Files.readAllBytes(Paths.get(filepath)); 
 				encoded = Base64.getEncoder().encodeToString(inFileBytes);
@@ -967,14 +966,10 @@ public class OrderController {
 			check = 0;
 			encoded = "OUT OF ORDER";
 		}
-		List<userprofile> sellerlist = new ArrayList<userprofile>();
-		userprofile seller = new userprofile();
-		sellerlist = userprofileRepo.findOneByType("Seller");
-		seller = sellerlist.get(0);
 		List<useraddress> selladdress = new ArrayList<useraddress>();
-		selladdress = useraddressRepo.getByIdUser(seller.getIdUser());
+		selladdress = useraddressRepo.getByIdUser(user.getIdUser());
 		boolean address = false;
-		if(selladdress.get(0)!=null) {
+		if(selladdress!=null) {
 			address = true;
 		}
 		model.addAttribute("address", address);

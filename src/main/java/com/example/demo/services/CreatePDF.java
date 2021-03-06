@@ -43,15 +43,12 @@ public class CreatePDF {
 	@Autowired
 	private UserAddressRepository useraddressRepo;
 	
-	public void printOrder(Document document,String transport)throws DocumentException {
-		FontFactory.register("D:\\front\\THSarabunNew.ttf", "sarabun");
+	public void printOrder(Document document,String transport,userprofile seller)throws DocumentException {
+		FontFactory.register("D:\\front\\THSarabunNew.ttf", "sarabun");	//D:\\front\\THSarabunNew.ttf
 		Font boldFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.BOLD);
 		Font textFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.NORMAL);
 		Font headFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.BOLD);
-		List<userprofile> sellerlist = new ArrayList<userprofile>();
-		userprofile seller = new userprofile();
-		sellerlist = userprofileRepo.findOneByType("Seller");
-		seller = sellerlist.get(0);
+		
 		List<userorder> userorders = new ArrayList<userorder>();
 		List<orderdetail> orderlists = new ArrayList<orderdetail>();
 		System.out.println(transport);
@@ -90,7 +87,7 @@ public class CreatePDF {
 			
 			insertCell(table1,"ผู้ส่ง (from)",Element.ALIGN_LEFT,1,textFont);
 			
-			if(selladdress.get(0)!=null) {
+			if(selladdress!=null) {
 				Saddress = selladdress.get(0);
 				insertCell(table1,Saddress.getAddress(),Element.ALIGN_LEFT,1,textFont);
 			}else {
