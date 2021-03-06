@@ -23,7 +23,8 @@ body{
 }
 
 .logintable input[type="text"],
-.logintable input[type="password"] {
+.logintable input[type="password"],
+.col input[type="password"] {
 	height: 16pt;
 	border-radius: 16pt;
 	border: 1px solid gray;

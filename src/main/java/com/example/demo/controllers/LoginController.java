@@ -2,6 +2,15 @@ package com.example.demo.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.example.demo.entities.orderdetail;
+import com.example.demo.entities.productdetail;
+import com.example.demo.entities.smtp;
 import com.example.demo.entities.userprofile;
+import com.example.demo.repositories.OrderDetailRepository;
+import com.example.demo.repositories.ProductDetailRepository;
+import com.example.demo.repositories.SmtpRepository;
 import com.example.demo.repositories.UserProfileRepository;
 
 @Controller
@@ -78,13 +93,15 @@ public class LoginController {
 	
 	@PostMapping("/sendforgot")
 	public String sendforgot(Model model
-			,@RequestParam(name = "email") String email) {
+			,@RequestParam(name = "email") String email
+			, HttpServletRequest request) {
 		String message = "Check your E-mail to set a new password.";
 		boolean pass = true;
 		userprofile user = new userprofile();
 		if(userprofileRepo.findOneByEmail(email)!=null) {
 			user = userprofileRepo.findOneByEmail(email);
 			//ส่งเมลส่งลิงค์ ...../setpassword/user.getIdUser()
+			toSendMail(5, user.getIdUser(), email, request.getLocalName());
 		}else {
 			pass = false;
 			message = "Email is incorrect.";
@@ -113,5 +130,117 @@ public class LoginController {
 		model.addAttribute("iduser", iduser);
 		model.addAttribute("message", message);
 		return "newpassword";
+	}
+	
+/* ======================================== SMTP ======================================== */
+	
+	@Autowired
+	private SmtpRepository smtpRepo;
+	
+	
+	public String toSendMail(Integer msg_type, Integer idorder, String target_mail, String origin) {
+		/* msg_type
+		 * 0 = ผู้ขายลงทะเบียน Auto send mail
+		 * 1 = ผู้ขาย มีรายการคำสั่งซื้อใหม่
+		 * 2 = ผู้ขาย ทำการยกเลิกสินค้า
+		 * 3 = ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
+		 * 4 = ผู้ซื้อ ถูกยกเลิกสินค้า
+		 * 5 = ลืมรหัสผ่าน*/
+		
+		
+		String base_url = "http://" +origin+ ":7070";
+		String msg_subject, msg_body;
+		
+		msg_subject = mailText(msg_type ,idorder, base_url)[0];
+		msg_body = mailText(msg_type ,idorder, base_url)[1];
+		
+		System.out.println(msg_subject +"\n\n"+ msg_body);
+		
+		return sendEmail(target_mail, msg_subject, msg_body);
+	}
+	
+	
+	String sendEmail(String target_mail, String subject, String body_text) {
+		
+		// seller session ..will use from database
+		smtp smtp_have = new smtp();
+		smtp_have = smtpRepo.findById(smtpRepo.findAll().get(0).getIdSmtp()).get();
+		
+		String resulttxt = "",
+				username = smtp_have.getGmail(),
+				password = smtp_have.getPasswordgen(); //fmrftkyefqyonglu
+		
+		
+		Properties props = new Properties();
+		
+		// set SMTP seller to send G-mail
+		props.put("mail.host", "smtp.gmail.com");
+		props.put("mail.port", "587");
+		props.put("mail.username", username);
+		props.put("mail.password", password);
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.timeout", "5000");
+		props.put("mail.smtp.writetimeout", "5000");
+		props.put("mail.smtp.connectiontimeout", "5000");
+		props.put("mail.smtp.starttls.enable", "true");
+		
+		Session mailSession = Session.getInstance(props,
+			new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(username, password);
+				}
+			});
+		
+		mailSession.setDebug(true);
+		
+		// Send mail
+		MimeMessage msg = new MimeMessage(mailSession);
+
+        try {
+        	// target mail
+			msg.setRecipients(Message.RecipientType.TO, target_mail);
+			msg.setSubject(subject); //subject mail
+			msg.setContent(body_text, "text/html; charset=utf-8"); //text will send to customer
+
+			Transport.send(msg);
+			
+			resulttxt = "Success";
+			System.out.println(resulttxt);
+			
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			resulttxt = "Fail";
+			System.out.println(resulttxt);
+		}
+        
+        return resulttxt;
+	}
+	
+	
+	// Message Send
+	String[] mailText(Integer msg_type, Integer iduser, String base_url) {
+		
+		/* msg_type
+		 * 0 = ผู้ขายลงทะเบียน Auto send mail
+		 * 1 = ผู้ขาย มีรายการคำสั่งซื้อใหม่, ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
+		 * 2 = ผู้ขาย ทำการยกเลิกสินค้า, ผู้ซื้อ ถูกยกเลิกสินค้า
+		 * 3 = ผู้ซื้อ แจ้งเตือนรายการคำสั่งซื้อ
+		 * 4 = ผู้ซื้อ ถูกยกเลิกสินค้า
+		 * 5 = ลืมรหัสผ่าน*/
+
+		String css =
+				"<style>"
+				+ "table{ width: 500px; border: 1px solid gray; }"
+				+ "table tr:first-child td{ background-color: gray; color: white; }"
+				+ "table td:first-child{ width: 55%; }"
+				+ "table td:NOT(first-child){ width: 15%; }"
+				+ "table tr:last-child td{ background-color: lightgray; color: black; font-weight: bold; }"
+				+ "</style>";
+				
+		
+	    String[] datasend = { 
+					"แก้ไขรหัสผ่านของท่าน", css+"<body>"+"ตั้งค่ารหัสผ่านใหม่"+"<br/><br/>"+base_url +"/setpassword/"+iduser+"</body>"};
+		return datasend;
 	}
 }
