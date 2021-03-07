@@ -203,11 +203,11 @@ $(document).ready(function(){
 			<product class="center" th:each="product: ${products}" th:if="${product.getEnable()==1}">
 				<div>
 					<p id="idproduct" th:value="${product.getIdProduct()}" hidden="true"></p>
-					<a th:attr="onclick=|oneditproduct('${product.getIdProduct()}')|">
+					<a th:attr="onclick=|oneditproduct('${product.getIdProduct(),cat.getIdCategory()}')|">
 						<img class="imgproduct" th:if="${product.getPhotoProduct() == null}" alt="can't download" th:src="@{'/Icon/no-image.png'}">
 						<img class="imgproduct" th:if="${product.getPhotoProduct() != null}" alt="can't download" th:src="@{'data:image/jpeg;base64,'+${product.getPhotoProduct()}}">
 					</a>
-					<a th:attr="onclick=|oneditproduct('${product.getIdProduct()}')|">
+					<a th:attr="onclick=|oneditproduct('${product.getIdProduct()}','${cat.getIdCategory()}')|">
 						<span th:text="${product.getNameProduct()}"></span>
 					</a>
 					<a th:href="@{'/editshowproduct/' + ${product.getIdProduct()} +'/' + ${cat.getIdCategory()}}"

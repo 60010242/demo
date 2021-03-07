@@ -127,10 +127,12 @@ public class ProductController {
 		return "redirect:/editproduct/" + idcat;
 	}
 	
-	@GetMapping("/editoneproduct/{idproduct}")
+	@GetMapping("/editoneproduct/{idproduct}/{idcategory}")
 	public String editoneproduct(@PathVariable("idproduct") Integer idproduct
+			,@PathVariable("idcategory") Integer idcategory
 			,Model model) {
 		model.addAttribute("product", productdetailRepo.getOne(idproduct));
+		model.addAttribute("idcategory", idcategory);
 		return "editoneproduct";
 	}
 
@@ -139,6 +141,7 @@ public class ProductController {
 			, BindingResult errors
 			, Model model
 			,@RequestParam("idproduct") Integer idproduct
+			,@RequestParam("idcategory") Integer idcategory
 			,@RequestParam(name = "numS", defaultValue = "0") Integer numS
 			,@RequestParam(name = "numM", defaultValue = "0") Integer numM
 			,@RequestParam(name = "numL", defaultValue = "0") Integer numL
@@ -167,7 +170,7 @@ public class ProductController {
 			productdetailRepo.save(pro);
 		}
 		System.out.println(product.getCategory());
-		return "redirect:/firstpage";
+		return "redirect:/editproduct/"+idcategory;
 	}
 	
 	@GetMapping("/editshowproduct/{idproduct}/{idcat}")

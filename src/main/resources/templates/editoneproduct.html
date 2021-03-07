@@ -45,6 +45,7 @@
 				<td><input type="number" th:value="${product.getWeight()}" th:field="*{weight}"> กก.</td>
 			</tr>
 		</table>
+		<input type="hidden" th:value="${idcategory}" name="idcategory">
 		<input type="hidden" th:value="${product.getIdProduct()}" name="idproduct">
 		<input type="hidden" th:value="${product.getCategory()}" th:field="*{category}">
 		<input class="overlayconfirm" type="submit" value="Submit" name="button">

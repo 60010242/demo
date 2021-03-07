@@ -19,8 +19,8 @@ function searchFor(select){
 function onaddproduct() {
 	document.getElementById("overlayaddproduct").style.visibility = "visible";
 }
-function oneditproduct(idproduct) {	
-	$.ajax({url: "/editoneproduct/"+idproduct, success: function(result){
+function oneditproduct(idproduct,idcategory) {	
+	$.ajax({url: "/editoneproduct/"+idproduct+"/"idcategory+, success: function(result){
 	      $("#editproductpage").html(result);
 	}});
 	
