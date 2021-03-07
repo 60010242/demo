@@ -20,18 +20,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.entities.orderdetail;
-import com.example.demo.entities.productdetail;
+import com.example.demo.OrderId;
 import com.example.demo.entities.smtp;
+import com.example.demo.entities.userorder;
 import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.OrderDetailRepository;
-import com.example.demo.repositories.ProductDetailRepository;
 import com.example.demo.repositories.SmtpRepository;
+import com.example.demo.repositories.UserOrderRepository;
 import com.example.demo.repositories.UserProfileRepository;
 
 @Controller
@@ -41,6 +42,12 @@ public class LoginController {
 	
 	@Autowired
 	private UserProfileRepository userprofileRepo;
+	
+	@Autowired
+	private UserOrderRepository userorderRepo;
+	
+	@Autowired
+	private OrderDetailRepository orderdetailRepo;
 	
 	@ModelAttribute("user")
 	public userprofile setUpUserForm() {

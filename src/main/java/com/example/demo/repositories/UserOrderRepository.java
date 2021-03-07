@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entities.userorder;
 
@@ -35,7 +37,7 @@ public interface UserOrderRepository extends JpaRepository<userorder, Integer> {
 	@Query("from userorder o where o.idOrder = :idOrder")
 	userorder getByIdOrder(@Param("idOrder")int idOrder);
 	
-	@Query("from userorder o where o.idUser = :idUser")
+	@Query("from userorder o where o.idUser = :idUser and o.status is not null")
 	List<userorder> getByidUser(@Param("idUser")int idUser);
 	
 	@Query("from userorder o where o.status = :status and o.sellerBank = :bank order by o.payTime asc")
@@ -44,9 +46,17 @@ public interface UserOrderRepository extends JpaRepository<userorder, Integer> {
 	@Query("select COUNT(*) from userorder o where o.status = :status")
 	int countAllBystatus(@Param("status")String status);
 	
+	@Query("select COUNT(*) from userorder o where o.status = :status and o.idUser = :idUser")
+	int countAllBystatusAndIduser(@Param("status")String status,@Param("idUser")int idUser);
+	
 	@Query("select COUNT(*) from userorder o where o.status = :status and o.sellerBank = :bank")
 	int countAllBystatusAndSellerbank(@Param("status")String status,@Param("bank")String bank);
 	
 	@Query("select COUNT(*) from userorder o where o.status = :status and o.nameDelivery = :transport")
 	int countAllBystatusAndNamedelivery(@Param("status")String status,@Param("transport")String transport);
+
+	@Modifying
+	@Transactional
+	@Query (nativeQuery = true, value="DELETE FROM userorder WHERE id_order = :idOrder")
+	void deleteByIdorder(@Param("idOrder")int idOrder);
 }

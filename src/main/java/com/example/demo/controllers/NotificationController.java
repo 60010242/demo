@@ -177,7 +177,7 @@ public class NotificationController {
 		setnoti.setUserread(0);
 		setnoti.setCreatedNoti(LocalDateTime.now());
 		notiRepo.save(setnoti);
-		return "redirect:/notidirect/"+idnoti;
+		return "redirect:/firstpage";
 	}
 	
 	@PostMapping("/trantoshipping/{idnoti}/{idorder}")
@@ -206,6 +206,6 @@ public class NotificationController {
 		setnoti.setUserread(0);
 		setnoti.setCreatedNoti(LocalDateTime.now());
 		notiRepo.save(setnoti);
-		return "redirect:/notidirect/"+idnoti;
+		return "redirect:/firstpage";
 	}
 }

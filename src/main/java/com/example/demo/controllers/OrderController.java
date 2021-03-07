@@ -516,7 +516,7 @@ public class OrderController {
 		List<orderdetail> orderlists = new ArrayList<orderdetail>();
 		userorders = userorderRepo.getByStatus(status);
 		//"cancel", "contact","transferred"
-		LocalDateTime minDate = userorderRepo.findMinPaytimeTwoStatus("cancel", "contact");
+		LocalDateTime minDate = userorderRepo.findMinPaytime(status);
 		LocalDate localDate = LocalDate.now();
 		List<Daygroup> daylist = new ArrayList<Daygroup>();
 		localDate = localDate.plusDays(1);
@@ -858,11 +858,11 @@ public class OrderController {
 			orderlists.addAll(orderdetails);
 		}
 		List<Integer> numorders = new ArrayList<Integer>();
-		int num1 = userorderRepo.countAllBystatus("checking")+userorderRepo.countAllBystatus("tracking");
+		int num1 = userorderRepo.countAllBystatusAndIduser("checking", userprofile.getIdUser())+userorderRepo.countAllBystatusAndIduser("tracking", userprofile.getIdUser());
 		numorders.add(num1);
-		int num2 = userorderRepo.countAllBystatus("shipping")+userorderRepo.countAllBystatus("complete");
+		int num2 = userorderRepo.countAllBystatusAndIduser("shipping", userprofile.getIdUser())+userorderRepo.countAllBystatusAndIduser("complete", userprofile.getIdUser());
 		numorders.add(num2);
-		int num3 = userorderRepo.countAllBystatus("transferred")+userorderRepo.countAllBystatus("cancel")+userorderRepo.countAllBystatus("contact")+userorderRepo.countAllBystatus("notpay");
+		int num3 = userorderRepo.countAllBystatusAndIduser("transferred", userprofile.getIdUser())+userorderRepo.countAllBystatusAndIduser("cancel", userprofile.getIdUser())+userorderRepo.countAllBystatus("contact")+userorderRepo.countAllBystatusAndIduser("notpay", userprofile.getIdUser());
 		numorders.add(num3);
 		int countnoti = notiRepo.countAllBysubjectCustomer(userprofile.getIdUser());
 		List<notification> notilist = new ArrayList<notification>();
@@ -940,7 +940,7 @@ public class OrderController {
 		List<useraddress> selladdress = new ArrayList<useraddress>();
 		selladdress = useraddressRepo.getByIdUser(user.getIdUser());
 		boolean address = false;
-		if(selladdress!=null) {
+		if(!selladdress.isEmpty()||selladdress!=null) {
 			address = true;
 		}
 		model.addAttribute("address", address);
@@ -982,7 +982,7 @@ public class OrderController {
 		List<useraddress> selladdress = new ArrayList<useraddress>();
 		selladdress = useraddressRepo.getByIdUser(user.getIdUser());
 		boolean address = false;
-		if(selladdress!=null) {
+		if(!selladdress.isEmpty()||selladdress!=null) {
 			address = true;
 		}
 		model.addAttribute("address", address);

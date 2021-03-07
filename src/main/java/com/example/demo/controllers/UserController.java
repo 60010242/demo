@@ -285,7 +285,9 @@ public class UserController {					// about user and user tables
 		}else if(type.equalsIgnoreCase("namebuyer")) {
 			if(userprofileRepo.findByname(code)!=null) {
 				users = userprofileRepo.findByname(code);
-				search = true;
+				if(!users.isEmpty()) {
+					search = true;
+				}
 			}
 			text = "ชื่อผู้ซื้อ";
 		}

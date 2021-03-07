@@ -11,34 +11,35 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.CreateFile;
 import com.example.demo.entities.orderdetail;
 import com.example.demo.entities.productdetail;
-import com.example.demo.entities.userprofile;
 import com.example.demo.entities.smtp;
-import com.example.demo.entities.useraddress;
+import com.example.demo.entities.userorder;
+import com.example.demo.entities.userprofile;
 import com.example.demo.repositories.OrderDetailRepository;
 import com.example.demo.repositories.ProductDetailRepository;
 import com.example.demo.repositories.SmtpRepository;
+import com.example.demo.repositories.UserOrderRepository;
 
 @Controller
 public class GeneralController {
+	
+	@Autowired
+	private UserOrderRepository userorderRepo;
+	
+	@Autowired
+	private OrderDetailRepository orderdetailRepo;
 	
 	@GetMapping("/firstpage")
 	public String showuser(@SessionAttribute("user") userprofile user, Model model) {
@@ -119,8 +120,6 @@ public class GeneralController {
 	}
 	
 /* ======================================== SMTP ======================================== */
-	@Autowired
-	private OrderDetailRepository orderdetailRepo;
 	
 	@Autowired
 	private ProductDetailRepository productRepo;

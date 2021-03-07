@@ -92,14 +92,14 @@ function on(orderId) {
 	</div>
 	
 	<div class="brownbg center">
-		<a href="/firstpage" class="back"><</a>
+		<a href="#" onclick="history.go(-1)" class="back"><</a>
 		<p id="idnoti" th:text="${idnoti}" hidden></p>
 		<table>
 				<tr>
 					<td style="text-align: center;" colspan="4" th:text="${'รายการคำสั่งซื้อ order #'+userorder.getIdOrder()}"> </td>
 				</tr>
 				<tr>
-					<td>ชื่อผู้ซื้อ</td>
+					<td style="width: 20%;">ชื่อผู้ซื้อ</td>
 					<td colspan="3" th:text="${userorder.getUserprofile().getName()}"></td>
 				</tr>
 				<tr>
@@ -108,9 +108,9 @@ function on(orderId) {
 				</tr>
 				<tr>
 					<td>ช่องทางติดต่อ</td>
-					<td th:if="${userorder.getUserprofile().getTel()!=null}" th:text="${'เบอร์โทร :'+userorder.getUserprofile().getTel()}"></td>
-					<td th:if="${userorder.getUserprofile().getEmail()!=null}" th:text="${'e-mail :'+userorder.getUserprofile().getEmail()}"></td>
-					<td th:if="${userorder.getUserprofile().getLine()!=null}" th:text="${'Line :'+userorder.getUserprofile().getLine()}"></td>
+					<td th:if="${userorder.getUserprofile().getTel()!=null}" th:text="${'เบอร์โทร :'+userorder.getUserprofile().getTel()}" style="width: 26.6667%;"></td>
+					<td th:if="${userorder.getUserprofile().getEmail()!=null}" th:text="${'e-mail :'+userorder.getUserprofile().getEmail()}" style="width: 26.6667%;"></td>
+					<td th:if="${userorder.getUserprofile().getLine()!=null}" th:text="${'Line :'+userorder.getUserprofile().getLine()}" style="width: 26.6667%;"></td>
 				</tr>
 				<tr>
 					<td>สถานะรายการ</td>
@@ -123,9 +123,15 @@ function on(orderId) {
 					<td colspan="3" th:if="${userorder.getStatus().equalsIgnoreCase('transferred')}">ผู้ขายโอนเงินแล้ว</td>
 					<td colspan="3" th:if="${userorder.getStatus().equalsIgnoreCase('notpay')}">ยกเลิกจากหน้าชำระเงิน</td>
 				</tr>
-				<tr>
+				<tr th:if="${userorder.getStatus().equalsIgnoreCase('checking')||userorder.getStatus().equalsIgnoreCase('tracking')||userorder.getStatus().equalsIgnoreCase('cancel')||userorder.getStatus().equalsIgnoreCase('contact')||userorder.getStatus().equalsIgnoreCase('transferred')||userorder.getStatus().equalsIgnoreCase('notpay')}">
 					<td>ขนส่ง</td>
 					<td colspan="3" th:text="${userorder.getNameDelivery()}"></td>
+				</tr>
+				<tr th:if="${userorder.getStatus().equalsIgnoreCase('shipping')||userorder.getStatus().equalsIgnoreCase('complete')}">
+					<td>ขนส่ง</td>
+					<td th:text="${userorder.getNameDelivery()}"></td>
+					<td>Track number:</td>
+					<td th:text="${userorder.getTrack()}"></td>
 				</tr>
 				<tr>
 					<td colspan="4"><hr></td>
@@ -142,7 +148,7 @@ function on(orderId) {
 						
 		  	    	</td>
 		  	    	<td><span th:text="${'  x'+ order.getNumber()}"></span></td>
-		  	    	<td th:text="${order.getRealPrice()}"></td>
+		  	    	<td style="text-align: right;" th:text="${order.getRealPrice()}"></td>
 				<tr>
 				<tr>
 					<td>&nbsp;</td>

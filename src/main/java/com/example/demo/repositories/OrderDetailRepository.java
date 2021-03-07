@@ -31,4 +31,9 @@ public interface OrderDetailRepository extends JpaRepository<orderdetail, orderd
 	@Transactional
 	@Query (nativeQuery = true, value="DELETE FROM orderdetail WHERE id_order = :idOrder and no_order = :noOrder")
 	void deleteByIdAndNo(@Param("idOrder")int idOrder, @Param("noOrder")int noOrder);
+	
+	@Modifying
+	@Transactional
+	@Query (nativeQuery = true, value="DELETE FROM orderdetail WHERE id_order = :idOrder")
+	void deleteByIdorder(@Param("idOrder")int idOrder);
 }

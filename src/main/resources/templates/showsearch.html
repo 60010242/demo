@@ -102,8 +102,8 @@ function on(orderId) {
 	<bodynotification>
 		<div th:each="noti : ${notilist}">
 			<div class="notimsg">
-				<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getSubject()}" target="_blank"></a><br>
-				<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getMessage()}" target="_blank"></a>
+				<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getSubject()}"></a><br>
+				<a th:href="@{'/notidirect/'+${noti.getIdNoti()}}" th:text="${noti.getMessage()}"></a>
 			</div>
 			
 			<div style="width: 50px;" th:if="${noti.getUserread()==0}"><a style="color: var(--blue); font-size: 14px;" th:href="@{'/readnoti'+${sourceweb}+'/'+${noti.getIdNoti()}}">อ่านแล้ว</a></div>
@@ -177,7 +177,7 @@ function on(orderId) {
 						
 		  	    	</td>
 		  	    	<td><span th:text="${'  x'+ order.getNumber()}"></span></td>
-		  	    	<td th:text="${order.getRealPrice()}"></td>
+		  	    	<td style="text-align: right;" th:text="${order.getRealPrice()}"></td>
 				<tr>
 				<tr>
 					<td>&nbsp;</td>

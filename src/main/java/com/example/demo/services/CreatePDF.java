@@ -87,11 +87,11 @@ public class CreatePDF {
 			
 			insertCell(table1,"ผู้ส่ง (from)",Element.ALIGN_LEFT,1,textFont);
 			
-			if(selladdress!=null) {
+			if(selladdress.isEmpty()) {
+				insertCell(table1,"ที่อยู่ผู้ขาย",Element.ALIGN_LEFT,1,textFont);
+			}else {
 				Saddress = selladdress.get(0);
 				insertCell(table1,Saddress.getAddress(),Element.ALIGN_LEFT,1,textFont);
-			}else {
-				insertCell(table1,"ที่อยู่ผู้ขาย",Element.ALIGN_LEFT,1,textFont);
 			}
 			
 			
