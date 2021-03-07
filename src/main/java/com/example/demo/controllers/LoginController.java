@@ -49,7 +49,7 @@ public class LoginController {
 		
 	@GetMapping("/")
 	public String login(Model model) {
-		return "login";
+		return "test";
 	}
 		
 	@PostMapping("/dologin")
