@@ -47,10 +47,10 @@ public class LoginController {
 		return new userprofile();
 	}
 		
-	@GetMapping("/")
+	/*@GetMapping("/")
 	public String login(Model model) {
 		return "login";
-	}
+	}*/
 		
 	@PostMapping("/dologin")
 	public String doLogin(@ModelAttribute("user") userprofile mem		//sessions
