@@ -69,7 +69,6 @@ function setstock(idproduct, size){
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
-	    		  console.log(size +" "+ idproduct);
 		    		if(size=='s'){
 		    			$('#numsize'+idproduct+' #stock').text(val.sstock);
 		    			$('#numsize'+idproduct+' #inputnum').attr('max', val.sstock);
