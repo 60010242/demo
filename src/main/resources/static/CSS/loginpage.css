@@ -67,9 +67,10 @@ body{
 
 
 .col1 {
-	width: 49%;
+	width: 41%;
 	height: 92%;
 	margin: 4% 0 4% 0;
+	padding: 0 4%;
 	float: left;
 	border-right: 1px gray solid;
 }
