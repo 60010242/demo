@@ -16,12 +16,15 @@ $(document).ready(function(){
 	var tabcats = document.getElementsByClassName("tabcat");
 	var tablinks = document.getElementsByClassName("tablinks");
 	
+	var smlxlcontainers = document.getElementsByClassName("smlxl");
+	
 	$('a.tablinks:nth-child(1)').addClass("active");
 	for (i = 0; i < tabcats.length; i++) {
 	    if(tabcats[i].id == idcat){
 	    	$('.tabcat-container tr:nth-child('+(i+1)+') a').addClass("active");
 	    }
 	}
+	
 	$('.carticon').hover(function() {
         	$('.popup').fadeIn(200);
    		},
@@ -54,30 +57,31 @@ function off() {
 	  document.getElementById("overlay").style.visibility = "hidden";
 }
 
-function setstock(idproduct){
-	var size = document.getElementById("size").value;
-	var x = document.getElementById("numsize");
-	  if (x.style.display === 'none') {
+function setstock(idproduct, size){
+	var x = document.getElementById("numsize"+idproduct);
+	  if (x.style.display == 'none') {
 	    x.style.display = "inline";
 	  }
-	if (size !== undefined && size !== null){
+	  console.log(size +" "+ idproduct);
+	if (size != undefined && size != null){
 		$.ajax({
 	      url: origin + "/productajax?id=" + idproduct,
 	    })
 	      .done(function( data ) {
 	    	  $.each( data, function(key,val) {
-		    		if(size==='s'){
-		    			document.getElementById("stock").innerHTML = val.sstock;
-		    			document.getElementById("inputnum").max = val.sstock;
-		    		}else if(size==='m'){
-		    			document.getElementById("stock").innerHTML = val.mstock;
-		    			document.getElementById("inputnum").max = val.mstock;
-		    		}else if(size==='l'){
-		    			document.getElementById("stock").innerHTML = val.lstock;
-		    			document.getElementById("inputnum").max = val.lstock;
-		    		}else if(size==='xl'){
-		    			document.getElementById("stock").innerHTML = val.xlstock;
-		    			document.getElementById("inputnum").max = val.xlstock;
+	    		  console.log(size +" "+ idproduct);
+		    		if(size=='s'){
+		    			$('#numsize'+idproduct+' #stock').text(val.sstock);
+		    			$('#numsize'+idproduct+' #inputnum').attr('max', val.sstock);
+		    		}else if(size=='m'){
+		    			$('#numsize'+idproduct+' #stock').text(val.mstock);
+		    			$('#numsize'+idproduct+' #inputnum').attr('max', val.mstock);
+		    		}else if(size=='l'){
+		    			$('#numsize'+idproduct+' #stock').text(val.lstock);
+		    			$('#numsize'+idproduct+' #inputnum').attr('max', val.lstock);
+		    		}else if(size=='xl'){
+		    			$('#numsize'+idproduct+' #stock').text(val.xlstock);
+		    			$('#numsize'+idproduct+' #inputnum').attr('max', val.xlstock);
 		    		}
 	    		  });
 	      });
@@ -186,7 +190,7 @@ function setstock(idproduct){
 					<table class="smlxl" th:if="${product.getNumberStock() == null}">
 						<tr>
 						<td colspan="2">
-						<select name="size" id="size" th:attr="onchange=|setstock('${product.getIdProduct()}')|" required>
+						<select name="size" id="size" th:attr="onchange=|setstock('${product.getIdProduct()}',value)|" required>
 							<option selected disabled>Choose size</option>
 							<option value="s" th:if="${product.getS()>0}">S</option>
 							<option value="m" th:if="${product.getM()>0}">M</option>
@@ -195,7 +199,7 @@ function setstock(idproduct){
 						</select>
 						</td>
 						</tr>
-						<tbody id="numsize" style="display:none;">
+						<tbody th:id="|numsize${product.getIdProduct()}|" style="display:none;">
 							<tr>
 								<td>คลัง</td>
 								<td><span id="stock"></span></td>
