@@ -55,8 +55,12 @@ public class LoginController {
 	}
 		
 	@GetMapping("/")
-	public String login(Model model) {
-		return "login";
+	public String login(Model model,@ModelAttribute("user") userprofile mem	) {
+		if(mem.getIdUser()> 0) {
+			return "redirect:/firstpage";
+		}else {
+			return "login";
+		}
 	}
 		
 	@PostMapping("/dologin")
