@@ -95,7 +95,12 @@
 			<td colspan="2" th:if="${order.getNumber()==0}"><red>สินค้าหมด กรุณาลบรายการนี้</red></td>
 			
 			<td style="width: 10%;">
-				<a style="margin: 2px;" th:href="@{'/deleteorder/' + ${order.getIdOrder()} + '/' + ${order.getNoOrder()}}"><img style="width: 20px; height: 20px;" th:src="@{/Icon/cart-remove.png}"></a>
+				<a style="margin: 2px;"
+					th:href="@{'/deleteorder/' + ${order.getIdOrder()} + '/' + ${order.getNoOrder()}}"
+					th:data-confirm-delete="|ต้องการลบ ${order.getProductdetail().getNameProduct()} ออกจากตะกร้า?|"
+  					onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+					<img style="width: 20px; height: 20px;" th:src="@{/Icon/cart-remove.png}">
+				</a>
 			</td>
 		</tr>
 		<tr>
