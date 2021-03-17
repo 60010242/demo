@@ -1,6 +1,14 @@
 #spring.datasource.url=jdbc:mysql://localhost:3306/mydb
 #spring.datasource.username=Aommy
 #spring.datasource.password=Aommy07092541
+
+    #url: jdbc:mysql://localhost:3306/sme?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    #username: Aommy
+    #password: Aommy07092541
+    
+    #url: jdbc:mysql://35.240.229.70:3306/sme?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    #username: root
+    #password: hLfvucdtdlpFaNPL
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/sme?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC

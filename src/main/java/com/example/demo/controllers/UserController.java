@@ -305,7 +305,7 @@ public class UserController {					// about user and user tables
 		model.addAttribute("type", type);
 		model.addAttribute("search", search);
 		model.addAttribute("sendcost", sendcost);
-		return "/showsearch";
+		return "showsearch";
 	}
 	
 	@GetMapping("/showordersearch/{iduser}")
@@ -326,7 +326,7 @@ public class UserController {					// about user and user tables
 			transgroup.add(tran);
 		}
 		model.addAttribute("transgroup", transgroup);
-		return "/showordersearch";
+		return "showordersearch";
 	}
 	
 	@GetMapping("/trantotracking4/{idorder}")
