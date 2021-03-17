@@ -62,10 +62,14 @@ public class LoginController {
 	@PostMapping("/dologin")
 	public String doLogin(@ModelAttribute("user") userprofile mem		//sessions
 			, Model model) {
+		boolean message = false;
 		List<userprofile> userList = new ArrayList<userprofile>();
 		userList = userprofileRepo.findByemail(mem.getEmail());
+		if(userList.isEmpty()) {
+			message = true;
+			model.addAttribute("message", "อีเมล์หรือรหัสผ่านของคุณไม่ถูกต้อง");
+		}
 		String web = "login";
-		boolean message = false;
 		// check user from db
 		for(userprofile user : userList) {
 			// set user data to sessions
