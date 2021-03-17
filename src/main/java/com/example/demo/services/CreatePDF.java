@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,10 @@ public class CreatePDF {
 	private UserAddressRepository useraddressRepo;
 	
 	public void printOrder(Document document,String transport,userprofile seller)throws DocumentException {
-		FontFactory.register("THSarabunNew.ttf", "sarabun");	//D:\\front\\THSarabunNew.ttf
+		String pathtofont = "THSarabunNew.ttf";
+		String fontname = CreatePDF.class.getResource(pathtofont).toString();
+		System.out.println("font path: "+fontname);
+		FontFactory.register(fontname, "sarabun");	//D:\\front\\THSarabunNew.ttf
 		Font boldFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.BOLD);
 		Font textFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.NORMAL);
 		Font headFont = FontFactory.getFont("sarabun", "TIS-620",true, Font.BOLD);
