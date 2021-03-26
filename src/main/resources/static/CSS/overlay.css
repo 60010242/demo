@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 /* overlay */
+#bigimg,
 #overlay, #overlayprint,
 #overlaydetail,
 #overlayaccount,
@@ -22,6 +23,29 @@
   left: 0;
   z-index: 9999;
 }
+
+#bigimg{
+	z-index: 10000;
+}
+#bigimg #bigIMG{
+	z-index: 10001;
+	height: 60vh;
+}
+#bigimg #bigIMG img{
+	height: 100%;
+	width: auto;
+}
+#bigimg .overlaybg{
+	position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  cursor: pointer;
+  z-index: 10000;
+}
+
 .overlaybg{
   position: fixed;
   width: 100%;
