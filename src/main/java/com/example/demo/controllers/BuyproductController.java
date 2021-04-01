@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.OrderId;
 import com.example.demo.Productjson;
@@ -650,7 +652,8 @@ public class BuyproductController {
 	}
 	
 	@GetMapping("/confirmorder/{idorder}")
-	public String confirmorder(@PathVariable("idorder") String idorder
+	public ModelAndView confirmorder(@PathVariable("idorder") String idorder
+			,RedirectAttributes modelfl
 			,@ModelAttribute("orderid") OrderId Sorderid) {
 		userorder userorder = new userorder();
 		userorder = userorderRepo.findById(Integer.parseInt(idorder)).get();
@@ -679,7 +682,8 @@ public class BuyproductController {
 			productdetailRepo.save(product);
 		}
 		Sorderid.setOrderid("noid");
-		return "redirect:/buyproduct";
+		modelfl.addFlashAttribute("message", "รายการคำสั่งซื้อถูกส่งไปยังหน้า 'แจ้งชำระเงิน' แล้ว");
+		return new ModelAndView("redirect:/buyproduct");
 	}
 	
 	@GetMapping("productajax")

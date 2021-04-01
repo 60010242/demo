@@ -744,7 +744,7 @@ public class OrderController {
 					sellermail = smtpRepo.findAll().get(0).getGmail();
 				toSendMail(1, sendid, sellermail, request.getLocalName());
 				toSendMail(3, sendid, customermail, request.getLocalName());
-				modelfl.addFlashAttribute("message", "ส่งรายการคำสั่งซื้อเข้าสู่ E-mail ของท่านแล้ว");
+				modelfl.addFlashAttribute("message", "ตรวจสอบสถานะคำสั่งซื้อได้ที่หน้า 'ติดตามคำสั่งซื้อ'");
 			}
 			
 		}

@@ -99,7 +99,8 @@
 					th:href="@{'/deleteorder/' + ${order.getIdOrder()} + '/' + ${order.getNoOrder()}}"
 					th:data-confirm-delete="|ต้องการลบ ${order.getProductdetail().getNameProduct()} ออกจากตะกร้า?|"
   					onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
-					<img style="width: 20px; height: 20px;" th:src="@{/Icon/cart-remove.png}">
+					<img style="filter: invert(18%) sepia(92%) saturate(7486%) hue-rotate(359deg) brightness(106%) contrast(109%);
+						width: 20px; height: 20px;" th:src="@{/Icon/removeminus.png}">
 				</a>
 			</td>
 		</tr>

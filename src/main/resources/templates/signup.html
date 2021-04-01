@@ -8,8 +8,15 @@
 <link rel="stylesheet" th:href="@{/CSS/loginpage.css}">
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400&display=swap" rel="stylesheet">
 
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" th:src="@{/JS/general.js}"></script>
 </head>
 <body class="center">
+
+	<msg th:if="${message != null}">
+		<p id="resultmsg" th:text="${message}"></p>
+	</msg>
+
 	<!-- Main Page -->
 	<div th:replace="navtab :: navheadlogin"></div>
 	
@@ -47,7 +54,7 @@
 			</tr>
 			<tr>
 				<td>เบอร์โทรศัพท์: <red>*</red></td>
-				<td><input class="inputinfo" type="tel" th:field="*{tel}" pattern="[0-9]{10}" placeholder="ex. 0123456789" required></td>
+				<td><input class="inputinfo" type="tel" th:field="*{tel}" pattern="[0]{1}[0-9]{9}" placeholder="ex. 0123456789" required></td>
 			</tr>
 			<tr>
 				<td>ที่อยู่: <red>*</red></td>
@@ -66,10 +73,11 @@
 				<td></td>
 				<td><input style="float: right;" type="submit" value="Submit" name="button"></td>
 			</tr>
+			<!-- 
 			<tr th:if="${message != null}">
 					<td colspan="2" th:text="${message}" style="color:green" th:if="${pass}"></td>
 					<td colspan="2" th:text="${message}" style="color:red" th:if="${!pass}"></td>
-			</tr>
+			</tr> -->
 		</table>
 	</form>
 	
