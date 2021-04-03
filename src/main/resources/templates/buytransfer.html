@@ -18,6 +18,8 @@ $(document).ready(function(){
 	$('a.tablinks:nth-child(2)').addClass("active");
 	$('.whitebg table:last-child hr').remove();
 	
+	document.getElementById('paydatetime').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -8);
+	
 })
 
 function ondetail(orderId) {
@@ -209,13 +211,13 @@ function off() {
 						<td>วัน-เวลาที่โอน: <red>*</red></td>
 					</tr>
 					<tr>
-						<td><input name="paydatetime" type="datetime-local" required></td>
+						<td><input id="paydatetime" name="paydatetime" type="datetime-local" required></td>
 					</tr>
 					<tr>
 						<td>รูปสลิป: <red>*</red></td>
 					</tr>
 					<tr>
-						<td><input type="file" name="imageFile" required></td>
+						<td><input type="file" name="imageFile" accept="image/*" required></td>
 					</tr>
 					<tr>
 						<td><input class="overlayconfirm"
